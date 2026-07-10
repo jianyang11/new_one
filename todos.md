@@ -6,6 +6,154 @@
 
 Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命令必须使用该解释器。
 
+## Framework reset: Layer 1 -- real-data, group-aware calibration (planned 2026-07-10)
+
+### Position lock
+
+BREEZE is not a bearing-only verifier. It is a training-free closed-loop
+admission framework for industrial electromechanical equipment, with CNC
+machine-state monitoring, milling tool-condition monitoring, and bearing fault
+monitoring as equal domain instantiations. The Layer-1 output is a frozen,
+auditable `CalibrationArtifact`; it is not a PU-specific set of bearing bounds.
+
+### Literature basis for this redesign
+
+- Ball-screw fault studies establish vibration as a usable observation but use
+  machine-specific test rigs, preload/failure definitions, and operating
+  context. Therefore a lead-screw gate must require provenance and mechanism
+  metadata; it must not invent a universal fault frequency. Wang et al.,
+  *Journal of Vibration and Shock* 37(12), 2018:
+  https://jvs.sjtu.edu.cn/EN/Y2018/V37/I12/201
+- MU-TCM provides a public milling design of experiments with synchronized
+  multi-sensor signals, tool wear VB, and cutting-condition metadata. It is
+  the public CNC validation line, not a bearing surrogate:
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC12102343/
+- Multivariate conformal work motivates calibration through held-out
+  nonconformity scores rather than an ad hoc collection of marginal thresholds.
+  Its guarantees require exchangeability, so BREEZE will calibrate at the
+  independent-source and regime level and will not claim coverage under
+  unobserved regime shift. Sun and Yu, CopulaCPTS, 2022:
+  https://arxiv.org/abs/2212.03281
+
+### Dataset scope lock
+
+| role | dataset | Layer-1 status | claim boundary |
+|---|---|---|---|
+| primary CNC machine-state case | private machine-tool | include after a signed data card; classes are normal machining, lead-screw anomaly, and base imbalance | no component-specific physical admission claim until the required machine metadata are present |
+| public CNC milling case | MU-TCM full | include after raw-signal extraction and a preregistered experiment/insert-edge split | tool-wear and cutting-condition claims only |
+| rotating-equipment transfer case | PU / Paderborn | include; existing results remain a frozen legacy baseline | bearing kinematics only |
+| external bearing transfer case | CWRU drive-end 12 kHz | include; existing results remain a frozen legacy baseline | CWRU 6205 geometry and DE vibration only |
+| optional later stress test | DIRG VariableSpeedAndLoad | defer until the four core adapters run | condition-transfer only |
+
+Do not use XJTU-SY, Berkeley/NASA milling, UMich CNC, HIT, IMS, JUST, MFPT,
+or the private machine-tool data as a substitute for missing metadata. XJTU
+lacks a frozen supervised protocol; Berkeley is partial/no-go; UMich has an
+unresolved condition confound; the other datasets lack a ready physical-label
+or raw-data contract.
+
+### Layer-1 data contract
+
+Every dataset adapter must emit the following fields for every window. No
+adapter may overload `bearing_id` to represent a file, tool, or machine run.
+
+```text
+X, y, source_id, entity_id, regime_id, time_order,
+sensor_schema, physics_metadata, split_manifest
+```
+
+- `source_id`: independent acquisition source used for leakage control and
+  calibration (measurement file, run, experiment, or contiguous machining
+  segment).
+- `entity_id`: physical subject when known (bearing, insert-edge, screw/axis).
+- `regime_id`: declared operating context, never inferred from labels.
+- `physics_metadata`: typed, source-backed metadata; unknown fields stay
+  unknown rather than receiving imputed physical values.
+- `split_manifest`: immutable outer train/test group assignment plus the
+  train-only reference/calibration group assignment and source-file hashes.
+
+Adapter mapping:
+
+| dataset | source_id | entity_id | regime_id | required physics metadata |
+|---|---|---|---|---|
+| private machine-tool | acquisition CSV/run | machine axis or screw assembly when known | spindle/feed/program stage | label mechanism, spindle rpm, feed, screw lead/pitch or transmission ratio, sensor mounting, current definition, run order |
+| MU-TCM | experiment/repetition MAT | insert-edge | material, Vc, fz, ap, ae, lubrication | VB, tooth count, spindle speed, sensor mapping, cutting-stage bounds |
+| PU | measurement file | bearing | rpm, torque, radial load | bearing geometry, channel mapping |
+| CWRU | source MAT file | drive-end bearing | load and rpm | 6205 geometry, DE channel mapping |
+
+### Calibration algorithm to implement
+
+1. Freeze the outer split at `source_id` level. The test split is unreadable by
+   calibration, generation, and protocol selection.
+2. Split outer-train by `source_id` into `reference` and `calibration` groups;
+   all windows from a source remain together. Fit feature references only on
+   `reference` groups.
+3. Compute deterministic generic nonconformity scores for statistics, smooth
+   spectral shape, and multichannel structure. Domain scores are supplied only
+   by an enabled physics plugin.
+4. Calibrate a single joint admission threshold from held-out calibration-group
+   scores using the exact empirical order statistic for the declared target
+   coverage. Do not use per-gate coverage powers or a grid search over
+   marginal tail probabilities in the new protocol.
+5. Estimate diversity from leave-one-source-out real-real distances, not from
+   adjacent overlapping windows in the same source.
+6. Freeze a `CalibrationArtifact` containing the schema, manifests, feature
+   definitions, thresholds, group counts, train/calibration pass rates,
+   applicable regimes, plugin availability, and hashes.
+7. A candidate is physically admitted only when both the generic score and all
+   required domain scores pass. A missing mandatory field marks the plugin
+   `unavailable` and blocks the corresponding domain claim; it is not replaced
+   with a guessed frequency or a repaired waveform.
+
+### CNC-specific stop conditions
+
+- The private machine-tool data currently have five train files per class.
+  Five independent calibration groups cannot produce a non-vacuous 90 percent
+  split-conformal group-level threshold: the 0.90 order statistic requires at
+  least nine calibration groups. Window count must never be used to conceal
+  this limitation.
+- Before lead-screw or base-imbalance generation begins, create and approve a
+  `machine_tool_data_card.md` covering the metadata listed above and the exact
+  physical meaning of each label. Until then, the existing machine-tool
+  verifier is an exploratory distribution-consistency audit only.
+- For base imbalance, do not assume a 1X spindle signature until the dataset
+  owner confirms that the label denotes rotational imbalance and provides a
+  speed reference. For lead-screw anomaly, do not assume a screw-order gate
+  until feed/lead or an equivalent measured axis-rate reference is available.
+
+### Execution plan
+
+- [ ] L1.1: Add `breeze/src/datasets/protocol.py` with typed `DatasetProtocol`,
+  `SensorSchema`, `PhysicsMetadata`, and immutable `SplitManifest` objects.
+- [ ] L1.2: Write data cards and manifests for private machine-tool, MU-TCM,
+  PU, and CWRU. Resolve the stale private-label mapping in the registry and
+  reports from the documented owner confirmation; record missing fields
+  explicitly.
+- [ ] L1.3: Implement the source-group-aware calibration engine and artifact
+  serializer. Unit-test that outer-test identifiers cannot reach its API.
+- [ ] L1.4: Implement generic deterministic score extractors and group-level
+  joint order-statistic calibration; unit-test leave-one-source-out diversity.
+- [ ] L1.5: Move the existing PU verifier behind `BearingPhysicsPlugin` without
+  altering frozen legacy outputs. Reproduce a frozen PU row before using the
+  new protocol for any new claim.
+- [ ] L1.6: Implement `CncMachinePhysicsPlugin` with two explicitly separate
+  modes: `lead_screw` and `base_imbalance`. Each mode must validate its required
+  metadata before it exposes any gate.
+- [ ] L1.7: Implement `MillingPhysicsPlugin` for MU-TCM. It may use tooth-pass
+  and process-order evidence only after tooth count, spindle speed, and active
+  cutting intervals are validated from the data card.
+- [ ] L1.8: Run real-data-only audits on reference, calibration, and untouched
+  test source groups. Report per-source and per-regime pass rates before any
+  LLM call or downstream classifier training.
+- [ ] L1.9: Decide whether additional independent private CNC runs are required
+  for a formal 90 percent calibration claim. If they are unavailable, retain the
+  private dataset as a CNC case study with an explicit empirical-audit scope,
+  not a distribution-free coverage claim.
+
+Acceptance criteria: no test-source access during calibration; no window-level
+random split; no inferred mechanical metadata; every enabled domain gate has a
+documented physical source and applicability domain; every accepted synthetic
+sample can be traced to one frozen calibration artifact.
+
 ## 当前执行游标（2026-07-08，必须按顺序）
 
 1. [completed] `12.A KinematicsPlugin`：统一运动学插件接口、轴承/铣削插件最小实现已完成；PU smoke 回归与 Phase-A v2 对应冻结行完全一致。
