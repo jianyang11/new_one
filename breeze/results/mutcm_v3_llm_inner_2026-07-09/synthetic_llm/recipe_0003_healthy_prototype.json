@@ -1,0 +1,87 @@
+{
+  "raw_response": "{\n  \"class\": \"healthy\",\n  \"recipe_type\": \"prototype\",\n  \"condition_id\": \"StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 1.02,\n    \"vibration\": 0.95,\n    \"ae\": 0.98,\n    \"cnc\": 1.01\n  },\n  \"group_mean_mult\": {\n    \"force\": 0.95,\n    \"vibration\": 0.92,\n    \"ae\": 0.94,\n    \"cnc\": 0.98\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.05,\n    \"vibration\": 1.03,\n    \"ae\": 1.02,\n    \"cnc\": 1.01\n  },\n  \"low_freq_gain\": {\n    \"force\": 0.98,\n    \"vibration\": 0.97,\n    \"ae\": 0.99,\n    \"cnc\": 1.0\n  },\n  \"band_eq_strength\": 0.35,\n  \"noise_gain\": 0.02,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.02,\n  \"spectral_mix\": 0.2,\n  \"rationale\": \"Prototype centered on top exemplar (rank 0) for target condition. Slight mean reduction (0.92-0.98) and mild std variation (0.95-1.02) create a distinct support point within healthy range. High-freq gain (1.01-1.05) adds subtle spectral detail without exceeding worn thresholds. Noise/impulse/trend kept minimal for stability.\"\n}",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "prototype",
+    "condition_id": "StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.02,
+      "vibration": 0.95,
+      "ae": 0.98,
+      "cnc": 1.01
+    },
+    "group_mean_mult": {
+      "force": 0.95,
+      "vibration": 0.92,
+      "ae": 0.94,
+      "cnc": 0.98
+    },
+    "high_freq_gain": {
+      "force": 1.05,
+      "vibration": 1.03,
+      "ae": 1.02,
+      "cnc": 1.01
+    },
+    "low_freq_gain": {
+      "force": 0.98,
+      "vibration": 0.97,
+      "ae": 0.99,
+      "cnc": 1.0
+    },
+    "band_eq_strength": 0.35,
+    "noise_gain": 0.02,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.02,
+    "spectral_mix": 0.2,
+    "rationale": "Prototype centered on top exemplar (rank 0) for target condition. Slight mean reduction (0.92-0.98) and mild std variation (0.95-1.02) create a distinct support point within healthy range. High-freq gain (1.01-1.05) adds subtle spectral detail without exceeding worn thresholds. Noise/impulse/trend k"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 775.058014756589,
+        "other_axis": 948.2338761438368,
+        "identity_ratio": 0.8173700964033269,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 768.3013046546669,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0003_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 496.8945511462216,
+        "other_axis": 630.5165704449892,
+        "identity_ratio": 0.7880753249601923,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 472.2478954986632,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0003_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 721.0256799094384,
+        "other_axis": 898.1467267971832,
+        "identity_ratio": 0.8027927491097537,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 708.7815534538431,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0003_e2.npy"
+    }
+  ],
+  "rejected": [],
+  "accepted_count": 3
+}

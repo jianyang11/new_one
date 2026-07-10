@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="416.16pt" height="187.366491pt" viewBox="0 0 416.16 187.366491" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-07-04T22:56:52.759666</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.0, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 187.366491 
+L 416.16 187.366491 
+L 416.16 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 22.06512 126.356691 
+L 122.90688 126.356691 
+Q 125.11656 126.356691 125.11656 124.106091 
+L 125.11656 54.132891 
+Q 125.11656 51.882291 122.90688 51.882291 
+L 22.06512 51.882291 
+Q 19.85544 51.882291 19.85544 54.132891 
+L 19.85544 124.106091 
+Q 19.85544 126.356691 22.06512 126.356691 
+z
+" clip-path="url(#pb6514e2f2c)" style="fill: #fbead8; stroke: #d67a2c; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 150.62832 126.356691 
+L 251.47008 126.356691 
+Q 253.67976 126.356691 253.67976 124.106091 
+L 253.67976 54.132891 
+Q 253.67976 51.882291 251.47008 51.882291 
+L 150.62832 51.882291 
+Q 148.41864 51.882291 148.41864 54.132891 
+L 148.41864 124.106091 
+Q 148.41864 126.356691 150.62832 126.356691 
+z
+" clip-path="url(#pb6514e2f2c)" style="fill: #f7f0df; stroke: #a56b25; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 279.19152 126.356691 
+L 380.03328 126.356691 
+Q 382.24296 126.356691 382.24296 124.106091 
+L 382.24296 54.132891 
+Q 382.24296 51.882291 380.03328 51.882291 
+L 279.19152 51.882291 
+Q 276.98184 51.882291 276.98184 54.132891 
+L 276.98184 124.106091 
+Q 276.98184 126.356691 279.19152 126.356691 
+z
+" clip-path="url(#pb6514e2f2c)" style="fill: #eaf2fb; stroke: #0f4d92; stroke-width: 0.9; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 125.709146 89.324091 
+Q 136.767551 89.324091 146.707922 89.324091 
+" clip-path="url(#pb6514e2f2c)" style="fill: none; stroke: #333333; stroke-linecap: round"/>
+    <path d="M 142.707922 87.324091 
+L 146.707922 89.324091 
+L 142.707922 91.324091 
+z
+" clip-path="url(#pb6514e2f2c)" style="fill: #333333; stroke: #333333; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 254.272346 89.324091 
+Q 265.330751 89.324091 275.271122 89.324091 
+" clip-path="url(#pb6514e2f2c)" style="fill: none; stroke: #333333; stroke-linecap: round"/>
+    <path d="M 271.271122 87.324091 
+L 275.271122 89.324091 
+L 271.271122 91.324091 
+z
+" clip-path="url(#pb6514e2f2c)" style="fill: #333333; stroke: #333333; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 134.95968 157.660491 
+L 134.95968 38.992491 
+" clip-path="url(#pb6514e2f2c)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #767676; stroke-width: 0.8"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 263.52288 157.660491 
+L 263.52288 38.992491 
+" clip-path="url(#pb6514e2f2c)" style="fill: none; stroke-dasharray: 2.96,1.28; stroke-dashoffset: 0; stroke: #767676; stroke-width: 0.8"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start" x="11.2176" y="13.388232" transform="rotate(-0 11.2176 13.388232)">a</text>
+   </g>
+   <g id="text_2">
+    <text style="font-weight: 700; font-size: 9px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start" x="20.05632" y="22.220337" transform="rotate(-0 20.05632 22.220337)">Recipe-renderer-verifier responsibility boundary</text>
+   </g>
+   <g id="text_3">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #d67a2c" x="26.08272" y="67.485885" transform="rotate(-0 26.08272 67.485885)">LLM</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="26.08272" y="77.542663" transform="rotate(-0 26.08272 77.542663)">Candidate recipe</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="26.08272" y="86.954263" transform="rotate(-0 26.08272 86.954263)">impact rate</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="26.08272" y="96.365863" transform="rotate(-0 26.08272 96.365863)">amplitude envelope</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="26.08272" y="105.777463" transform="rotate(-0 26.08272 105.777463)">jitter</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="26.08272" y="115.189063" transform="rotate(-0 26.08272 115.189063)">band weights</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #a56b25" x="154.64592" y="67.485885" transform="rotate(-0 154.64592 67.485885)">Renderer</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="154.64592" y="77.542663" transform="rotate(-0 154.64592 77.542663)">Waveform construction</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="154.64592" y="86.954263" transform="rotate(-0 154.64592 86.954263)">impulse train</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="154.64592" y="96.365863" transform="rotate(-0 154.64592 96.365863)">colored noise</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="154.64592" y="105.777463" transform="rotate(-0 154.64592 105.777463)">current sidebands</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="154.64592" y="115.189063" transform="rotate(-0 154.64592 115.189063)">fixed equations</text>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 7.1px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #0f4d92" x="283.20912" y="67.485885" transform="rotate(-0 283.20912 67.485885)">Verifier</text>
+   </g>
+   <g id="text_16">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="283.20912" y="77.542663" transform="rotate(-0 283.20912 77.542663)">Admission report</text>
+   </g>
+   <g id="text_17">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="283.20912" y="86.954263" transform="rotate(-0 283.20912 86.954263)">format</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="283.20912" y="96.365863" transform="rotate(-0 283.20912 96.365863)">statistics + PSD</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="283.20912" y="105.777463" transform="rotate(-0 283.20912 105.777463)">envelope evidence</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #3a3a3a" x="283.20912" y="115.189063" transform="rotate(-0 283.20912 115.189063)">diversity</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #3a3a3a" x="72.28512" y="145.384491" transform="rotate(-0 72.28512 145.384491)">stochastic proposal</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #3a3a3a" x="200.84832" y="145.384491" transform="rotate(-0 200.84832 145.384491)">deterministic signal physics</text>
+   </g>
+   <g id="text_23">
+    <text style="font-size: 6.3px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #3a3a3a" x="329.41152" y="145.384491" transform="rotate(-0 329.41152 145.384491)">train-calibrated decision</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 6.2px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #767676" x="134.95968" y="166.253691" transform="rotate(-0 134.95968 166.253691)">boundary 1</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 6.2px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: middle; fill: #767676" x="263.52288" y="166.253691" transform="rotate(-0 263.52288 166.253691)">boundary 2</text>
+   </g>
+   <g id="text_26">
+    <text style="font-size: 6.4px; font-family: 'Arial', 'Helvetica', 'DejaVu Sans', sans-serif; text-anchor: start; fill: #b64342" x="21.2616" y="175.256091" transform="rotate(-0 21.2616 175.256091)">A verifier pass is an admissibility decision under training-set gates, not a formal proof of physical correctness.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pb6514e2f2c">
+   <rect x="7.2" y="8.302491" width="401.76" height="171.864"/>
+  </clipPath>
+ </defs>
+</svg>

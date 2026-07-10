@@ -1,0 +1,62 @@
+{
+  "dataset": "XJTU-SY",
+  "status": "physics_config_only_raw_data_unavailable",
+  "sampling_rate_hz": 25600,
+  "samples_per_csv": 32768,
+  "sampling_period_min": 1,
+  "channels": [
+    "Horizontal_vibration_signals",
+    "Vertical_vibration_signals"
+  ],
+  "bearing": {
+    "type": "LDK UER204",
+    "outer_race_diameter_mm": 39.8,
+    "inner_race_diameter_mm": 29.3,
+    "pitch_diameter_mm": 34.55,
+    "ball_diameter_mm": 7.92,
+    "number_of_balls": 8,
+    "contact_angle_deg": 0.0,
+    "static_load_rating_kn": 6.65,
+    "dynamic_load_rating_kn": 12.82
+  },
+  "defect_frequency_multipliers": {
+    "FTF": 0.385383502170767,
+    "BPFO": 3.083068017366136,
+    "BPFI": 4.916931982633864,
+    "BSF": 2.0665703708576357
+  },
+  "conditions": [
+    {
+      "condition": 1,
+      "shaft_hz": 35.0,
+      "rpm": 2100,
+      "radial_load_kn": 12.0
+    },
+    {
+      "condition": 2,
+      "shaft_hz": 37.5,
+      "rpm": 2250,
+      "radial_load_kn": 11.0
+    },
+    {
+      "condition": 3,
+      "shaft_hz": 40.0,
+      "rpm": 2400,
+      "radial_load_kn": 10.0
+    }
+  ],
+  "class_to_frequency_key": {
+    "healthy": null,
+    "IR": "BPFI",
+    "OR": "BPFO",
+    "ball": "BSF",
+    "cage": "FTF"
+  },
+  "sources": {
+    "author_page": "https://biaowang.tech/xjtu-sy-bearing-datasets/",
+    "bearing_table": "https://biaowang.tech/images/table1.jpg",
+    "dataset_table": "https://biaowang.tech/images/table2.jpg",
+    "github_metadata": "https://github.com/WangBiaoXJTU/xjtu-sy-bearing-datasets"
+  },
+  "computed_at": "2026-07-06T16:44:21"
+}

@@ -1,0 +1,89 @@
+{
+  "raw_response": "```json\n{\n    \"class\": \"healthy\",\n    \"recipe_type\": \"boundary\",\n    \"condition_id\": \"CastIron.GG30|Vc200|fz0.1|ap1.5|ae58.4\",\n    \"template_rank\": 0,\n    \"group_std_mult\": {\n        \"force\": 1.06,\n        \"vibration\": 1.07,\n        \"ae\": 0.95,\n        \"cnc\": 1.03\n    },\n    \"group_mean_mult\": {\n        \"force\": 1.04,\n        \"vibration\": 1.05,\n        \"ae\": 0.98,\n        \"cnc\": 1.02\n    },\n    \"high_freq_gain\": {\n        \"force\": 1.02,\n        \"vibration\": 1.03,\n        \"ae\": 1.01,\n        \"cnc\": 1.01\n    },\n    \"low_freq_gain\": {\n        \"force\": 1.01,\n        \"vibration\": 1.02,\n        \"ae\": 1.0,\n        \"cnc\": 1.01\n    },\n    \"band_eq_strength\": 0.32,\n    \"noise_gain\": 0.035,\n    \"impulse_rate_hz\": 0.0,\n    \"impulse_amp_std\": 0.0,\n    \"trend_strength\": 0.0,\n    \"shared_gain\": 0.03,\n    \"spectral_mix\": 0.18,\n    \"rationale\": \"Boundary point for healthy class at VB 0.1/0.2 edge. Multipliers gently push RMS toward worn territory (force +4%, vibration +5%) but stay within healthy class prototype ranges (e.g., force 151-155 vs worn avg 320). Std multipliers slightly elevated to allow mild fluctuation while remaining below worn-like levels. Noise and shared gain kept low to avoid artifact. AE remains near 1.0 as worn/healthy ratio is <1.0. All adjustments stay within train-supported healthy bounds for this condition.\"\n}\n```",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "boundary",
+    "condition_id": "CastIron.GG30|Vc200|fz0.1|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.06,
+      "vibration": 1.07,
+      "ae": 0.95,
+      "cnc": 1.03
+    },
+    "group_mean_mult": {
+      "force": 1.04,
+      "vibration": 1.05,
+      "ae": 0.98,
+      "cnc": 1.02
+    },
+    "high_freq_gain": {
+      "force": 1.02,
+      "vibration": 1.03,
+      "ae": 1.01,
+      "cnc": 1.01
+    },
+    "low_freq_gain": {
+      "force": 1.01,
+      "vibration": 1.02,
+      "ae": 1.0,
+      "cnc": 1.01
+    },
+    "band_eq_strength": 0.32,
+    "noise_gain": 0.035,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.03,
+    "spectral_mix": 0.18,
+    "rationale": "Boundary point for healthy class at VB 0.1/0.2 edge. Multipliers gently push RMS toward worn territory (force +4%, vibration +5%) but stay within healthy class prototype ranges (e.g., force 151-155 vs worn avg 320). Std multipliers slightly elevated to allow mild fluctuation while remaining below wo"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1531.5465976461294,
+        "other_axis": 1887.4956129631446,
+        "identity_ratio": 0.8114173019145627,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 1570.811207991906,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0013_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 920.1058152400103,
+        "other_axis": 1153.6949617771154,
+        "identity_ratio": 0.7975295426641263,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 913.7716053287816,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0013_e1.npy"
+    }
+  ],
+  "rejected": [
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "own_axis 1819.195>1660.112"
+      ],
+      "scores": {
+        "own_axis": 1819.1953640833092,
+        "other_axis": 2195.5824300959443,
+        "identity_ratio": 0.8285707423901236,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 1878.1631036305314,
+        "stat_pass_fraction": 1.0
+      }
+    }
+  ],
+  "accepted_count": 2
+}

@@ -1,0 +1,28 @@
+{
+  "slots": 450,
+  "accepted_slots_before_diversity": 286,
+  "accepted_items_before_diversity": 761,
+  "kept_after_diversity": 757,
+  "kept_by_class": {
+    "healthy": 192,
+    "OR": 304,
+    "IR": 261
+  },
+  "diversity": {
+    "healthy": {
+      "before": 196,
+      "after": 192,
+      "threshold": 1.122156250329492
+    },
+    "OR": {
+      "before": 304,
+      "after": 304,
+      "threshold": 0.8296651266483763
+    },
+    "IR": {
+      "before": 261,
+      "after": 261,
+      "threshold": 1.5043507499761193
+    }
+  }
+}

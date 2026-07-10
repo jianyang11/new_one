@@ -1,0 +1,89 @@
+{
+  "raw_response": "{\n  \"class\": \"healthy\",\n  \"recipe_type\": \"boundary\",\n  \"condition_id\": \"CastIron.GG30|Vc200|fz0.1|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 1.07,\n    \"vibration\": 1.05,\n    \"ae\": 1.06,\n    \"cnc\": 1.04\n  },\n  \"group_mean_mult\": {\n    \"force\": 0.92,\n    \"vibration\": 0.95,\n    \"ae\": 0.93,\n    \"cnc\": 0.94\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.02,\n    \"vibration\": 1.03,\n    \"ae\": 1.01,\n    \"cnc\": 1.02\n  },\n  \"low_freq_gain\": {\n    \"force\": 0.98,\n    \"vibration\": 0.97,\n    \"ae\": 0.99,\n    \"cnc\": 0.98\n  },\n  \"band_eq_strength\": 0.32,\n  \"noise_gain\": 0.035,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.08,\n  \"trend_strength\": 0.005,\n  \"shared_gain\": 0.03,\n  \"spectral_mix\": 0.25,\n  \"rationale\": \"Boundary recipe for healthy class near VB 0.1. Uses prototype 0 (force_rms=155.07, vibration_rms=0.64, ae_rms=0.32, cnc_rms=583.70) which is below train healthy averages (force=193.18, vibration=0.28, ae=0.08, cnc=488.67). Applied mild std increase (1.04-1.07) and slight mean reduction (0.92-0.95) to push toward boundary without crossing to worn. Added small noise (0.035) and impulse_std (0.08) for mild fluctuation, keeping within physical bounds (noise<=0.04, impulse_std<=0.10). Trend near zero (0.005) maintains stability. All multipliers stay within 0.88-1.08 range and recipe is class-specific.\"\n}",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "boundary",
+    "condition_id": "CastIron.GG30|Vc200|fz0.1|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.07,
+      "vibration": 1.05,
+      "ae": 1.06,
+      "cnc": 1.04
+    },
+    "group_mean_mult": {
+      "force": 0.92,
+      "vibration": 0.95,
+      "ae": 0.93,
+      "cnc": 0.94
+    },
+    "high_freq_gain": {
+      "force": 1.02,
+      "vibration": 1.03,
+      "ae": 1.01,
+      "cnc": 1.02
+    },
+    "low_freq_gain": {
+      "force": 0.98,
+      "vibration": 0.97,
+      "ae": 0.99,
+      "cnc": 0.98
+    },
+    "band_eq_strength": 0.32,
+    "noise_gain": 0.035,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.08,
+    "trend_strength": 0.005,
+    "shared_gain": 0.03,
+    "spectral_mix": 0.25,
+    "rationale": "Boundary recipe for healthy class near VB 0.1. Uses prototype 0 (force_rms=155.07, vibration_rms=0.64, ae_rms=0.32, cnc_rms=583.70) which is below train healthy averages (force=193.18, vibration=0.28, ae=0.08, cnc=488.67). Applied mild std increase (1.04-1.07) and slight mean reduction (0.92-0.95) t"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1312.5934087002763,
+        "other_axis": 1646.726687543292,
+        "identity_ratio": 0.797092449299221,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 1336.812464714978,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0001_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1118.6862028148005,
+        "other_axis": 1380.0424856109275,
+        "identity_ratio": 0.810617219744196,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 1129.0191664660088,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0001_e1.npy"
+    }
+  ],
+  "rejected": [
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "own_axis 2736.071>1660.112"
+      ],
+      "scores": {
+        "own_axis": 2736.0706334023985,
+        "other_axis": 3256.7126285215713,
+        "identity_ratio": 0.8401326569131382,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 2859.543032479744,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    }
+  ],
+  "accepted_count": 2
+}

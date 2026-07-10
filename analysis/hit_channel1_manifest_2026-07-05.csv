@@ -1,0 +1,6 @@
+split,shard,x_file,y_file,samples,shape,label_counts
+train,1,xtrain_1.mat,ytrain_1.mat,2412,2412x2048,"{""0"": 959, ""1"": 1006, ""2"": 447}"
+train,2,xtrain_2.mat,ytrain_2.mat,2412,2412x2048,"{""0"": 933, ""1"": 999, ""2"": 480}"
+train,3,xtrain_3.mat,ytrain_3.mat,2412,2412x2048,"{""0"": 972, ""1"": 1018, ""2"": 422}"
+train,4,xtrain_4.mat,ytrain_4.mat,2412,2412x2048,"{""0"": 952, ""1"": 1009, ""2"": 451}"
+test,test,xtest.mat,ytest.mat,2412,2412x1x2048,"{""0"": 954, ""1"": 1008, ""2"": 450}"

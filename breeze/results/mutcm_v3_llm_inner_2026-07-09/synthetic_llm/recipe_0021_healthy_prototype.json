@@ -1,0 +1,87 @@
+{
+  "raw_response": "{\n  \"class\": \"healthy\",\n  \"recipe_type\": \"prototype\",\n  \"condition_id\": \"StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 0.92,\n    \"vibration\": 0.95,\n    \"ae\": 0.98,\n    \"cnc\": 0.93\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.02,\n    \"vibration\": 1.03,\n    \"ae\": 1.01,\n    \"cnc\": 1.01\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.05,\n    \"vibration\": 1.04,\n    \"ae\": 1.02,\n    \"cnc\": 1.03\n  },\n  \"low_freq_gain\": {\n    \"force\": 0.97,\n    \"vibration\": 0.98,\n    \"ae\": 0.99,\n    \"cnc\": 0.98\n  },\n  \"band_eq_strength\": 0.32,\n  \"noise_gain\": 0.03,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.02,\n  \"spectral_mix\": 0.25,\n  \"rationale\": \"Prototype recipe for healthy StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4. Mean multipliers are set slightly above 1.0 (1.01-1.03) to position the support point near the center of the prototype cluster, which has mean RMSs slightly below the class average (e.g., force ~137 vs class ~193). Std multipliers are reduced (0.92-0.98) to create a tighter, more compact local support point within the exemplar spread, staying well within the healthy physical bound (0.88-1.08). Minor high-freq gain (1.02-1.05) and low-freq attenuation (0.97-0.99) add subtle, class-consistent spectral shaping. Noise and impulse controls remain minimal to ensure stability.\"\n}",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "prototype",
+    "condition_id": "StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 0.92,
+      "vibration": 0.95,
+      "ae": 0.98,
+      "cnc": 0.93
+    },
+    "group_mean_mult": {
+      "force": 1.02,
+      "vibration": 1.03,
+      "ae": 1.01,
+      "cnc": 1.01
+    },
+    "high_freq_gain": {
+      "force": 1.05,
+      "vibration": 1.04,
+      "ae": 1.02,
+      "cnc": 1.03
+    },
+    "low_freq_gain": {
+      "force": 0.97,
+      "vibration": 0.98,
+      "ae": 0.99,
+      "cnc": 0.98
+    },
+    "band_eq_strength": 0.32,
+    "noise_gain": 0.03,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.02,
+    "spectral_mix": 0.25,
+    "rationale": "Prototype recipe for healthy StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4. Mean multipliers are set slightly above 1.0 (1.01-1.03) to position the support point near the center of the prototype cluster, which has mean RMSs slightly below the class average (e.g., force ~137 vs class ~193). Std multi"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1082.3815992580855,
+        "other_axis": 1419.7966095158026,
+        "identity_ratio": 0.7623497562986945,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 1100.2125422761771,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0021_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 718.0194620171131,
+        "other_axis": 916.6071411376034,
+        "identity_ratio": 0.7833448265807493,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 699.7633999537534,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0021_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1223.269034300319,
+        "other_axis": 1488.8990520321904,
+        "identity_ratio": 0.8215929969400443,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 1244.337838757365,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0021_e2.npy"
+    }
+  ],
+  "rejected": [],
+  "accepted_count": 3
+}

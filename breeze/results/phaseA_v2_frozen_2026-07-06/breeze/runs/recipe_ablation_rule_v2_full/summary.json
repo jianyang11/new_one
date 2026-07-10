@@ -1,0 +1,36 @@
+{
+  "source": "rule",
+  "slots": 700,
+  "accepted_slots": 204,
+  "acceptance": 0.2914285714285714,
+  "accepted_items_before_diversity": 866,
+  "kept_after_diversity": 785,
+  "kept_counts": {
+    "healthy": 227,
+    "OR": 407,
+    "IR": 151
+  },
+  "by_class": {
+    "healthy": {
+      "slots": 150,
+      "accepted_slots": 58,
+      "accepted_items_before_diversity": 270,
+      "kept_after_diversity": 227,
+      "acceptance": 0.38666666666666666
+    },
+    "OR": {
+      "slots": 150,
+      "accepted_slots": 87,
+      "accepted_items_before_diversity": 421,
+      "kept_after_diversity": 407,
+      "acceptance": 0.58
+    },
+    "IR": {
+      "slots": 400,
+      "accepted_slots": 59,
+      "accepted_items_before_diversity": 175,
+      "kept_after_diversity": 151,
+      "acceptance": 0.1475
+    }
+  }
+}

@@ -1,0 +1,19 @@
+experiment,split,tool_condition,feedrate,clamp_pressure,passed_visual_inspection,machining_finalized,raw_rows,non_cutting_rows,selected_stages,kept_windows
+1,test,unworn,6,4.0,yes,yes,1055,64,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,14
+2,test,unworn,20,4.0,yes,yes,1668,599,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,15
+3,train,unworn,6,3.0,yes,yes,1521,449,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,14
+4,train,unworn,6,2.5,,no,532,145,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,6
+5,train,unworn,20,3.0,,no,462,390,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,1
+6,test,worn,6,4.0,no,yes,1296,260,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,12
+7,test,worn,20,4.0,,no,565,238,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,4
+8,test,worn,20,4.0,no,yes,605,193,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,3
+9,train,worn,15,4.0,no,yes,740,115,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,6
+10,train,worn,12,4.0,no,yes,1301,307,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,13
+11,train,unworn,3,4.0,yes,yes,2314,705,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,22
+12,train,unworn,3,3.0,yes,yes,2276,762,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,20
+13,train,worn,3,4.0,yes,yes,2233,667,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,22
+14,train,worn,3,3.0,yes,yes,2332,489,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,26
+15,train,worn,6,3.0,yes,yes,1381,612,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,10
+16,train,worn,20,3.0,,no,602,389,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,3
+17,train,unworn,3,2.5,yes,yes,2150,822,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,17
+18,train,worn,3,2.5,yes,yes,2253,560,Layer 1 Up;Layer 1 Down;Layer 2 Up;Layer 2 Down;Layer 3 Up;Layer 3 Down,24

@@ -1,0 +1,87 @@
+{
+  "raw_response": "{\n  \"class\": \"healthy\",\n  \"recipe_type\": \"prototype\",\n  \"condition_id\": \"CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 0.95,\n    \"vibration\": 0.92,\n    \"ae\": 0.88,\n    \"cnc\": 0.98\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.05,\n    \"vibration\": 1.02,\n    \"ae\": 1.15,\n    \"cnc\": 1.01\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 1.0,\n    \"ae\": 1.0,\n    \"cnc\": 1.0\n  },\n  \"low_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 1.0,\n    \"ae\": 1.0,\n    \"cnc\": 1.0\n  },\n  \"band_eq_strength\": 0.35,\n  \"noise_gain\": 0.03,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.02,\n  \"spectral_mix\": 0.2,\n  \"rationale\": \"Prototype for healthy CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4. Selected template_rank 0. Applied mild mean multipliers to center prototype near exemplar cluster centroid (force +5%, vibration +2%, ae +15% to match exemplar vs train-healthy avg). Reduced std multipliers slightly (0.88-0.98) to create a compact, stable support point within the healthy manifold. Kept spectral and noise controls neutral to maintain healthy signature without worn-like fluctuations.\"\n}",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "prototype",
+    "condition_id": "CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 0.95,
+      "vibration": 0.92,
+      "ae": 0.88,
+      "cnc": 0.98
+    },
+    "group_mean_mult": {
+      "force": 1.05,
+      "vibration": 1.02,
+      "ae": 1.08,
+      "cnc": 1.01
+    },
+    "high_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.0,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "low_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.0,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "band_eq_strength": 0.35,
+    "noise_gain": 0.03,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.02,
+    "spectral_mix": 0.2,
+    "rationale": "Prototype for healthy CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4. Selected template_rank 0. Applied mild mean multipliers to center prototype near exemplar cluster centroid (force +5%, vibration +2%, ae +15% to match exemplar vs train-healthy avg). Reduced std multipliers slightly (0.88-0.98) to create "
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 984.4512979484256,
+        "other_axis": 1220.954404697236,
+        "identity_ratio": 0.806296528487108,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 988.2206060812155,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0018_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 563.7290371822401,
+        "other_axis": 786.8092813400106,
+        "identity_ratio": 0.7164748186779845,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 534.4985515068679,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0018_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1222.5214785568328,
+        "other_axis": 1569.972283080818,
+        "identity_ratio": 0.7786898480512219,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 1249.8632601833506,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0018_e2.npy"
+    }
+  ],
+  "rejected": [],
+  "accepted_count": 3
+}

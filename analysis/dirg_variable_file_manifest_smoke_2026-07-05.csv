@@ -1,0 +1,4 @@
+member,code,label,class_name,damage_location,severity_um,speed_hz,load_mv,load_n_measured,nominal_load_n,replicate,sampling_rate_hz,samples_per_file,channels,window,hop,windows,rms_all_channels
+VariableSpeedAndLoad/C0A_100_000_1.mat,0A,0,healthy,none,0,100,0,0.0,0,1,51200,512000,6,4096,4096,125,5.85666561126709
+VariableSpeedAndLoad/C1A_300_702_2.mat,1A,1,IR450,inner_ring,450,300,702,1406.8136272545091,1400,2,51200,512000,6,4096,4096,125,29.924449920654297
+VariableSpeedAndLoad/C4A_300_702_1.mat,4A,4,roller450,roller,450,300,702,1406.8136272545091,1400,1,51200,512000,6,4096,4096,125,53.281280517578125

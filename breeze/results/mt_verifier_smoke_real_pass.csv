@@ -1,0 +1,7 @@
+class,fail_psd_w1,fail_soft_spectrum,fail_stats_union,n,pass_rate,split
+MT-1,5,3,5,20,0.7,test
+MT-2,5,3,1,20,0.75,test
+MT-3,3,,,20,0.85,test
+MT-1,6,,,20,0.7,train
+MT-2,2,,,20,0.9,train
+MT-3,2,,,20,0.9,train

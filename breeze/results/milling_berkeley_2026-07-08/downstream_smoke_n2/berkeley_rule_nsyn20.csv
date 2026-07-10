@@ -1,0 +1,6 @@
+dataset,split,baseline,n_real,seed,actual_real_per_class,n_syn,acc,macro_f1,per_class_f1_json,confusion_json,class_names_json
+Berkeley_milling,case_split,custom_pool,2,0,"{""0"":2,""1"":2,""2"":2}",60,0.3963,0.3355,"{""sharp"":0.5392670157068062,""worn"":0.0,""severe"":0.467175572519084}","[[103,0,118],[41,0,214],[17,0,153]]","[""sharp"",""worn"",""severe""]"
+Berkeley_milling,case_split,custom_pool,2,1,"{""0"":2,""1"":2,""2"":2}",60,0.3947,0.1887,"{""sharp"":0.0,""worn"":0.5660377358490566,""severe"":0.0}","[[0,221,0],[0,255,0],[0,170,0]]","[""sharp"",""worn"",""severe""]"
+Berkeley_milling,case_split,custom_pool,2,2,"{""0"":2,""1"":2,""2"":2}",60,0.3793,0.3425,"{""sharp"":0.4482758620689655,""worn"":0.10355987055016182,""severe"":0.4755905511811024}","[[78,37,106],[31,16,208],[18,1,151]]","[""sharp"",""worn"",""severe""]"
+Berkeley_milling,case_split,custom_pool,2,3,"{""0"":2,""1"":2,""2"":2}",60,0.3746,0.3043,"{""sharp"":0.04794520547945205,""worn"":0.5327510917030568,""severe"":0.33226837060702874}","[[7,178,36],[17,183,55],[47,71,52]]","[""sharp"",""worn"",""severe""]"
+Berkeley_milling,case_split,custom_pool,2,4,"{""0"":2,""1"":2,""2"":2}",60,0.3994,0.2618,"{""sharp"":0.03508771929824561,""worn"":0.5484633569739953,""severe"":0.2018348623853211}","[[4,211,6],[3,232,20],[0,148,22]]","[""sharp"",""worn"",""severe""]"

@@ -1,0 +1,87 @@
+{
+  "raw_response": "{\n  \"class\": \"healthy\",\n  \"recipe_type\": \"condition_balanced\",\n  \"condition_id\": \"CastIron.GG30|Vc200|fz0.2|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 0.95,\n    \"vibration\": 0.92,\n    \"ae\": 0.90,\n    \"cnc\": 0.98\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.02,\n    \"vibration\": 1.05,\n    \"ae\": 1.10,\n    \"cnc\": 1.03\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 1.05,\n    \"ae\": 1.15,\n    \"cnc\": 1.0\n  },\n  \"low_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 0.95,\n    \"ae\": 0.85,\n    \"cnc\": 1.0\n  },\n  \"band_eq_strength\": 0.30,\n  \"noise_gain\": 0.015,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.02,\n  \"spectral_mix\": 0.15,\n  \"rationale\": \"Template 0 has healthy RMS levels (force~201, vibration~0.80, ae~0.40, cnc~659). Slight mean boosts (2-10%) and std reductions (2-10%) create a distinct, stable healthy point. AE gets a high-freq boost to differentiate from worn's lower AE RMS. Noise and trend kept minimal for stability.\"\n}",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "condition_balanced",
+    "condition_id": "CastIron.GG30|Vc200|fz0.2|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 0.95,
+      "vibration": 0.92,
+      "ae": 0.9,
+      "cnc": 0.98
+    },
+    "group_mean_mult": {
+      "force": 1.02,
+      "vibration": 1.05,
+      "ae": 1.08,
+      "cnc": 1.03
+    },
+    "high_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.05,
+      "ae": 1.15,
+      "cnc": 1.0
+    },
+    "low_freq_gain": {
+      "force": 1.0,
+      "vibration": 0.95,
+      "ae": 0.85,
+      "cnc": 1.0
+    },
+    "band_eq_strength": 0.3,
+    "noise_gain": 0.015,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.02,
+    "spectral_mix": 0.15,
+    "rationale": "Template 0 has healthy RMS levels (force~201, vibration~0.80, ae~0.40, cnc~659). Slight mean boosts (2-10%) and std reductions (2-10%) create a distinct, stable healthy point. AE gets a high-freq boost to differentiate from worn's lower AE RMS. Noise and trend kept minimal for stability."
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 336.28877681059095,
+        "other_axis": 494.8786001959982,
+        "identity_ratio": 0.6795379244069193,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 300.0230535078928,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0020_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 442.0411320968991,
+        "other_axis": 569.3743300067874,
+        "identity_ratio": 0.7763629457823095,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 410.7984202455784,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0020_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 382.519578460811,
+        "other_axis": 555.2729596042839,
+        "identity_ratio": 0.6888856585658581,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 345.10541172206985,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0020_e2.npy"
+    }
+  ],
+  "rejected": [],
+  "accepted_count": 3
+}

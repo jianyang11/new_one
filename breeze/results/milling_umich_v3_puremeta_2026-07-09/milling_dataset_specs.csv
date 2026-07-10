@@ -1,0 +1,2 @@
+dataset,fs_hz,channels,window,window_seconds,label_definition,split,train_counts,test_counts
+UMich_CNC,10.0,X1_CurrentFeedback;Y1_CurrentFeedback;S1_CurrentFeedback;X1_OutputCurrent;Y1_OutputCurrent;S1_OutputCurrent,64,6.4,tool_condition binary label; active machining rows only,"experiment-level; test_experiments=[1, 2, 6, 7, 8]","{'unworn': 91, 'worn': 117}","{'unworn': 31, 'worn': 27}"

@@ -1,0 +1,22 @@
+stage,quadrant,windows
+Layer 1 Down,ambiguous_worn_missing_visual,2
+Layer 1 Down,ambiguous_worn_pass,11
+Layer 1 Down,clean_unworn,10
+Layer 1 Down,clean_worn,3
+Layer 1 Up,ambiguous_unworn_missing_visual,7
+Layer 1 Up,ambiguous_worn_missing_visual,1
+Layer 1 Up,ambiguous_worn_pass,17
+Layer 1 Up,clean_unworn,17
+Layer 1 Up,clean_worn,3
+Layer 2 Down,ambiguous_worn_pass,11
+Layer 2 Down,clean_unworn,11
+Layer 2 Down,clean_worn,3
+Layer 2 Up,ambiguous_worn_pass,12
+Layer 2 Up,clean_unworn,16
+Layer 2 Up,clean_worn,4
+Layer 3 Down,ambiguous_worn_pass,13
+Layer 3 Down,clean_unworn,8
+Layer 3 Down,clean_worn,3
+Layer 3 Up,ambiguous_worn_pass,18
+Layer 3 Up,clean_unworn,11
+Layer 3 Up,clean_worn,3

@@ -1,0 +1,16 @@
+condition,bearing_id,n_csv_files,lifetime,fault_element
+1,Bearing1_1,123,2 h 3 min,Outer race
+1,Bearing1_2,161,2 h 41 min,Outer race
+1,Bearing1_3,158,2 h 38 min,Outer race
+1,Bearing1_4,122,2 h 2 min,Cage
+1,Bearing1_5,52,52 min,Inner race and outer race
+2,Bearing2_1,491,8 h 11 min,Inner race
+2,Bearing2_2,161,2 h 41 min,Outer race
+2,Bearing2_3,533,8 h 53 min,Cage
+2,Bearing2_4,42,42 min,Outer race
+2,Bearing2_5,339,5 h 39 min,Outer race
+3,Bearing3_1,2538,42 h 18 min,Outer race
+3,Bearing3_2,2496,41 h 36 min,"Inner race, ball, cage and outer race"
+3,Bearing3_3,371,6 h 11 min,Inner race
+3,Bearing3_4,1515,25 h 15 min,Inner race
+3,Bearing3_5,114,1 h 54 min,Outer race

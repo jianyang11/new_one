@@ -1,0 +1,2 @@
+dataset,baseline,n_real,seed,epochs,n_train,acc,macro_f1,f1_MT-1,f1_MT-2,f1_MT-3,confusion
+machine_tool_private,real_only,10,0,3,30,0.3621,0.2862,0.0000,0.3891,0.4696,"[[0,57,109],[0,64,102],[0,42,112]]"

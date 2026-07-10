@@ -1,0 +1,4 @@
+baseline,acc,macro_f1,precision_unworn,recall_unworn,f1_unworn,support_unworn,precision_worn,recall_worn,f1_worn,support_worn
+metadata_only,1.0,1.0,1.0,1.0,1.0,14,1.0,1.0,1.0,6
+stage_only,0.45,0.44862155388471175,0.7142857142857143,0.35714285714285715,0.47619047619047616,14,0.3076923076923077,0.6666666666666666,0.42105263157894735,6
+signal_feature_only,1.0,1.0,1.0,1.0,1.0,14,1.0,1.0,1.0,6

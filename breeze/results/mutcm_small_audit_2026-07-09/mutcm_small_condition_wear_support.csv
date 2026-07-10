@@ -1,0 +1,9 @@
+material,cutting_speed,feed_rate,depth_of_cut,VB_level,n_experiments,exact_VB_values,experiment_ids
+CastIron.GG30,100.0,0.1,1.5,0.0,1,0,Insert0Edge2_Vc100.0_fz0.1_ap1.5_VB0.0_Rep1
+CastIron.GG30,100.0,0.1,1.5,0.1,1,0.12,Insert2Edge1_Vc100.0_fz0.1_ap1.5_VB0.12_Rep1
+CastIron.GG30,100.0,0.1,1.5,0.2,1,0.201,Insert4Edge1_Vc100.0_fz0.1_ap1.5_VB0.201_Rep1
+CastIron.GG30,100.0,0.1,1.5,0.3,1,0.276,Insert6Edge1_Vc100.0_fz0.1_ap1.5_VB0.276_Rep1
+StainlessSteel.316L,100.0,0.1,1.5,0.0,1,0.039,Insert9Edge2_Vc100.0_fz0.1_ap1.5_VB0.039_Rep2
+StainlessSteel.316L,100.0,0.1,1.5,0.1,1,0.139,Insert1Edge1_Vc100.0_fz0.1_ap1.5_VB0.139_Rep1
+StainlessSteel.316L,100.0,0.1,1.5,0.2,1,0.213,Insert3Edge1_Vc100.0_fz0.1_ap1.5_VB0.213_Rep2
+StainlessSteel.316L,100.0,0.1,1.5,0.3,1,0.291,Insert6Edge1_Vc100.0_fz0.1_ap1.5_VB0.291_Rep1

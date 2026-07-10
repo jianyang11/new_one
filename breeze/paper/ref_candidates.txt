@@ -1,0 +1,42 @@
+bearing fault diagnosis GAN da | Ping None | Few-Shot Aero-Engine Bearing Fault Diagnosis with Denoising Diffusion Based Data |  | 10.2139/ssrn.5015183
+bearing fault diagnosis GAN da | Bobadilla 2024 | GAN-based Data Augmentation of Railway Track Irregularities for Fault Diagnosis | 2024 International Joint Conference on N | 10.1109/ijcnn60899.2024.10651483
+bearing fault diagnosis GAN da | Hossain None | Bearing Fault Data Diagnosis : GA approach |  | 10.36227/techrxiv.20278797
+bearing fault diagnosis GAN da | Hossain None | Bearing Fault Data Diagnosis : GA approach |  | 10.36227/techrxiv.20278797.v2
+bearing fault diagnosis GAN da | Song 2023 | Data Augmentation Based on Active Virtual Sample Selection for Bearing Fault Dia | 2023 CAA Symposium on Fault Detection, S | 10.1109/safeprocess58597.2023.10295590
+bearing fault diagnosis GAN da | Guo 2024 | A Transformer-based GAN for Bearing Fault Diagnosis Under Limited Data Condition | 2024 IEEE 22nd International Conference  | 10.1109/indin58382.2024.10774341
+physics-informed generative ad |  None |  |  | 10.1117/12.2663268.6328866508112
+physics-informed generative ad |  None |  |  | 10.1117/12.3093593.bd75a293-04a3-f011-a9ac-00505691c5e1
+physics-informed generative ad | Dai None | Generative Adversarial Network to Alleviate Information Insufficiency in Intelli |  | 10.2139/ssrn.4423519
+physics-informed generative ad | Li 2023 | PIX-GAN: Enhance Physics-Informed Estimation via Generative Adversarial Network | 2023 IEEE International Conference on Da | 10.1109/icdm58522.2023.00128
+physics-informed generative ad | Gulakala None | Physics informed Spiking Generative Adversarial Networks in Structural Mechanics |  | 10.26226/m.64c26777632e9539aa87d755
+physics-informed generative ad | Yang 2023 | Twin Modeling and Generative Adversarial Network Bearing Fault Diagnosis Enhance | 2023 4th International Conference on Com | 10.1109/icceic60201.2023.10426647
+diffusion model fault diagnosi | Wang None | Tsdit: Transformer-Based Diffusion for Vibration Signal Generation to Enhance Fa |  | 10.2139/ssrn.5247183
+diffusion model fault diagnosi | Wang None | Tsdit: A Transformer-Based Diffusion Model for Vibration Time-Series Generation  |  | 10.2139/ssrn.5088027
+diffusion model fault diagnosi |  None | Basic residual generation methods | Model-based Fault Diagnosis Techniques | 10.1007/978-3-540-76304-8_5
+diffusion model fault diagnosi |  None | Residual generation with enhanced robustness against model uncertainties | Model-based Fault Diagnosis Techniques | 10.1007/978-3-540-76304-8_8
+diffusion model fault diagnosi |  None | Residual generation with enhanced robustness against unknown inputs | Model-based Fault Diagnosis Techniques | 10.1007/978-3-540-76304-8_7
+diffusion model fault diagnosi | Qiao 2025 | DDPM-LFR: an enhanced local feature refinement diffusion model for helicopter ta | Mechanical Systems and Signal Processing | 10.1016/j.ymssp.2025.113170
+large language model time seri | Wang None | Tsdit: A Transformer-Based Diffusion Model for Vibration Time-Series Generation  |  | 10.2139/ssrn.5088027
+large language model time seri | Territo None | Large Language Model-Augmented Machine Learning For Intelligent Fault Diagnosis  |  | 10.2139/ssrn.5352663
+large language model time seri | Lu None | Intelligent Fault Diagnosis for Overhead Lines with Covered Conductors: Using La |  | 10.46855/energy-proceedings-11484
+large language model time seri | Jiang None | A large language model-guided machinery fault diagnosis model based on multi-tas |  | 10.2139/ssrn.6293248
+large language model time seri | Erfani Jazi 2026 | Large Language Model-Augmented Semantic Digital Twins for Real-Time Fault Diagno | Journal of Computing and Information Sci | 10.1115/1.4071805
+large language model time seri | Zhang 2025 | LLM-TSFD: An industrial time series human-in-the-loop fault diagnosis method bas | Expert Systems with Applications | 10.1016/j.eswa.2024.125861
+spectral kurtosis kurtogram en | Bechhoefer 2011 | Bearing envelope analysis window selection Using spectral kurtosis techniques | 2011 IEEE Conference on Prognostics and  | 10.1109/icphm.2011.6024338
+spectral kurtosis kurtogram en | Singhal 2023 | Rolling Element Bearing Fault Diagnosis Using a Kurtogram and Spectral Kurtosis  | Algorithms for Intelligent Systems | 10.1007/978-981-99-1431-9_50
+spectral kurtosis kurtogram en | Li 2013 | Envelope analysis by wavelet-filter based spectral kurtosis for bearing health m | 2013 IEEE International Instrumentation  | 10.1109/i2mtc.2013.6555709
+spectral kurtosis kurtogram en | Zhang 2023 | Analysis of Escalator Based on Spectral Kurtosis and Envelope Demodulation Metho | 2023 2nd International Conference on Aut | 10.1109/icarce59252.2024.10492602
+spectral kurtosis kurtogram en | CHEN 2018 | Rolling Bearing Fault Diagnosis with Optimal Resonant Frequency Band Demodulatio | Journal of Mechanical Engineering | 10.3901/jme.2018.21.090
+spectral kurtosis kurtogram en | Tomar 2022 | Envelope Spectrum Analysis of Noisy Signal with Spectral Kurtosis to Diagnose Be | Lecture Notes in Mechanical Engineering | 10.1007/978-981-16-4083-4_23
+motor current signature analys | KHODJA 2026 | Comparative analysis of motor current signature analysis and vibration monitorin | PRZEGLĄD ELEKTROTECHNICZNY | 10.15199/48.2026.3.29
+motor current signature analys | Singh 2014 | Motor Current Signature Analysis for Bearing Fault Detection in Mechanical Syste | Procedia Materials Science | 10.1016/j.mspro.2014.07.021
+motor current signature analys | Song 2019 | Detection of Bearing Outer Race Fault in Induction Motors using Motor Current Si | 2019 22nd International Conference on El | 10.1109/icems.2019.8922036
+motor current signature analys | Ahmed 2023 | Machine Learning Based Bearing Fault Detection of IM Fed by Variable Frequency D | 2023 XIX International Scientific Techni | 10.1109/aced57798.2023.10143459
+motor current signature analys | Choi 2017 | Implementation of Motor Current Signature Analysis Fault Diagnosis Based on Digi | Electric Machines | 10.1201/b13008-9
+motor current signature analys | Asutkar 2026 | Enhancing Bearing Fault Diagnosis in Three-Phase Induction Motors Using Motor Cu | International Journal of Drug Delivery T | 10.25258/ijddt.16.16s.3
+synthetic data quality filteri | mejri None | Application of Machine Learning for the Automation of the Quality Control of Noi |  | 10.20944/preprints202011.0541.v1
+synthetic data quality filteri |  None |  |  | 10.1117/12.2682047.6331636087112
+synthetic data quality filteri | Sravani 2023 | Enhancing Code-mixed Text Generation Using Synthetic Data Filtering in Neural Ma | Proceedings of the 27th Conference on Co | 10.18653/v1/2023.conll-1.15
+synthetic data quality filteri | Wang 2024 | Spam Filtering in the Modern Era: A Review of Machine Learning, Deep Learning, a | Proceedings of the 2nd International Con | 10.5220/0013526000004619
+synthetic data quality filteri |  2017 | Collaborative Filtering | Encyclopedia of Machine Learning and Dat | 10.1007/978-1-4899-7687-1_945
+synthetic data quality filteri |  2022 | Review for "Synthetic data enable experiments in atomistic machine learning" |  | 10.1039/d2dd00137c/v1/review1

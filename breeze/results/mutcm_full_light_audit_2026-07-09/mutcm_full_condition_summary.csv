@@ -1,0 +1,9 @@
+material,Vc,fz,ap,ae,condition_id,n_experiments,VB_levels,has_all_0p0_0p1_0p2_0p3,scheme_A_has_both_labels,scheme_B_has_both_labels,scheme_C_has_both_labels,repetitions_by_level_json,min_repetitions_per_level
+CastIron.GG30,100.0,0.1,1.5,58.4,CastIron.GG30|100.0|0.1|1.5|58.4,8,0.0;0.1;0.2;0.3,True,True,True,True,"{""0.0"": [1, 2], ""0.1"": [1, 2], ""0.2"": [1, 2], ""0.3"": [1, 2]}",2
+CastIron.GG30,100.0,0.2,1.5,58.4,CastIron.GG30|100.0|0.2|1.5|58.4,8,0.0;0.1;0.2;0.3,True,True,True,True,"{""0.0"": [1, 2], ""0.1"": [1, 2], ""0.2"": [1, 2], ""0.3"": [1, 2]}",2
+CastIron.GG30,200.0,0.1,1.5,58.4,CastIron.GG30|200.0|0.1|1.5|58.4,10,0.0;0.1;0.2;0.3,True,True,True,True,"{""0.0"": [1, 2], ""0.1"": [1, 2], ""0.2"": [1, 2], ""0.3"": [1, 2, 3]}",2
+CastIron.GG30,200.0,0.2,1.5,58.4,CastIron.GG30|200.0|0.2|1.5|58.4,8,0.0;0.1;0.2;0.3,True,True,True,True,"{""0.0"": [1, 2], ""0.1"": [1, 2], ""0.2"": [1, 2], ""0.3"": [1, 2]}",2
+StainlessSteel.316L,50.0,0.05,1.5,58.4,StainlessSteel.316L|50.0|0.05|1.5|58.4,9,0.0;0.1;0.2;0.3,True,True,True,True,"{""0.0"": [1, 2], ""0.1"": [1, 2], ""0.2"": [1, 2, 3], ""0.3"": [1, 2]}",2
+StainlessSteel.316L,50.0,0.1,1.5,58.4,StainlessSteel.316L|50.0|0.1|1.5|58.4,8,0.0;0.1;0.2;0.3,True,True,True,True,"{""0.0"": [1, 2], ""0.1"": [1, 2], ""0.2"": [1, 2], ""0.3"": [1, 2]}",2
+StainlessSteel.316L,100.0,0.05,1.5,58.4,StainlessSteel.316L|100.0|0.05|1.5|58.4,8,0.0;0.1;0.2;0.3,True,True,True,True,"{""0.0"": [1, 2], ""0.1"": [1, 2], ""0.2"": [1, 2], ""0.3"": [1, 2]}",2
+StainlessSteel.316L,100.0,0.1,1.5,58.4,StainlessSteel.316L|100.0|0.1|1.5|58.4,8,0.0;0.1;0.2;0.3,True,True,True,True,"{""0.0"": [1, 2], ""0.1"": [1, 2], ""0.2"": [1, 2], ""0.3"": [1, 2]}",2

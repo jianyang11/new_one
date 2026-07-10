@@ -1,0 +1,24 @@
+{
+  "feedrate_mean": 5.39310359954834,
+  "feedrate_std": 4.162719249725342,
+  "clamp_pressure_mean": 3.1793103218078613,
+  "clamp_pressure_std": 0.5498459339141846,
+  "stages": [
+    "Layer 1 Down",
+    "Layer 1 Up",
+    "Layer 2 Down",
+    "Layer 2 Up",
+    "Layer 3 Down",
+    "Layer 3 Up"
+  ],
+  "metadata_channels": [
+    "meta_feedrate_z",
+    "meta_clamp_pressure_z",
+    "stage_layer_1_down",
+    "stage_layer_1_up",
+    "stage_layer_2_down",
+    "stage_layer_2_up",
+    "stage_layer_3_down",
+    "stage_layer_3_up"
+  ]
+}

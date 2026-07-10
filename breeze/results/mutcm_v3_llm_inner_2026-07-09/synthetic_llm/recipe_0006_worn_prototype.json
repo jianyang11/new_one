@@ -1,0 +1,134 @@
+{
+  "raw_response": "{\n  \"class\": \"worn\",\n  \"recipe_type\": \"prototype\",\n  \"condition_id\": \"CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4\",\n  \"template_rank\": 3,\n  \"group_std_mult\": {\n    \"force\": 1.05,\n    \"vibration\": 1.12,\n    \"ae\": 1.08,\n    \"cnc\": 1.02\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.08,\n    \"vibration\": 1.15,\n    \"ae\": 1.05,\n    \"cnc\": 1.04\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.10,\n    \"vibration\": 1.15,\n    \"ae\": 1.08,\n    \"cnc\": 1.05\n  },\n  \"low_freq_gain\": {\n    \"force\": 1.05,\n    \"vibration\": 1.08,\n    \"ae\": 1.03,\n    \"cnc\": 1.02\n  },\n  \"band_eq_strength\": 0.38,\n  \"noise_gain\": 0.04,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.03,\n  \"spectral_mix\": 0.25,\n  \"rationale\": \"Prototype from train exemplar (rank 3) for worn condition. Worn/healthy RMS ratios show force (1.66) and vibration (1.33) increases, while AE (0.92) and CNC (1.06) are moderate. Multipliers are set to create a local support point near the exemplar's statistics, with stronger force/vibration/AE texture adjustments to reflect the train-supported worn signature, while staying within physical bounds and avoiding neutral all-ones.\"\n}",
+  "recipe": {
+    "class": "worn",
+    "recipe_type": "prototype",
+    "condition_id": "CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4",
+    "template_rank": 3,
+    "group_std_mult": {
+      "force": 1.05,
+      "vibration": 1.12,
+      "ae": 1.08,
+      "cnc": 1.02
+    },
+    "group_mean_mult": {
+      "force": 1.08,
+      "vibration": 1.08,
+      "ae": 1.05,
+      "cnc": 1.04
+    },
+    "high_freq_gain": {
+      "force": 1.1,
+      "vibration": 1.15,
+      "ae": 1.08,
+      "cnc": 1.05
+    },
+    "low_freq_gain": {
+      "force": 1.05,
+      "vibration": 1.08,
+      "ae": 1.03,
+      "cnc": 1.02
+    },
+    "band_eq_strength": 0.38,
+    "noise_gain": 0.04,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.03,
+    "spectral_mix": 0.25,
+    "rationale": "Prototype from train exemplar (rank 3) for worn condition. Worn/healthy RMS ratios show force (1.66) and vibration (1.33) increases, while AE (0.92) and CNC (1.06) are moderate. Multipliers are set to create a local support point near the exemplar's statistics, with stronger force/vibration/AE textu"
+  },
+  "accepted": [
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1721.6441116609535,
+        "other_axis": 1306.1173227117474,
+        "identity_ratio": 1.318138946420596,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1339.8404759346147,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0006_readmit_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 2405.481988398221,
+        "other_axis": 1938.1573011558983,
+        "identity_ratio": 1.241118038749287,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 2009.458694049861,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0006_readmit_e2.npy"
+    }
+  ],
+  "rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=2188.445 other=1717.802"
+      ],
+      "scores": {
+        "own_axis": 2188.445261652002,
+        "other_axis": 1717.802492934169,
+        "nn_feature_dist": 1783.9033573351912,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=1971.050 other=1522.323"
+      ],
+      "scores": {
+        "own_axis": 1971.0497444551804,
+        "other_axis": 1522.3230494241282,
+        "nn_feature_dist": 1566.3838494145962,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "own_axis 3115.365>2636.564",
+        "class_identity weak own=3115.365 other=2558.422"
+      ],
+      "scores": {
+        "own_axis": 3115.365063348771,
+        "other_axis": 2558.4223067571857,
+        "nn_feature_dist": 2677.210546147507,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    }
+  ],
+  "accepted_count": 2,
+  "readmission_rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "own_axis 2919.625>2636.564"
+      ],
+      "scores": {
+        "own_axis": 2919.6251319120743,
+        "other_axis": 2375.4864054977875,
+        "identity_ratio": 1.2290641298367104,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 2479.818666249397,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true
+    }
+  ]
+}

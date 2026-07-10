@@ -1,0 +1,5 @@
+file_id,filename,label,fault_diameter_in,load_hp,rpm_nominal,fault_location,source_url,local_path,rpm_in_file,n_samples,n_windows,train_windows,test_windows
+97,97.mat,healthy,none,0,1797,none,https://engineering.case.edu/sites/default/files/97.mat,/Users/jianyang/Desktop/学校相关课程/回所/论文/合成数据sci/breeze_full-2/data/cwru/raw/smoke/97.mat,1796,243938,119,83,36
+105,105.mat,IR,0.007,0,1797,inner_race,https://engineering.case.edu/sites/default/files/105.mat,/Users/jianyang/Desktop/学校相关课程/回所/论文/合成数据sci/breeze_full-2/data/cwru/raw/smoke/105.mat,1797,121265,59,41,18
+118,118.mat,B,0.007,0,1797,ball,https://engineering.case.edu/sites/default/files/118.mat,/Users/jianyang/Desktop/学校相关课程/回所/论文/合成数据sci/breeze_full-2/data/cwru/raw/smoke/118.mat,1796,122571,59,41,18
+130,130.mat,OR,0.007,0,1797,outer_race_6,https://engineering.case.edu/sites/default/files/130.mat,/Users/jianyang/Desktop/学校相关课程/回所/论文/合成数据sci/breeze_full-2/data/cwru/raw/smoke/130.mat,1796,121991,59,41,18

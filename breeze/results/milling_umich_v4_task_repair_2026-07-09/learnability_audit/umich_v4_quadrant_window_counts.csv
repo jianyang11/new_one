@@ -1,0 +1,96 @@
+experiment,stage,active_stage,quadrant,tool_condition,passed_visual_inspection,feedrate,clamp_pressure,windows
+3,Prep,False,clean_unworn,unworn,yes,6.0,3.0,1
+3,Layer 1 Up,True,clean_unworn,unworn,yes,6.0,3.0,3
+3,Layer 1 Down,True,clean_unworn,unworn,yes,6.0,3.0,2
+3,Repositioning,False,clean_unworn,unworn,yes,6.0,3.0,2
+3,Layer 2 Up,True,clean_unworn,unworn,yes,6.0,3.0,2
+3,Layer 2 Down,True,clean_unworn,unworn,yes,6.0,3.0,3
+3,Repositioning,False,clean_unworn,unworn,yes,6.0,3.0,1
+3,Layer 3 Up,True,clean_unworn,unworn,yes,6.0,3.0,3
+3,Layer 3 Down,True,clean_unworn,unworn,yes,6.0,3.0,1
+3,End,False,clean_unworn,unworn,yes,6.0,3.0,1
+4,Prep,False,ambiguous_unworn_missing_visual,unworn,,6.0,2.5,1
+4,Layer 1 Up,True,ambiguous_unworn_missing_visual,unworn,,6.0,2.5,6
+5,Layer 1 Up,True,ambiguous_unworn_missing_visual,unworn,,20.0,3.0,1
+5,End,False,ambiguous_unworn_missing_visual,unworn,,20.0,3.0,5
+9,Layer 1 Up,True,clean_worn,worn,no,15.0,4.0,1
+9,Layer 1 Down,True,clean_worn,worn,no,15.0,4.0,1
+9,Layer 2 Up,True,clean_worn,worn,no,15.0,4.0,1
+9,Layer 2 Down,True,clean_worn,worn,no,15.0,4.0,1
+9,Layer 3 Up,True,clean_worn,worn,no,15.0,4.0,1
+9,Layer 3 Down,True,clean_worn,worn,no,15.0,4.0,1
+10,Layer 1 Up,True,clean_worn,worn,no,12.0,4.0,2
+10,Layer 1 Down,True,clean_worn,worn,no,12.0,4.0,2
+10,Layer 2 Up,True,clean_worn,worn,no,12.0,4.0,3
+10,Layer 2 Down,True,clean_worn,worn,no,12.0,4.0,2
+10,Layer 3 Up,True,clean_worn,worn,no,12.0,4.0,2
+10,Layer 3 Down,True,clean_worn,worn,no,12.0,4.0,2
+10,End,False,clean_worn,worn,no,12.0,4.0,2
+11,Prep,False,clean_unworn,unworn,yes,3.0,4.0,1
+11,Layer 1 Up,True,clean_unworn,unworn,yes,3.0,4.0,6
+11,Layer 1 Down,True,clean_unworn,unworn,yes,3.0,4.0,2
+11,Repositioning,False,clean_unworn,unworn,yes,3.0,4.0,2
+11,Layer 2 Up,True,clean_unworn,unworn,yes,3.0,4.0,7
+11,Layer 2 Down,True,clean_unworn,unworn,yes,3.0,4.0,2
+11,Repositioning,False,clean_unworn,unworn,yes,3.0,4.0,2
+11,Layer 3 Up,True,clean_unworn,unworn,yes,3.0,4.0,3
+11,Layer 3 Down,True,clean_unworn,unworn,yes,3.0,4.0,2
+11,End,False,clean_unworn,unworn,yes,3.0,4.0,4
+12,Layer 1 Up,True,clean_unworn,unworn,yes,3.0,3.0,5
+12,Layer 1 Down,True,clean_unworn,unworn,yes,3.0,3.0,3
+12,Repositioning,False,clean_unworn,unworn,yes,3.0,3.0,6
+12,Layer 2 Up,True,clean_unworn,unworn,yes,3.0,3.0,3
+12,Layer 2 Down,True,clean_unworn,unworn,yes,3.0,3.0,3
+12,Repositioning,False,clean_unworn,unworn,yes,3.0,3.0,1
+12,Layer 3 Up,True,clean_unworn,unworn,yes,3.0,3.0,3
+12,Layer 3 Down,True,clean_unworn,unworn,yes,3.0,3.0,3
+12,End,False,clean_unworn,unworn,yes,3.0,3.0,3
+13,Prep,False,ambiguous_worn_pass,worn,yes,3.0,4.0,2
+13,Layer 1 Up,True,ambiguous_worn_pass,worn,yes,3.0,4.0,5
+13,Layer 1 Down,True,ambiguous_worn_pass,worn,yes,3.0,4.0,4
+13,Layer 2 Up,True,ambiguous_worn_pass,worn,yes,3.0,4.0,3
+13,Layer 2 Down,True,ambiguous_worn_pass,worn,yes,3.0,4.0,3
+13,Repositioning,False,ambiguous_worn_pass,worn,yes,3.0,4.0,4
+13,Layer 3 Up,True,ambiguous_worn_pass,worn,yes,3.0,4.0,4
+13,Layer 3 Down,True,ambiguous_worn_pass,worn,yes,3.0,4.0,3
+13,End,False,ambiguous_worn_pass,worn,yes,3.0,4.0,2
+14,Prep,False,ambiguous_worn_pass,worn,yes,3.0,3.0,3
+14,Layer 1 Up,True,ambiguous_worn_pass,worn,yes,3.0,3.0,5
+14,Layer 1 Down,True,ambiguous_worn_pass,worn,yes,3.0,3.0,5
+14,Repositioning,False,ambiguous_worn_pass,worn,yes,3.0,3.0,2
+14,Layer 2 Up,True,ambiguous_worn_pass,worn,yes,3.0,3.0,4
+14,Layer 2 Down,True,ambiguous_worn_pass,worn,yes,3.0,3.0,3
+14,Layer 3 Up,True,ambiguous_worn_pass,worn,yes,3.0,3.0,5
+14,Layer 3 Down,True,ambiguous_worn_pass,worn,yes,3.0,3.0,4
+14,End,False,ambiguous_worn_pass,worn,yes,3.0,3.0,1
+15,Prep,False,ambiguous_worn_pass,worn,yes,6.0,3.0,3
+15,Layer 1 Up,True,ambiguous_worn_pass,worn,yes,6.0,3.0,2
+15,Layer 2 Up,True,ambiguous_worn_pass,worn,yes,6.0,3.0,1
+15,Layer 2 Down,True,ambiguous_worn_pass,worn,yes,6.0,3.0,2
+15,Repositioning,False,ambiguous_worn_pass,worn,yes,6.0,3.0,1
+15,Layer 3 Up,True,ambiguous_worn_pass,worn,yes,6.0,3.0,4
+15,Layer 3 Down,True,ambiguous_worn_pass,worn,yes,6.0,3.0,1
+15,End,False,ambiguous_worn_pass,worn,yes,6.0,3.0,3
+16,Prep,False,ambiguous_worn_missing_visual,worn,,20.0,3.0,1
+16,Layer 1 Up,True,ambiguous_worn_missing_visual,worn,,20.0,3.0,1
+16,Layer 1 Down,True,ambiguous_worn_missing_visual,worn,,20.0,3.0,2
+16,End,False,ambiguous_worn_missing_visual,worn,,20.0,3.0,4
+17,Prep,False,clean_unworn,unworn,yes,3.0,2.5,3
+17,Layer 1 Up,True,clean_unworn,unworn,yes,3.0,2.5,3
+17,Layer 1 Down,True,clean_unworn,unworn,yes,3.0,2.5,3
+17,Repositioning,False,clean_unworn,unworn,yes,3.0,2.5,2
+17,Layer 2 Up,True,clean_unworn,unworn,yes,3.0,2.5,4
+17,Layer 2 Down,True,clean_unworn,unworn,yes,3.0,2.5,3
+17,Repositioning,False,clean_unworn,unworn,yes,3.0,2.5,2
+17,Layer 3 Up,True,clean_unworn,unworn,yes,3.0,2.5,2
+17,Layer 3 Down,True,clean_unworn,unworn,yes,3.0,2.5,2
+17,End,False,clean_unworn,unworn,yes,3.0,2.5,4
+18,Prep,False,ambiguous_worn_pass,worn,yes,3.0,2.5,1
+18,Layer 1 Up,True,ambiguous_worn_pass,worn,yes,3.0,2.5,5
+18,Layer 1 Down,True,ambiguous_worn_pass,worn,yes,3.0,2.5,2
+18,Repositioning,False,ambiguous_worn_pass,worn,yes,3.0,2.5,3
+18,Layer 2 Up,True,ambiguous_worn_pass,worn,yes,3.0,2.5,4
+18,Layer 2 Down,True,ambiguous_worn_pass,worn,yes,3.0,2.5,3
+18,Layer 3 Up,True,ambiguous_worn_pass,worn,yes,3.0,2.5,5
+18,Layer 3 Down,True,ambiguous_worn_pass,worn,yes,3.0,2.5,5
+18,End,False,ambiguous_worn_pass,worn,yes,3.0,2.5,3

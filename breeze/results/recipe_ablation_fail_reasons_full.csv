@@ -1,0 +1,7 @@
+source,class,gate,count,slots,rate_per_slot
+rule,IR,soft_spectrum,252,400,0.63
+rule,IR,stats_union,247,400,0.6175
+rule,OR,soft_spectrum,9,150,0.06
+rule,OR,stats_union,56,150,0.37333333333333335
+rule,healthy,envelope_multi,66,150,0.44
+rule,healthy,stats_union,51,150,0.34

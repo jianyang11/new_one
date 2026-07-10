@@ -1,0 +1,28 @@
+# Local environments and Python caches
+breeze/.venv-breeze/
+**/__pycache__/
+*.py[cod]
+
+# Local credentials and operating-system metadata
+.env
+.env.*
+!.env.example
+.DS_Store
+.mplconfig/
+
+# Dataset releases and derived arrays are kept outside Git.
+# See analysis/dataset_registry_2026-07-05.csv for dataset provenance.
+data/
+proc/
+breeze/data_mt/
+
+# Generated training artifacts and checkpoints
+breeze/runs/
+
+# LaTeX build intermediates
+breeze/paper/*.aux
+breeze/paper/*.fdb_latexmk
+breeze/paper/*.fls
+breeze/paper/*.log
+breeze/paper/*.out
+breeze/paper/*.spl

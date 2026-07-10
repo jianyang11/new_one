@@ -1,0 +1,13 @@
+baseline,actual,predicted,n
+metadata_only,unworn,unworn,14
+metadata_only,unworn,worn,0
+metadata_only,worn,unworn,0
+metadata_only,worn,worn,6
+stage_only,unworn,unworn,5
+stage_only,unworn,worn,9
+stage_only,worn,unworn,2
+stage_only,worn,worn,4
+signal_feature_only,unworn,unworn,14
+signal_feature_only,unworn,worn,0
+signal_feature_only,worn,unworn,0
+signal_feature_only,worn,worn,6

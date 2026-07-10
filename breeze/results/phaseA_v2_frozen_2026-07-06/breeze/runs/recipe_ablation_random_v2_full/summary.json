@@ -1,0 +1,36 @@
+{
+  "source": "random",
+  "slots": 450,
+  "accepted_slots": 0,
+  "acceptance": 0.0,
+  "accepted_items_before_diversity": 0,
+  "kept_after_diversity": 0,
+  "kept_counts": {
+    "healthy": 0,
+    "OR": 0,
+    "IR": 0
+  },
+  "by_class": {
+    "healthy": {
+      "slots": 150,
+      "accepted_slots": 0,
+      "accepted_items_before_diversity": 0,
+      "kept_after_diversity": 0,
+      "acceptance": 0.0
+    },
+    "OR": {
+      "slots": 150,
+      "accepted_slots": 0,
+      "accepted_items_before_diversity": 0,
+      "kept_after_diversity": 0,
+      "acceptance": 0.0
+    },
+    "IR": {
+      "slots": 150,
+      "accepted_slots": 0,
+      "accepted_items_before_diversity": 0,
+      "kept_after_diversity": 0,
+      "acceptance": 0.0
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "raw_response": "{\n  \"class\": \"healthy\",\n  \"recipe_type\": \"prototype\",\n  \"condition_id\": \"CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 0.95,\n    \"vibration\": 0.95,\n    \"ae\": 0.95,\n    \"cnc\": 0.95\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.05,\n    \"vibration\": 1.05,\n    \"ae\": 1.05,\n    \"cnc\": 1.05\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 1.0,\n    \"ae\": 1.0,\n    \"cnc\": 1.0\n  },\n  \"low_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 1.0,\n    \"ae\": 1.0,\n    \"cnc\": 1.0\n  },\n  \"band_eq_strength\": 0.35,\n  \"noise_gain\": 0.02,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.02,\n  \"spectral_mix\": 0.2,\n  \"rationale\": \"Prototype for healthy CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4. Selected template_rank=0 (mutcm_004) as it aligns with the target condition. Applied mild mean multipliers (1.05) to situate the prototype slightly above the template's RMS, staying within the train-supported healthy range (e.g., force healthy_rms=193.2, template force=235.7). Reduced group_std_mult to 0.95 to ensure a stable, compact support point, avoiding worn-like variability. Kept spectral and impulse controls neutral to maintain a clean, healthy baseline.\"\n}",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "prototype",
+    "condition_id": "CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 0.95,
+      "vibration": 0.95,
+      "ae": 0.95,
+      "cnc": 0.95
+    },
+    "group_mean_mult": {
+      "force": 1.05,
+      "vibration": 1.05,
+      "ae": 1.05,
+      "cnc": 1.05
+    },
+    "high_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.0,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "low_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.0,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "band_eq_strength": 0.35,
+    "noise_gain": 0.02,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.02,
+    "spectral_mix": 0.2,
+    "rationale": "Prototype for healthy CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4. Selected template_rank=0 (mutcm_004) as it aligns with the target condition. Applied mild mean multipliers (1.05) to situate the prototype slightly above the template's RMS, staying within the train-supported healthy range (e.g., force he"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 489.0040601541888,
+        "other_axis": 659.8591930066254,
+        "identity_ratio": 0.7410733461574704,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 450.62867734752064,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0012_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 402.0574916323044,
+        "other_axis": 538.5761848917662,
+        "identity_ratio": 0.7465192537488494,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 368.99114458939414,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0012_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 576.8200524557557,
+        "other_axis": 774.2653782486136,
+        "identity_ratio": 0.7449901140620809,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 551.4235763736822,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0012_e2.npy"
+    }
+  ],
+  "rejected": [],
+  "accepted_count": 3
+}

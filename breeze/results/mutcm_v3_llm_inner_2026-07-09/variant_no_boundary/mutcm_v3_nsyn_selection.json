@@ -1,0 +1,19 @@
+{
+  "candidates": [
+    {
+      "n_syn": 10,
+      "core_pass_count": 0,
+      "mean_delta_vs_best_core": -0.00831174735346015
+    },
+    {
+      "n_syn": 20,
+      "core_pass_count": 0,
+      "mean_delta_vs_best_core": -0.008997675788179635
+    },
+    {
+      "n_syn": 40,
+      "core_pass_count": 0,
+      "mean_delta_vs_best_core": -0.01397763834088911
+    }
+  ]
+}

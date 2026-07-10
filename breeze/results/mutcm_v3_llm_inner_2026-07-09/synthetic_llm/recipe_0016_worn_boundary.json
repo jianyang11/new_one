@@ -1,0 +1,133 @@
+{
+  "raw_response": "{\n  \"class\": \"worn\",\n  \"recipe_type\": \"boundary\",\n  \"condition_id\": \"StainlessSteel.316L|Vc100|fz0.1|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 1.12,\n    \"vibration\": 1.15,\n    \"ae\": 1.05,\n    \"cnc\": 1.08\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.05,\n    \"vibration\": 1.08,\n    \"ae\": 0.98,\n    \"cnc\": 1.02\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.1,\n    \"vibration\": 1.15,\n    \"ae\": 1.05,\n    \"cnc\": 1.05\n  },\n  \"low_freq_gain\": {\n    \"force\": 0.95,\n    \"vibration\": 0.92,\n    \"ae\": 0.98,\n    \"cnc\": 0.97\n  },\n  \"band_eq_strength\": 0.4,\n  \"noise_gain\": 0.04,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.03,\n  \"spectral_mix\": 0.25,\n  \"rationale\": \"Boundary point for worn class: increase force/vibration std and high-freq gain to approach upper train limits, slight mean increase for force/vibration, minor AE reduction to reflect train trend, moderate band_eq for spectral texture, low noise for realism.\"\n}",
+  "recipe": {
+    "class": "worn",
+    "recipe_type": "boundary",
+    "condition_id": "StainlessSteel.316L|Vc100|fz0.1|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.12,
+      "vibration": 1.15,
+      "ae": 1.05,
+      "cnc": 1.08
+    },
+    "group_mean_mult": {
+      "force": 1.05,
+      "vibration": 1.08,
+      "ae": 0.98,
+      "cnc": 1.02
+    },
+    "high_freq_gain": {
+      "force": 1.1,
+      "vibration": 1.15,
+      "ae": 1.05,
+      "cnc": 1.05
+    },
+    "low_freq_gain": {
+      "force": 0.95,
+      "vibration": 0.92,
+      "ae": 0.98,
+      "cnc": 0.97
+    },
+    "band_eq_strength": 0.4,
+    "noise_gain": 0.04,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.03,
+    "spectral_mix": 0.25,
+    "rationale": "Boundary point for worn class: increase force/vibration std and high-freq gain to approach upper train limits, slight mean increase for force/vibration, minor AE reduction to reflect train trend, moderate band_eq for spectral texture, low noise for realism."
+  },
+  "accepted": [
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1781.6888949008264,
+        "other_axis": 1311.1606216327084,
+        "identity_ratio": 1.3588639450460285,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1357.2853258153466,
+        "stat_pass_fraction": 1.0
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0016_readmit_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 2377.3664277498306,
+        "other_axis": 1952.794768552158,
+        "identity_ratio": 1.2174174501258304,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 2023.9636772656206,
+        "stat_pass_fraction": 1.0
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0016_readmit_e2.npy"
+    }
+  ],
+  "rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=2596.241 other=2133.623"
+      ],
+      "scores": {
+        "own_axis": 2596.2412262500475,
+        "other_axis": 2133.6226956520754,
+        "nn_feature_dist": 2213.633172140078,
+        "stat_pass_fraction": 1.0
+      }
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=2257.758 other=1816.489"
+      ],
+      "scores": {
+        "own_axis": 2257.7579685946853,
+        "other_axis": 1816.4891160045768,
+        "nn_feature_dist": 1881.995513399002,
+        "stat_pass_fraction": 1.0
+      }
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=1751.181 other=1299.781"
+      ],
+      "scores": {
+        "own_axis": 1751.1811419856535,
+        "other_axis": 1299.7812887124119,
+        "nn_feature_dist": 1338.8461503502963,
+        "stat_pass_fraction": 1.0
+      }
+    }
+  ],
+  "accepted_count": 2,
+  "readmission_rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "own_axis 3711.798>2636.564"
+      ],
+      "scores": {
+        "own_axis": 3711.7977645107876,
+        "other_axis": 3047.9735855894364,
+        "identity_ratio": 1.217791972364805,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 3199.5545400912624,
+        "stat_pass_fraction": 1.0
+      },
+      "readmit": true
+    }
+  ]
+}

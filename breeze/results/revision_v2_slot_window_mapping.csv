@@ -1,0 +1,5 @@
+block,slots,accepted_slots_before_diversity,accepted_items_before_diversity,kept_after_diversity,kept_selected_windows,kept_expansion_windows,few_shot_cap_windows
+all,450,286,761,757,284,473,592
+healthy,150,90,196,192,88,104,192
+OR,150,90,304,304,90,214,200
+IR,150,106,261,261,106,155,200

@@ -1,0 +1,3 @@
+dataset,fs_hz,channels,window,window_seconds,label_definition,split,train_counts,test_counts
+Berkeley_NASA_milling,250.0,smcAC;smcDC;vib_table;vib_spindle;AE_table;AE_spindle,512,2.048,sharp VB<0.2; worn 0.2<=VB<=0.45; severe VB>0.45; measured VB only,"case-level; test_cases=[2, 4, 8, 14, 15]","{'sharp': 629, 'worn': 731, 'severe': 476}","{'sharp': 221, 'worn': 255, 'severe': 170}"
+UMich_CNC,10.0,X1_CurrentFeedback;Y1_CurrentFeedback;Z1_CurrentFeedback;S1_CurrentFeedback;X1_OutputCurrent;Y1_OutputCurrent;Z1_OutputCurrent;S1_OutputCurrent,64,6.4,tool_condition binary label; active machining rows only,"experiment-level; test_experiments=[1, 2, 6, 7, 8]","{'unworn': 91, 'worn': 117}","{'unworn': 31, 'worn': 27}"

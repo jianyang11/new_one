@@ -1,0 +1,87 @@
+{
+  "raw_response": "{\n  \"class\": \"healthy\",\n  \"recipe_type\": \"condition_balanced\",\n  \"condition_id\": \"StainlessSteel.316L|Vc50|fz0.1|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 1.02,\n    \"vibration\": 1.03,\n    \"ae\": 1.01,\n    \"cnc\": 1.01\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.01,\n    \"vibration\": 1.02,\n    \"ae\": 1.01,\n    \"cnc\": 1.01\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 1.0,\n    \"ae\": 1.0,\n    \"cnc\": 1.0\n  },\n  \"low_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 1.0,\n    \"ae\": 1.0,\n    \"cnc\": 1.0\n  },\n  \"band_eq_strength\": 0.35,\n  \"noise_gain\": 0.025,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.02,\n  \"spectral_mix\": 0.2,\n  \"rationale\": \"Template 0 selected; its force/vibration RMS are near the healthy class average, making it a good anchor. Multipliers are set slightly above 1.0 to create a distinct but stable healthy support point, avoiding a neutral all-ones recipe while staying well within the healthy stability bounds (std_mult < 1.08). Noise and trend are minimal to preserve the healthy signature.\"\n}",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "condition_balanced",
+    "condition_id": "StainlessSteel.316L|Vc50|fz0.1|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.02,
+      "vibration": 1.03,
+      "ae": 1.01,
+      "cnc": 1.01
+    },
+    "group_mean_mult": {
+      "force": 1.01,
+      "vibration": 1.02,
+      "ae": 1.01,
+      "cnc": 1.01
+    },
+    "high_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.0,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "low_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.0,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "band_eq_strength": 0.35,
+    "noise_gain": 0.025,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.02,
+    "spectral_mix": 0.2,
+    "rationale": "Template 0 selected; its force/vibration RMS are near the healthy class average, making it a good anchor. Multipliers are set slightly above 1.0 to create a distinct but stable healthy support point, avoiding a neutral all-ones recipe while staying well within the healthy stability bounds (std_mult "
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 657.9517349056359,
+        "other_axis": 828.2337989647922,
+        "identity_ratio": 0.794403386734528,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 632.9414951826099,
+        "stat_pass_fraction": 0.9924812030075187
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0017_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 647.3897772444622,
+        "other_axis": 957.2721664471361,
+        "identity_ratio": 0.6762860134617865,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 637.98878606647,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0017_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 764.1663049095852,
+        "other_axis": 933.7533799580336,
+        "identity_ratio": 0.8183812999358876,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 753.5016424124843,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0017_e2.npy"
+    }
+  ],
+  "rejected": [],
+  "accepted_count": 3
+}

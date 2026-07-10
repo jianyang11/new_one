@@ -1,0 +1,137 @@
+{
+  "raw_response": "{\n  \"class\": \"worn\",\n  \"recipe_type\": \"condition_balanced\",\n  \"condition_id\": \"CastIron.GG30|Vc200|fz0.2|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 1.15,\n    \"vibration\": 1.12,\n    \"ae\": 1.08,\n    \"cnc\": 1.03\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.05,\n    \"vibration\": 1.04,\n    \"ae\": 0.98,\n    \"cnc\": 1.02\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.25,\n    \"vibration\": 1.20,\n    \"ae\": 1.15,\n    \"cnc\": 1.10\n  },\n  \"low_freq_gain\": {\n    \"force\": 1.10,\n    \"vibration\": 1.08,\n    \"ae\": 1.05,\n    \"cnc\": 1.02\n  },\n  \"band_eq_strength\": 0.40,\n  \"noise_gain\": 0.05,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.04,\n  \"spectral_mix\": 0.30,\n  \"rationale\": \"Target condition worn/healthy RMS ratios: force 1.66, vibration 1.33, AE 0.92, CNC 1.06. Template 0 (mutcm_040) shows high force/vibration/AE, supporting stronger texture for worn class. Multipliers emphasize force/vibration texture and high-freq content to match worn signature while keeping AE/CNC within feasible bounds. No impulse or trend needed; noise and spectral mix add natural variability.\"\n}",
+  "recipe": {
+    "class": "worn",
+    "recipe_type": "condition_balanced",
+    "condition_id": "CastIron.GG30|Vc200|fz0.2|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.15,
+      "vibration": 1.12,
+      "ae": 1.08,
+      "cnc": 1.03
+    },
+    "group_mean_mult": {
+      "force": 1.05,
+      "vibration": 1.04,
+      "ae": 0.98,
+      "cnc": 1.02
+    },
+    "high_freq_gain": {
+      "force": 1.25,
+      "vibration": 1.2,
+      "ae": 1.15,
+      "cnc": 1.1
+    },
+    "low_freq_gain": {
+      "force": 1.1,
+      "vibration": 1.08,
+      "ae": 1.05,
+      "cnc": 1.02
+    },
+    "band_eq_strength": 0.4,
+    "noise_gain": 0.05,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.04,
+    "spectral_mix": 0.3,
+    "rationale": "Target condition worn/healthy RMS ratios: force 1.66, vibration 1.33, AE 0.92, CNC 1.06. Template 0 (mutcm_040) shows high force/vibration/AE, supporting stronger texture for worn class. Multipliers emphasize force/vibration texture and high-freq content to match worn signature while keeping AE/CNC "
+  },
+  "accepted": [],
+  "rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "own_axis 3820.140>2636.564",
+        "class_identity weak own=3820.140 other=3117.037"
+      ],
+      "scores": {
+        "own_axis": 3820.140093366158,
+        "other_axis": 3117.036640597977,
+        "nn_feature_dist": 3276.434183636648,
+        "stat_pass_fraction": 1.0
+      }
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "own_axis 7290.092>2636.564",
+        "class_identity weak own=7290.092 other=6100.860"
+      ],
+      "scores": {
+        "own_axis": 7290.0919397363095,
+        "other_axis": 6100.859527675999,
+        "nn_feature_dist": 6404.119398046228,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "own_axis 3517.135>2636.564",
+        "class_identity weak own=3517.135 other=2487.947"
+      ],
+      "scores": {
+        "own_axis": 3517.1353472054293,
+        "other_axis": 2487.9469294281134,
+        "nn_feature_dist": 2699.8994127200153,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    }
+  ],
+  "accepted_count": 0,
+  "readmission_rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "own_axis 4339.917>2636.564"
+      ],
+      "scores": {
+        "own_axis": 4339.916955668998,
+        "other_axis": 3535.933905555569,
+        "identity_ratio": 1.2273750221547497,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 3735.207983726222,
+        "stat_pass_fraction": 0.9924812030075187
+      },
+      "readmit": true
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "own_axis 4587.642>2636.564"
+      ],
+      "scores": {
+        "own_axis": 4587.642432661774,
+        "other_axis": 3816.9045205282755,
+        "identity_ratio": 1.2019274802364783,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 4021.0513709060383,
+        "stat_pass_fraction": 1.0
+      },
+      "readmit": true
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "own_axis 4362.582>2636.564"
+      ],
+      "scores": {
+        "own_axis": 4362.582004135792,
+        "other_axis": 3570.5312934887015,
+        "identity_ratio": 1.2218299310501746,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 3761.376917239529,
+        "stat_pass_fraction": 0.9924812030075187
+      },
+      "readmit": true
+    }
+  ]
+}

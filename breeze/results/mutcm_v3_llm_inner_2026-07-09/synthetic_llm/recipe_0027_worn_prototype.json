@@ -1,0 +1,132 @@
+{
+  "raw_response": "```json\n{\n    \"class\": \"worn\",\n    \"recipe_type\": \"prototype\",\n    \"condition_id\": \"StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4\",\n    \"template_rank\": 0,\n    \"group_std_mult\": {\n        \"force\": 1.12,\n        \"vibration\": 1.08,\n        \"ae\": 1.15,\n        \"cnc\": 1.05\n    },\n    \"group_mean_mult\": {\n        \"force\": 1.18,\n        \"vibration\": 1.10,\n        \"ae\": 0.92,\n        \"cnc\": 1.06\n    },\n    \"high_freq_gain\": {\n        \"force\": 1.15,\n        \"vibration\": 1.12,\n        \"ae\": 1.10,\n        \"cnc\": 1.05\n    },\n    \"low_freq_gain\": {\n        \"force\": 1.08,\n        \"vibration\": 1.05,\n        \"ae\": 0.95,\n        \"cnc\": 1.02\n    },\n    \"band_eq_strength\": 0.40,\n    \"noise_gain\": 0.04,\n    \"impulse_rate_hz\": 0.0,\n    \"impulse_amp_std\": 0.35,\n    \"trend_strength\": 0.0,\n    \"shared_gain\": 0.03,\n    \"spectral_mix\": 0.25,\n    \"rationale\": \"Worn class shows 65.8% higher force RMS, 33.5% higher vibration, but 8.2% lower AE RMS vs healthy. Prototype targets force/vibration amplification with AE suppression, using higher std_mult for force/vibration/AE to reflect train variation and moderate mean_mult to center near worn exemplars.\"\n}\n```",
+  "recipe": {
+    "class": "worn",
+    "recipe_type": "prototype",
+    "condition_id": "StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.12,
+      "vibration": 1.08,
+      "ae": 1.15,
+      "cnc": 1.05
+    },
+    "group_mean_mult": {
+      "force": 1.08,
+      "vibration": 1.08,
+      "ae": 0.92,
+      "cnc": 1.06
+    },
+    "high_freq_gain": {
+      "force": 1.15,
+      "vibration": 1.12,
+      "ae": 1.1,
+      "cnc": 1.05
+    },
+    "low_freq_gain": {
+      "force": 1.08,
+      "vibration": 1.05,
+      "ae": 0.95,
+      "cnc": 1.02
+    },
+    "band_eq_strength": 0.4,
+    "noise_gain": 0.04,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.35,
+    "trend_strength": 0.0,
+    "shared_gain": 0.03,
+    "spectral_mix": 0.25,
+    "rationale": "Worn class shows 65.8% higher force RMS, 33.5% higher vibration, but 8.2% lower AE RMS vs healthy. Prototype targets force/vibration amplification with AE suppression, using higher std_mult for force/vibration/AE to reflect train variation and moderate mean_mult to center near worn exemplars."
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 2259.0020363707117,
+        "other_axis": 1772.74586388853,
+        "identity_ratio": 1.2742954770829782,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1844.4145389713335,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0027_readmit_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1518.3163932634548,
+        "other_axis": 1101.711030765334,
+        "identity_ratio": 1.378143951421375,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1121.6425678191522,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0027_readmit_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1577.676791556454,
+        "other_axis": 1268.5071194319548,
+        "identity_ratio": 1.24372718717018,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1287.15679057955,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0027_readmit_e2.npy"
+    }
+  ],
+  "rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=1968.865 other=1325.099"
+      ],
+      "scores": {
+        "own_axis": 1968.8650877915586,
+        "other_axis": 1325.099143582054,
+        "nn_feature_dist": 1412.1908335195883,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=1647.713 other=1254.826"
+      ],
+      "scores": {
+        "own_axis": 1647.7130472719698,
+        "other_axis": 1254.8259499452092,
+        "nn_feature_dist": 1280.1347428045271,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "own_axis 2661.677>2636.564",
+        "class_identity weak own=2661.677 other=2193.529"
+      ],
+      "scores": {
+        "own_axis": 2661.676910735998,
+        "other_axis": 2193.5286110678408,
+        "nn_feature_dist": 2281.6617997851317,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    }
+  ],
+  "accepted_count": 3,
+  "readmission_rejected": []
+}

@@ -1,0 +1,41 @@
+\begin{abstract}
+Large language models (LLMs) offer a flexible route for synthesizing
+condition-monitoring signals without training a task-specific generative
+model, but open-loop prompting alone cannot ensure that generated windows are
+physically admissible or diagnostically useful. This paper presents \breeze, a
+training-free closed-loop physical-gate admission framework for LLM-generated
+fault signals. Instead of updating generator weights, \breeze\ lets an LLM
+propose class- and condition-aware signal recipes, renders candidate
+waveforms with a deterministic fault-signal renderer, and admits only samples
+that pass train-calibrated gates on format legality, time-domain statistics,
+spectral shape, envelope-spectrum fault-frequency evidence, current-sideband
+consistency, and diversity. Rejected candidates are converted into structured
+gate reports and fed back to the LLM for resampling, yielding an auditable
+recipe-renderer-verifier loop.
+
+Across [DATASET-1], [DATASET-2], and [DATASET-3], covering [N-CONDITIONS]
+operating conditions, [N-FAULT-TYPES] fault types, [N-SEVERITIES] fault
+severities, and [N-BASELINES] augmentation/generation baselines, \breeze\
+achieves the highest or tied-highest Accuracy and Macro-F1 in
+[X]/[Y] evaluated settings. Compared with the strongest non-\breeze\ baseline
+in each setting, \breeze\ improves Accuracy by [ACC-GAIN-MEAN] percentage
+points on average and up to [ACC-GAIN-MAX] percentage points, while improving
+Macro-F1 by [F1-GAIN-MEAN] percentage points on average and up to
+[F1-GAIN-MAX] percentage points. Paired statistical tests over [N-SEEDS] seeds
+show that these gains remain significant after Benjamini--Hochberg correction
+([P-Q-SUMMARY]). A recipe-source ablation further confirms the contribution of
+LLM-guided generation: LLM recipes achieve [LLM-ACC]/[LLM-F1], outperforming
+random recipes ([RANDOM-ACC]/[RANDOM-F1]) and rule-based recipes
+([RULE-ACC]/[RULE-F1]) under the same renderer, verifier, and synthetic-sample
+budget, giving the ordering LLM recipe $>$ random recipe $>$ rule recipe.
+
+Physical-fidelity analyses show that admitted samples match real fault signals
+in characteristic-frequency error, envelope-spectrum prominence, PSD distance,
+band-energy distribution, impact-period consistency, and nearest-neighbour
+diversity, while real-vs-synthetic discrimination remains near chance
+([DISCRIMINATOR-AUROC]). These results indicate that a train-calibrated
+closed-loop verifier can turn black-box LLM signal generation from open-loop
+prompting into reliable, auditable synthetic-data admission, providing a
+practical alternative to training dataset-specific generative models for
+few-shot intelligent fault diagnosis.
+\end{abstract}

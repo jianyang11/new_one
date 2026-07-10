@@ -1,0 +1,87 @@
+{
+  "raw_response": "{\n  \"class\": \"healthy\",\n  \"recipe_type\": \"condition_balanced\",\n  \"condition_id\": \"StainlessSteel.316L|Vc50|fz0.1|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 0.95,\n    \"vibration\": 0.92,\n    \"ae\": 0.90,\n    \"cnc\": 0.93\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.02,\n    \"vibration\": 1.01,\n    \"ae\": 1.05,\n    \"cnc\": 1.01\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 1.0,\n    \"ae\": 1.0,\n    \"cnc\": 1.0\n  },\n  \"low_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 1.0,\n    \"ae\": 1.0,\n    \"cnc\": 1.0\n  },\n  \"band_eq_strength\": 0.35,\n  \"noise_gain\": 0.025,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.02,\n  \"spectral_mix\": 0.2,\n  \"rationale\": \"Target condition has 48 healthy windows; prototype RMS (force ~195, vibration ~0.14, ae ~0.013, cnc ~415) aligns with healthy group averages. Multipliers slightly reduce variability (std_mult 0.90-0.95) to ensure stability, while mean_mult near 1.0 preserves scale. Noise and trend kept minimal for healthy signature.\"\n}",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "condition_balanced",
+    "condition_id": "StainlessSteel.316L|Vc50|fz0.1|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 0.95,
+      "vibration": 0.92,
+      "ae": 0.9,
+      "cnc": 0.93
+    },
+    "group_mean_mult": {
+      "force": 1.02,
+      "vibration": 1.01,
+      "ae": 1.05,
+      "cnc": 1.01
+    },
+    "high_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.0,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "low_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.0,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "band_eq_strength": 0.35,
+    "noise_gain": 0.025,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.02,
+    "spectral_mix": 0.2,
+    "rationale": "Target condition has 48 healthy windows; prototype RMS (force ~195, vibration ~0.14, ae ~0.013, cnc ~415) aligns with healthy group averages. Multipliers slightly reduce variability (std_mult 0.90-0.95) to ensure stability, while mean_mult near 1.0 preserves scale. Noise and trend kept minimal for h"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 632.1073267007689,
+        "other_axis": 816.8024943070005,
+        "identity_ratio": 0.7738802600463001,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 612.8681728623716,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0005_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 561.2758266393928,
+        "other_axis": 776.0127650689511,
+        "identity_ratio": 0.7232816931684377,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 531.5320690214203,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0005_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 874.1869906897213,
+        "other_axis": 1078.0715125141228,
+        "identity_ratio": 0.8108803363619801,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 864.4514955277596,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0005_e2.npy"
+    }
+  ],
+  "rejected": [],
+  "accepted_count": 3
+}

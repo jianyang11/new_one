@@ -1,0 +1,3 @@
+material,cutting_speed,feed_rate,depth_of_cut,n_experiments,n_VB_levels,VB_levels,exact_VB_values,has_multiple_wear_levels,scheme_A_labels,scheme_B_labels
+CastIron.GG30,100.0,0.1,1.5,4,4,0.0;0.1;0.2;0.3,0;0.12;0.201;0.276,True,healthy;worn,healthy;unlabeled;worn
+StainlessSteel.316L,100.0,0.1,1.5,4,4,0.0;0.1;0.2;0.3,0.039;0.139;0.213;0.291,True,healthy;worn,unlabeled;worn

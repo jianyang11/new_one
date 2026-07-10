@@ -1,0 +1,137 @@
+# MU-TCM Full Dataset Light File Tree Report
+
+- Audit mode: light; only CSV files were extracted.
+- Archive: `data/MU-TCM face-milling dataset/full_dataset.7z`
+- Extracted CSV dir: `breeze/results/mutcm_full_light_audit_2026-07-09/extracted_csv/full_dataset`
+
+## Counts
+
+- synced MAT: `67`
+- unsynced MAT: `67`
+- VB image jpg: `74`
+- CSV: `2`
+- signals_stats.csv present: `True`
+- signals_sync.csv present: `True`
+
+## Listing Sample
+
+- `full_dataset/`
+- `full_dataset/signals_synced/`
+- `full_dataset/signals_unsynced/`
+- `full_dataset/VB_images/`
+- `full_dataset/VB_images/Insert0_Edge2/`
+- `full_dataset/VB_images/Insert0_Edge3/`
+- `full_dataset/VB_images/Insert1_Edge1/`
+- `full_dataset/VB_images/Insert2_Edge1/`
+- `full_dataset/VB_images/Insert3_Edge1/`
+- `full_dataset/VB_images/Insert4_Edge1/`
+- `full_dataset/VB_images/Insert6_Edge1/`
+- `full_dataset/VB_images/Insert9_Edge1/`
+- `full_dataset/VB_images/Insert9_Edge2/`
+- `full_dataset/signals_stats.csv`
+- `full_dataset/signals_sync.csv`
+- `full_dataset/signals_synced/Insert0Edge2_Vc100.0_fz0.1_ap1.5_VB0.0_Rep1.mat`
+- `full_dataset/signals_synced/Insert0Edge2_Vc100.0_fz0.2_ap1.5_VB0.0_Rep1.mat`
+- `full_dataset/signals_synced/Insert0Edge2_Vc200.0_fz0.1_ap1.5_VB0.018_Rep1.mat`
+- `full_dataset/signals_synced/Insert0Edge3_Vc100.0_fz0.1_ap1.5_VB0.0_Rep2.mat`
+- `full_dataset/signals_synced/Insert0Edge3_Vc100.0_fz0.2_ap1.5_VB0.0_Rep2.mat`
+- `full_dataset/signals_synced/Insert0Edge3_Vc200.0_fz0.1_ap1.5_VB0.0_Rep1.mat`
+- `full_dataset/signals_synced/Insert0Edge3_Vc200.0_fz0.1_ap1.5_VB0.0_Rep2.mat`
+- `full_dataset/signals_synced/Insert0Edge3_Vc200.0_fz0.2_ap1.5_VB0.0_Rep1.mat`
+- `full_dataset/signals_synced/Insert0Edge3_Vc200.0_fz0.2_ap1.5_VB0.0_Rep2.mat`
+- `full_dataset/signals_synced/Insert1Edge1_Vc100.0_fz0.05_ap1.5_VB0.137_Rep1.mat`
+- `full_dataset/signals_synced/Insert1Edge1_Vc100.0_fz0.05_ap1.5_VB0.137_Rep2.mat`
+- `full_dataset/signals_synced/Insert1Edge1_Vc100.0_fz0.1_ap1.5_VB0.139_Rep1.mat`
+- `full_dataset/signals_synced/Insert1Edge1_Vc100.0_fz0.1_ap1.5_VB0.139_Rep2.mat`
+- `full_dataset/signals_synced/Insert1Edge1_Vc50.0_fz0.05_ap1.5_VB0.132_Rep1.mat`
+- `full_dataset/signals_synced/Insert1Edge1_Vc50.0_fz0.05_ap1.5_VB0.132_Rep2.mat`
+- `full_dataset/signals_synced/Insert1Edge1_Vc50.0_fz0.1_ap1.5_VB0.137_Rep1.mat`
+- `full_dataset/signals_synced/Insert1Edge1_Vc50.0_fz0.1_ap1.5_VB0.137_Rep2.mat`
+- `full_dataset/signals_synced/Insert2Edge1_Vc100.0_fz0.1_ap1.5_VB0.12_Rep1.mat`
+- `full_dataset/signals_synced/Insert2Edge1_Vc100.0_fz0.1_ap1.5_VB0.12_Rep2.mat`
+- `full_dataset/signals_synced/Insert2Edge1_Vc100.0_fz0.2_ap1.5_VB0.123_Rep1.mat`
+- `full_dataset/signals_synced/Insert2Edge1_Vc100.0_fz0.2_ap1.5_VB0.123_Rep2.mat`
+- `full_dataset/signals_synced/Insert2Edge1_Vc200.0_fz0.1_ap1.5_VB0.125_Rep1.mat`
+- `full_dataset/signals_synced/Insert2Edge1_Vc200.0_fz0.1_ap1.5_VB0.125_Rep2.mat`
+- `full_dataset/signals_synced/Insert2Edge1_Vc200.0_fz0.2_ap1.5_VB0.125_Rep1.mat`
+- `full_dataset/signals_synced/Insert2Edge1_Vc200.0_fz0.2_ap1.5_VB0.125_Rep2.mat`
+- `full_dataset/signals_synced/Insert3Edge1_Vc100.0_fz0.05_ap1.5_VB0.206_Rep1.mat`
+- `full_dataset/signals_synced/Insert3Edge1_Vc100.0_fz0.05_ap1.5_VB0.206_Rep2.mat`
+- `full_dataset/signals_synced/Insert3Edge1_Vc100.0_fz0.1_ap1.5_VB0.213_Rep1.mat`
+- `full_dataset/signals_synced/Insert3Edge1_Vc100.0_fz0.1_ap1.5_VB0.213_Rep2.mat`
+- `full_dataset/signals_synced/Insert3Edge1_Vc50.0_fz0.05_ap1.5_VB0.202_Rep1.mat`
+- `full_dataset/signals_synced/Insert3Edge1_Vc50.0_fz0.05_ap1.5_VB0.202_Rep2.mat`
+- `full_dataset/signals_synced/Insert3Edge1_Vc50.0_fz0.05_ap1.5_VB0.202_Rep3.mat`
+- `full_dataset/signals_synced/Insert3Edge1_Vc50.0_fz0.1_ap1.5_VB0.206_Rep1.mat`
+- `full_dataset/signals_synced/Insert3Edge1_Vc50.0_fz0.1_ap1.5_VB0.206_Rep2.mat`
+- `full_dataset/signals_synced/Insert4Edge1_Vc100.0_fz0.1_ap1.5_VB0.201_Rep1.mat`
+- `full_dataset/signals_synced/Insert4Edge1_Vc100.0_fz0.1_ap1.5_VB0.201_Rep2.mat`
+- `full_dataset/signals_synced/Insert4Edge1_Vc100.0_fz0.2_ap1.5_VB0.202_Rep1.mat`
+- `full_dataset/signals_synced/Insert4Edge1_Vc100.0_fz0.2_ap1.5_VB0.202_Rep2.mat`
+- `full_dataset/signals_synced/Insert4Edge1_Vc200.0_fz0.1_ap1.5_VB0.211_Rep1.mat`
+- `full_dataset/signals_synced/Insert4Edge1_Vc200.0_fz0.1_ap1.5_VB0.211_Rep2.mat`
+- `full_dataset/signals_synced/Insert4Edge1_Vc200.0_fz0.2_ap1.5_VB0.242_Rep1.mat`
+- `full_dataset/signals_synced/Insert4Edge1_Vc200.0_fz0.2_ap1.5_VB0.242_Rep2.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc100.0_fz0.05_ap1.5_VB0.291_Rep1.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc100.0_fz0.05_ap1.5_VB0.291_Rep2.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc100.0_fz0.1_ap1.5_VB0.276_Rep1.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc100.0_fz0.1_ap1.5_VB0.276_Rep2.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc100.0_fz0.1_ap1.5_VB0.291_Rep1.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc100.0_fz0.1_ap1.5_VB0.291_Rep2.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc100.0_fz0.2_ap1.5_VB0.281_Rep1.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc100.0_fz0.2_ap1.5_VB0.281_Rep2.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc200.0_fz0.1_ap1.5_VB0.274_Rep1.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc200.0_fz0.1_ap1.5_VB0.274_Rep2.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc200.0_fz0.1_ap1.5_VB0.284_Rep3.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc200.0_fz0.2_ap1.5_VB0.272_Rep1.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc200.0_fz0.2_ap1.5_VB0.272_Rep2.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc50.0_fz0.05_ap1.5_VB0.287_Rep1.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc50.0_fz0.05_ap1.5_VB0.287_Rep2.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc50.0_fz0.1_ap1.5_VB0.287_Rep1.mat`
+- `full_dataset/signals_synced/Insert6Edge1_Vc50.0_fz0.1_ap1.5_VB0.287_Rep2.mat`
+- `full_dataset/signals_synced/Insert9Edge1_Vc50.0_fz0.05_ap1.5_VB0.0_Rep1.mat`
+- `full_dataset/signals_synced/Insert9Edge1_Vc50.0_fz0.05_ap1.5_VB0.0_Rep2.mat`
+- `full_dataset/signals_synced/Insert9Edge1_Vc50.0_fz0.1_ap1.5_VB0.03_Rep1.mat`
+- `full_dataset/signals_synced/Insert9Edge1_Vc50.0_fz0.1_ap1.5_VB0.03_Rep2.mat`
+- `full_dataset/signals_synced/Insert9Edge2_Vc100.0_fz0.05_ap1.5_VB0.0_Rep1.mat`
+- `full_dataset/signals_synced/Insert9Edge2_Vc100.0_fz0.05_ap1.5_VB0.0_Rep2.mat`
+- `full_dataset/signals_synced/Insert9Edge2_Vc100.0_fz0.1_ap1.5_VB0.039_Rep1.mat`
+- `full_dataset/signals_synced/Insert9Edge2_Vc100.0_fz0.1_ap1.5_VB0.039_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert0Edge2_Vc100.0_fz0.1_ap1.5_VB0.0_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert0Edge2_Vc100.0_fz0.2_ap1.5_VB0.0_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert0Edge2_Vc200.0_fz0.1_ap1.5_VB0.018_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert0Edge3_Vc100.0_fz0.1_ap1.5_VB0.0_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert0Edge3_Vc100.0_fz0.2_ap1.5_VB0.0_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert0Edge3_Vc200.0_fz0.1_ap1.5_VB0.0_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert0Edge3_Vc200.0_fz0.1_ap1.5_VB0.0_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert0Edge3_Vc200.0_fz0.2_ap1.5_VB0.0_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert0Edge3_Vc200.0_fz0.2_ap1.5_VB0.0_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert1Edge1_Vc100.0_fz0.05_ap1.5_VB0.137_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert1Edge1_Vc100.0_fz0.05_ap1.5_VB0.137_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert1Edge1_Vc100.0_fz0.1_ap1.5_VB0.139_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert1Edge1_Vc100.0_fz0.1_ap1.5_VB0.139_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert1Edge1_Vc50.0_fz0.05_ap1.5_VB0.132_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert1Edge1_Vc50.0_fz0.05_ap1.5_VB0.132_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert1Edge1_Vc50.0_fz0.1_ap1.5_VB0.137_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert1Edge1_Vc50.0_fz0.1_ap1.5_VB0.137_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert2Edge1_Vc100.0_fz0.1_ap1.5_VB0.12_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert2Edge1_Vc100.0_fz0.1_ap1.5_VB0.12_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert2Edge1_Vc100.0_fz0.2_ap1.5_VB0.123_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert2Edge1_Vc100.0_fz0.2_ap1.5_VB0.123_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert2Edge1_Vc200.0_fz0.1_ap1.5_VB0.125_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert2Edge1_Vc200.0_fz0.1_ap1.5_VB0.125_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert2Edge1_Vc200.0_fz0.2_ap1.5_VB0.125_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert2Edge1_Vc200.0_fz0.2_ap1.5_VB0.125_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert3Edge1_Vc100.0_fz0.05_ap1.5_VB0.206_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert3Edge1_Vc100.0_fz0.05_ap1.5_VB0.206_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert3Edge1_Vc100.0_fz0.1_ap1.5_VB0.213_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert3Edge1_Vc100.0_fz0.1_ap1.5_VB0.213_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert3Edge1_Vc50.0_fz0.05_ap1.5_VB0.202_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert3Edge1_Vc50.0_fz0.05_ap1.5_VB0.202_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert3Edge1_Vc50.0_fz0.05_ap1.5_VB0.202_Rep3.mat`
+- `full_dataset/signals_unsynced/Insert3Edge1_Vc50.0_fz0.1_ap1.5_VB0.206_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert3Edge1_Vc50.0_fz0.1_ap1.5_VB0.206_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert4Edge1_Vc100.0_fz0.1_ap1.5_VB0.201_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert4Edge1_Vc100.0_fz0.1_ap1.5_VB0.201_Rep2.mat`
+- `full_dataset/signals_unsynced/Insert4Edge1_Vc100.0_fz0.2_ap1.5_VB0.202_Rep1.mat`
+- `full_dataset/signals_unsynced/Insert4Edge1_Vc100.0_fz0.2_ap1.5_VB0.202_Rep2.mat`

@@ -1,0 +1,131 @@
+{
+  "raw_response": "{\n  \"class\": \"worn\",\n  \"recipe_type\": \"prototype\",\n  \"condition_id\": \"StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 1.05,\n    \"vibration\": 1.10,\n    \"ae\": 1.15,\n    \"cnc\": 1.02\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.15,\n    \"vibration\": 1.25,\n    \"ae\": 0.95,\n    \"cnc\": 1.05\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.10,\n    \"vibration\": 1.20,\n    \"ae\": 1.15,\n    \"cnc\": 1.05\n  },\n  \"low_freq_gain\": {\n    \"force\": 1.05,\n    \"vibration\": 1.10,\n    \"ae\": 1.05,\n    \"cnc\": 1.02\n  },\n  \"band_eq_strength\": 0.40,\n  \"noise_gain\": 0.03,\n  \"impulse_rate_hz\": 1.5,\n  \"impulse_amp_std\": 0.35,\n  \"trend_strength\": 0.02,\n  \"shared_gain\": 0.03,\n  \"spectral_mix\": 0.25,\n  \"rationale\": \"Prototype targets worn class for StainlessSteel.316L at Vc100/fz0.05. Train worn/healthy RMS ratios show strong force (1.66x) and vibration (1.33x) increases, slight AE decrease (0.92x), and mild CNC increase (1.06x). Group mean multipliers amplify these class-specific separations. Group std multipliers are moderate (1.02-1.15) to increase dispersion without exceeding physical bounds. High-freq gains emphasize wear-induced high-frequency content, especially in vibration and AE. Band EQ strength is elevated to create localized spectral shaping. Small impulse parameters add realistic wear-related transient features. Noise and shared gains are kept low to maintain signal integrity.\"\n}",
+  "recipe": {
+    "class": "worn",
+    "recipe_type": "prototype",
+    "condition_id": "StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.05,
+      "vibration": 1.1,
+      "ae": 1.15,
+      "cnc": 1.02
+    },
+    "group_mean_mult": {
+      "force": 1.08,
+      "vibration": 1.08,
+      "ae": 0.95,
+      "cnc": 1.05
+    },
+    "high_freq_gain": {
+      "force": 1.1,
+      "vibration": 1.2,
+      "ae": 1.15,
+      "cnc": 1.05
+    },
+    "low_freq_gain": {
+      "force": 1.05,
+      "vibration": 1.1,
+      "ae": 1.05,
+      "cnc": 1.02
+    },
+    "band_eq_strength": 0.4,
+    "noise_gain": 0.03,
+    "impulse_rate_hz": 1.5,
+    "impulse_amp_std": 0.35,
+    "trend_strength": 0.02,
+    "shared_gain": 0.03,
+    "spectral_mix": 0.25,
+    "rationale": "Prototype targets worn class for StainlessSteel.316L at Vc100/fz0.05. Train worn/healthy RMS ratios show strong force (1.66x) and vibration (1.33x) increases, slight AE decrease (0.92x), and mild CNC increase (1.06x). Group mean multipliers amplify these class-specific separations. Group std multipl"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1741.1595315385257,
+        "other_axis": 1283.48771464575,
+        "identity_ratio": 1.3565844936966105,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1332.461275928407,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0015_readmit_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1299.3357831436301,
+        "other_axis": 1010.9752749886858,
+        "identity_ratio": 1.2852300301391348,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1014.5346745434131,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0015_readmit_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1527.9578410455897,
+        "other_axis": 1024.6460266873582,
+        "identity_ratio": 1.491205549281656,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1072.3185291556686,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0015_readmit_e2.npy"
+    }
+  ],
+  "rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=1235.412 other=924.229"
+      ],
+      "scores": {
+        "own_axis": 1235.412241742879,
+        "other_axis": 924.2285809359818,
+        "nn_feature_dist": 920.8501006295783,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=1279.733 other=1051.848"
+      ],
+      "scores": {
+        "own_axis": 1279.7330183479482,
+        "other_axis": 1051.8484548522156,
+        "nn_feature_dist": 1052.9888116437091,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=2006.207 other=1639.755"
+      ],
+      "scores": {
+        "own_axis": 2006.2067032120233,
+        "other_axis": 1639.7550682478548,
+        "nn_feature_dist": 1684.9866158487316,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    }
+  ],
+  "accepted_count": 3,
+  "readmission_rejected": []
+}

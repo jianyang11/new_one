@@ -1,0 +1,133 @@
+{
+  "raw_response": "```json\n{\n    \"class\": \"worn\",\n    \"recipe_type\": \"prototype\",\n    \"condition_id\": \"CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4\",\n    \"template_rank\": 0,\n    \"group_std_mult\": {\n        \"force\": 1.08,\n        \"vibration\": 1.12,\n        \"ae\": 1.05,\n        \"cnc\": 1.02\n    },\n    \"group_mean_mult\": {\n        \"force\": 1.66,\n        \"vibration\": 1.33,\n        \"ae\": 0.92,\n        \"cnc\": 1.06\n    },\n    \"high_freq_gain\": {\n        \"force\": 1.15,\n        \"vibration\": 1.20,\n        \"ae\": 1.10,\n        \"cnc\": 1.05\n    },\n    \"low_freq_gain\": {\n        \"force\": 1.05,\n        \"vibration\": 1.08,\n        \"ae\": 1.02,\n        \"cnc\": 1.01\n    },\n    \"band_eq_strength\": 0.38,\n    \"noise_gain\": 0.04,\n    \"impulse_rate_hz\": 0.0,\n    \"impulse_amp_std\": 0.15,\n    \"trend_strength\": 0.02,\n    \"shared_gain\": 0.03,\n    \"spectral_mix\": 0.25,\n    \"rationale\": \"Prototype anchored to template_rank=0 (mutcm_037) for target condition. Applied strong mean multipliers based on train worn/healthy RMS ratios (force=1.66, vibration=1.33, ae=0.92, cnc=1.06) to shift support point. Increased std multipliers (force=1.08, vibration=1.12) to reflect worn class variability and enable separability. Added moderate high-freq gains and band_eq to enhance texture discrimination. Small impulse_amp_std and trend_strength add realistic wear artifacts without exceeding physical bounds. AE mean reduced slightly per train statistics (worn < healthy) for class fidelity.\"\n}\n```",
+  "recipe": {
+    "class": "worn",
+    "recipe_type": "prototype",
+    "condition_id": "CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.08,
+      "vibration": 1.12,
+      "ae": 1.05,
+      "cnc": 1.02
+    },
+    "group_mean_mult": {
+      "force": 1.08,
+      "vibration": 1.08,
+      "ae": 0.92,
+      "cnc": 1.06
+    },
+    "high_freq_gain": {
+      "force": 1.15,
+      "vibration": 1.2,
+      "ae": 1.1,
+      "cnc": 1.05
+    },
+    "low_freq_gain": {
+      "force": 1.05,
+      "vibration": 1.08,
+      "ae": 1.02,
+      "cnc": 1.01
+    },
+    "band_eq_strength": 0.38,
+    "noise_gain": 0.04,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.15,
+    "trend_strength": 0.02,
+    "shared_gain": 0.03,
+    "spectral_mix": 0.25,
+    "rationale": "Prototype anchored to template_rank=0 (mutcm_037) for target condition. Applied strong mean multipliers based on train worn/healthy RMS ratios (force=1.66, vibration=1.33, ae=0.92, cnc=1.06) to shift support point. Increased std multipliers (force=1.08, vibration=1.12) to reflect worn class variabil"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1785.2241490252454,
+        "other_axis": 1298.4084971438965,
+        "identity_ratio": 1.3749325831987345,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1356.0949672784993,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0018_readmit_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1706.5983011314772,
+        "other_axis": 1332.81112588085,
+        "identity_ratio": 1.280450221334693,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1358.0507215212378,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0018_readmit_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 2469.6668679151558,
+        "other_axis": 2034.6031579568917,
+        "identity_ratio": 1.2138322199377423,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 2103.7279262057627,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0018_readmit_e2.npy"
+    }
+  ],
+  "rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "own_axis 3348.469>2636.564",
+        "class_identity weak own=3348.469 other=2761.847"
+      ],
+      "scores": {
+        "own_axis": 3348.4691458775774,
+        "other_axis": 2761.84706393067,
+        "nn_feature_dist": 2891.7936242988258,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=1978.457 other=1387.189"
+      ],
+      "scores": {
+        "own_axis": 1978.456741737155,
+        "other_axis": 1387.189458203606,
+        "nn_feature_dist": 1463.2091945635898,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "own_axis 4359.277>2636.564",
+        "class_identity weak own=4359.277 other=3640.704"
+      ],
+      "scores": {
+        "own_axis": 4359.277342832003,
+        "other_axis": 3640.7041011163665,
+        "nn_feature_dist": 3830.5181877230734,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    }
+  ],
+  "accepted_count": 3,
+  "readmission_rejected": []
+}

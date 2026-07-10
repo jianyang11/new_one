@@ -1,0 +1,87 @@
+{
+  "raw_response": "{\n  \"class\": \"healthy\",\n  \"recipe_type\": \"condition_balanced\",\n  \"condition_id\": \"CastIron.GG30|Vc200|fz0.2|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 0.98,\n    \"vibration\": 1.02,\n    \"ae\": 1.05,\n    \"cnc\": 0.99\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.01,\n    \"vibration\": 1.03,\n    \"ae\": 1.02,\n    \"cnc\": 1.00\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.00,\n    \"vibration\": 1.02,\n    \"ae\": 1.01,\n    \"cnc\": 1.00\n  },\n  \"low_freq_gain\": {\n    \"force\": 1.00,\n    \"vibration\": 0.99,\n    \"ae\": 1.00,\n    \"cnc\": 1.00\n  },\n  \"band_eq_strength\": 0.35,\n  \"noise_gain\": 0.02,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.02,\n  \"spectral_mix\": 0.2,\n  \"rationale\": \"Target condition has 39 healthy samples vs 36 worn, requiring a class-balanced support point. Prototype template 0 shows healthy RMS values (force=201.5, vibration=0.80, ae=0.40, cnc=659.3) which are close to the overall healthy group means (force=193.2, vibration=0.28, ae=0.08, cnc=488.7). Minor multipliers (\u00c2\u00b15%) adjust for this specific condition's slightly elevated vibration and AE while keeping force and CNC stable, preserving healthy characteristics without worn-like trends.\"\n}",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "condition_balanced",
+    "condition_id": "CastIron.GG30|Vc200|fz0.2|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 0.98,
+      "vibration": 1.02,
+      "ae": 1.05,
+      "cnc": 0.99
+    },
+    "group_mean_mult": {
+      "force": 1.01,
+      "vibration": 1.03,
+      "ae": 1.02,
+      "cnc": 1.0
+    },
+    "high_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.02,
+      "ae": 1.01,
+      "cnc": 1.0
+    },
+    "low_freq_gain": {
+      "force": 1.0,
+      "vibration": 0.99,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "band_eq_strength": 0.35,
+    "noise_gain": 0.02,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.02,
+    "spectral_mix": 0.2,
+    "rationale": "Target condition has 39 healthy samples vs 36 worn, requiring a class-balanced support point. Prototype template 0 shows healthy RMS values (force=201.5, vibration=0.80, ae=0.40, cnc=659.3) which are close to the overall healthy group means (force=193.2, vibration=0.28, ae=0.08, cnc=488.7). Minor mu"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 472.384695167664,
+        "other_axis": 607.0739441835423,
+        "identity_ratio": 0.7781337013285531,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 438.6484744502455,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0002_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 459.0225028651032,
+        "other_axis": 669.2636242852936,
+        "identity_ratio": 0.6858620223910906,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 437.98491911366807,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0002_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 378.73575726453686,
+        "other_axis": 524.4988111878743,
+        "identity_ratio": 0.7220907830215727,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 338.3714175950343,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0002_e2.npy"
+    }
+  ],
+  "rejected": [],
+  "accepted_count": 3
+}

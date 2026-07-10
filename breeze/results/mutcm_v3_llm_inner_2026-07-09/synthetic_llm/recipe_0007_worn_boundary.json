@@ -1,0 +1,131 @@
+{
+  "raw_response": "{\n  \"class\": \"worn\",\n  \"recipe_type\": \"boundary\",\n  \"condition_id\": \"CastIron.GG30|Vc200|fz0.1|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 1.12,\n    \"vibration\": 1.15,\n    \"ae\": 1.18,\n    \"cnc\": 0.98\n  },\n  \"group_mean_mult\": {\n    \"force\": 0.97,\n    \"vibration\": 0.96,\n    \"ae\": 0.96,\n    \"cnc\": 0.97\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.1,\n    \"vibration\": 1.12,\n    \"ae\": 1.15,\n    \"cnc\": 1.0\n  },\n  \"low_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 1.0,\n    \"ae\": 1.0,\n    \"cnc\": 1.0\n  },\n  \"band_eq_strength\": 0.35,\n  \"noise_gain\": 0.02,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.02,\n  \"spectral_mix\": 0.2,\n  \"rationale\": \"Target is a hard boundary point for worn class at VB 0.1/0.2. Prototype RMS shows worn signals have ~1.66x force, ~1.33x vibration, and ~1.06x CNC power vs. healthy averages, but AE is slightly lower. Recipe uses moderate std_mult boosts for force/vibration/AE to increase variability (texture) and slight mean_mult reductions to keep levels near the lower bound of worn distribution, ensuring separability without crossing into healthy. High_freq_gain added to force/vibration/AE to reflect typical wear-induced spectral shifts. CNC channels kept near neutral. All parameters stay within train-supported bounds.\"\n}",
+  "recipe": {
+    "class": "worn",
+    "recipe_type": "boundary",
+    "condition_id": "CastIron.GG30|Vc200|fz0.1|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.12,
+      "vibration": 1.15,
+      "ae": 1.18,
+      "cnc": 0.98
+    },
+    "group_mean_mult": {
+      "force": 0.97,
+      "vibration": 0.96,
+      "ae": 0.96,
+      "cnc": 0.97
+    },
+    "high_freq_gain": {
+      "force": 1.1,
+      "vibration": 1.12,
+      "ae": 1.15,
+      "cnc": 1.0
+    },
+    "low_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.0,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "band_eq_strength": 0.35,
+    "noise_gain": 0.02,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.02,
+    "spectral_mix": 0.2,
+    "rationale": "Target is a hard boundary point for worn class at VB 0.1/0.2. Prototype RMS shows worn signals have ~1.66x force, ~1.33x vibration, and ~1.06x CNC power vs. healthy averages, but AE is slightly lower. Recipe uses moderate std_mult boosts for force/vibration/AE to increase variability (texture) and s"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 714.6810105084453,
+        "other_axis": 575.9014594473848,
+        "identity_ratio": 1.2409779464601935,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 555.9537520416645,
+        "stat_pass_fraction": 0.9774436090225563
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0007_readmit_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 436.6060758380766,
+        "other_axis": 326.4188456914632,
+        "identity_ratio": 1.337563935419228,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 299.22864736789097,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0007_readmit_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 404.3911037886887,
+        "other_axis": 308.8124711385867,
+        "identity_ratio": 1.3095037978800006,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 278.4056870225231,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0007_readmit_e2.npy"
+    }
+  ],
+  "rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=662.374 other=502.016"
+      ],
+      "scores": {
+        "own_axis": 662.3736228550013,
+        "other_axis": 502.01621678564175,
+        "nn_feature_dist": 472.34589475767103,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=420.647 other=297.913"
+      ],
+      "scores": {
+        "own_axis": 420.6465381654903,
+        "other_axis": 297.91336973545054,
+        "nn_feature_dist": 263.45145716006493,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=637.988 other=497.173"
+      ],
+      "scores": {
+        "own_axis": 637.9875429151598,
+        "other_axis": 497.1734986865119,
+        "nn_feature_dist": 467.77131245805253,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    }
+  ],
+  "accepted_count": 3,
+  "readmission_rejected": []
+}

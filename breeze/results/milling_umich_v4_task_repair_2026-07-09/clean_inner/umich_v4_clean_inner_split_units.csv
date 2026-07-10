@@ -1,0 +1,7 @@
+unit,inner_split,unworn,worn,feedrate,clamp_pressure
+experiment_03,val,14,0,6.0,3.0
+experiment_09,val,0,6,15.0,4.0
+experiment_10,train,0,13,12.0,4.0
+experiment_11,train,22,0,3.0,4.0
+experiment_12,train,20,0,3.0,3.0
+experiment_17,train,17,0,3.0,2.5

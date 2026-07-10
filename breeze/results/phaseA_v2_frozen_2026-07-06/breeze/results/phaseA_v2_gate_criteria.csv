@@ -1,0 +1,17 @@
+criterion,metric,n_real,comparison,mean_delta,p_value,holm_q_in_family,passed
+n5_acc_llm_gt_phaseA_v2_random_open_loop,acc,5,phaseA_v2_llm_k3>phaseA_v2_random_open_loop,0.32645,9.5367431640625e-07,1.9073486328125e-06,True
+n5_acc_llm_gt_phaseA_v2_rule,acc,5,phaseA_v2_llm_k3>phaseA_v2_rule,0.08055499999999999,6.004678582070794e-05,6.004678582070794e-05,True
+n5_macro_f1_llm_gt_phaseA_v2_random_open_loop,macro_f1,5,phaseA_v2_llm_k3>phaseA_v2_random_open_loop,0.3397,9.5367431640625e-07,1.9073486328125e-06,True
+n5_macro_f1_llm_gt_phaseA_v2_rule,macro_f1,5,phaseA_v2_llm_k3>phaseA_v2_rule,0.08495499999999997,9.5367431640625e-07,1.9073486328125e-06,True
+n10_acc_llm_gt_phaseA_v2_random_open_loop,acc,10,phaseA_v2_llm_k3>phaseA_v2_random_open_loop,0.312575,4.422457510605951e-05,4.422457510605951e-05,True
+n10_acc_llm_gt_phaseA_v2_rule,acc,10,phaseA_v2_llm_k3>phaseA_v2_rule,0.07225,9.5367431640625e-07,1.9073486328125e-06,True
+n10_macro_f1_llm_gt_phaseA_v2_random_open_loop,macro_f1,10,phaseA_v2_llm_k3>phaseA_v2_random_open_loop,0.311745,9.5367431640625e-07,1.9073486328125e-06,True
+n10_macro_f1_llm_gt_phaseA_v2_rule,macro_f1,10,phaseA_v2_llm_k3>phaseA_v2_rule,0.07547,9.5367431640625e-07,1.9073486328125e-06,True
+n25_acc_llm_gt_phaseA_v2_random_open_loop,acc,25,phaseA_v2_llm_k3>phaseA_v2_random_open_loop,0.28872,9.5367431640625e-07,1.9073486328125e-06,True
+n25_acc_llm_gt_phaseA_v2_rule,acc,25,phaseA_v2_llm_k3>phaseA_v2_rule,0.049375,5.1529611707403054e-05,5.1529611707403054e-05,True
+n25_macro_f1_llm_gt_phaseA_v2_random_open_loop,macro_f1,25,phaseA_v2_llm_k3>phaseA_v2_random_open_loop,0.29447,9.5367431640625e-07,1.9073486328125e-06,True
+n25_macro_f1_llm_gt_phaseA_v2_rule,macro_f1,25,phaseA_v2_llm_k3>phaseA_v2_rule,0.051015,9.5367431640625e-07,1.9073486328125e-06,True
+n50_acc_llm_not_worse_than_rule,acc,50,phaseA_v2_llm_k3_vs_phaseA_v2_rule,0.04013500000000001,0.00012025782063870463,,True
+n50_acc_llm_gt_real_only,acc,50,phaseA_v2_llm_k3>real_only,0.06745500000000001,5.1601391981735966e-05,,True
+n50_macro_f1_llm_not_worse_than_rule,macro_f1,50,phaseA_v2_llm_k3_vs_phaseA_v2_rule,0.04163000000000001,3.814697265625e-06,,True
+n50_macro_f1_llm_gt_real_only,macro_f1,50,phaseA_v2_llm_k3>real_only,0.08299500000000001,1.9073486328125e-06,,True

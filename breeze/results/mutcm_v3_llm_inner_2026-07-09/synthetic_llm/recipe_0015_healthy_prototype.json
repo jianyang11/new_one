@@ -1,0 +1,87 @@
+{
+  "raw_response": "```json\n{\n    \"class\": \"healthy\",\n    \"recipe_type\": \"prototype\",\n    \"condition_id\": \"StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4\",\n    \"template_rank\": 0,\n    \"group_std_mult\": {\n        \"force\": 0.95,\n        \"vibration\": 0.98,\n        \"ae\": 0.96,\n        \"cnc\": 0.97\n    },\n    \"group_mean_mult\": {\n        \"force\": 1.02,\n        \"vibration\": 1.01,\n        \"ae\": 1.00,\n        \"cnc\": 1.01\n    },\n    \"high_freq_gain\": {\n        \"force\": 1.05,\n        \"vibration\": 1.03,\n        \"ae\": 1.02,\n        \"cnc\": 1.01\n    },\n    \"low_freq_gain\": {\n        \"force\": 0.98,\n        \"vibration\": 0.99,\n        \"ae\": 0.97,\n        \"cnc\": 0.99\n    },\n    \"band_eq_strength\": 0.32,\n    \"noise_gain\": 0.018,\n    \"impulse_rate_hz\": 0.0,\n    \"impulse_amp_std\": 0.0,\n    \"trend_strength\": 0.0,\n    \"shared_gain\": 0.015,\n    \"spectral_mix\": 0.22,\n    \"rationale\": \"Prototype for healthy StainlessSteel.316L at low Vc/fz. Template RMS values (force ~138, vibration ~0.13, ae ~0.05, cnc ~437) are well below overall healthy averages, indicating a stable, low-load condition. Multipliers are set near 1.0 with slight attenuation in std (0.95-0.98) and a small boost in mean (1.01-1.02) to center the prototype within the cluster without exaggeration. High-freq gain is slightly elevated to preserve characteristic spectral texture, while low-freq is mildly dampened. Noise and impulse parameters are minimal to maintain a clean, healthy signature, staying within the specified physical bounds.\"\n}\n```",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "prototype",
+    "condition_id": "StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 0.95,
+      "vibration": 0.98,
+      "ae": 0.96,
+      "cnc": 0.97
+    },
+    "group_mean_mult": {
+      "force": 1.02,
+      "vibration": 1.01,
+      "ae": 1.0,
+      "cnc": 1.01
+    },
+    "high_freq_gain": {
+      "force": 1.05,
+      "vibration": 1.03,
+      "ae": 1.02,
+      "cnc": 1.01
+    },
+    "low_freq_gain": {
+      "force": 0.98,
+      "vibration": 0.99,
+      "ae": 0.97,
+      "cnc": 0.99
+    },
+    "band_eq_strength": 0.32,
+    "noise_gain": 0.018,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.015,
+    "spectral_mix": 0.22,
+    "rationale": "Prototype for healthy StainlessSteel.316L at low Vc/fz. Template RMS values (force ~138, vibration ~0.13, ae ~0.05, cnc ~437) are well below overall healthy averages, indicating a stable, low-load condition. Multipliers are set near 1.0 with slight attenuation in std (0.95-0.98) and a small boost in"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 594.570588527878,
+        "other_axis": 736.7497552544228,
+        "identity_ratio": 0.8070183726393684,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 577.9690183225363,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0015_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1007.3221264030368,
+        "other_axis": 1222.4790244337798,
+        "identity_ratio": 0.8239995175946689,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 1014.8885592347486,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0015_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 565.0953990653715,
+        "other_axis": 688.9004107817509,
+        "identity_ratio": 0.8202860532832478,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 548.6067811549929,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0015_e2.npy"
+    }
+  ],
+  "rejected": [],
+  "accepted_count": 3
+}

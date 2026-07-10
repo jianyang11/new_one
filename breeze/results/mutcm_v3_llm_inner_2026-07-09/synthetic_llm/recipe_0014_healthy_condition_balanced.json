@@ -1,0 +1,87 @@
+{
+  "raw_response": "{\n  \"class\": \"healthy\",\n  \"recipe_type\": \"condition_balanced\",\n  \"condition_id\": \"CastIron.GG30|Vc200|fz0.2|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 0.95,\n    \"vibration\": 0.95,\n    \"ae\": 0.95,\n    \"cnc\": 0.95\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.0,\n    \"vibration\": 1.0,\n    \"ae\": 1.0,\n    \"cnc\": 1.0\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 1.0,\n    \"ae\": 1.0,\n    \"cnc\": 1.0\n  },\n  \"low_freq_gain\": {\n    \"force\": 1.0,\n    \"vibration\": 1.0,\n    \"ae\": 1.0,\n    \"cnc\": 1.0\n  },\n  \"band_eq_strength\": 0.35,\n  \"noise_gain\": 0.02,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.02,\n  \"spectral_mix\": 0.2,\n  \"rationale\": \"Target condition CastIron.GG30|Vc200|fz0.2|ap1.5|ae58.4 has only 39 healthy samples vs 36 worn, making it the most balanced condition. Template 0 provides the base PSD. Slight std reduction (0.95) keeps the synthetic point stable and healthy-like while staying within the 0.88-1.08 physical bound. No impulses or trends needed for healthy class. This creates a compact class-balanced support point near the condition centroid.\"\n}",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "condition_balanced",
+    "condition_id": "CastIron.GG30|Vc200|fz0.2|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 0.95,
+      "vibration": 0.95,
+      "ae": 0.95,
+      "cnc": 0.95
+    },
+    "group_mean_mult": {
+      "force": 1.0,
+      "vibration": 1.0,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "high_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.0,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "low_freq_gain": {
+      "force": 1.0,
+      "vibration": 1.0,
+      "ae": 1.0,
+      "cnc": 1.0
+    },
+    "band_eq_strength": 0.35,
+    "noise_gain": 0.02,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.02,
+    "spectral_mix": 0.2,
+    "rationale": "Target condition CastIron.GG30|Vc200|fz0.2|ap1.5|ae58.4 has only 39 healthy samples vs 36 worn, making it the most balanced condition. Template 0 provides the base PSD. Slight std reduction (0.95) keeps the synthetic point stable and healthy-like while staying within the 0.88-1.08 physical bound. No"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 603.7068915679135,
+        "other_axis": 807.0496295094737,
+        "identity_ratio": 0.7480418421539292,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 576.3572042938026,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0014_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 559.0834140168456,
+        "other_axis": 739.1892708496792,
+        "identity_ratio": 0.7563467653882376,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 532.5110509857648,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0014_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 561.2191961597516,
+        "other_axis": 747.9293609638736,
+        "identity_ratio": 0.7503639052710739,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 530.9650324845169,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0014_e2.npy"
+    }
+  ],
+  "rejected": [],
+  "accepted_count": 3
+}

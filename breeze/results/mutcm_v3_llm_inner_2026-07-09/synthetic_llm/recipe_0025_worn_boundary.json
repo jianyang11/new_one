@@ -1,0 +1,133 @@
+{
+  "raw_response": "```json\n{\n    \"class\": \"worn\",\n    \"recipe_type\": \"boundary\",\n    \"condition_id\": \"CastIron.GG30|Vc200|fz0.1|ap1.5|ae58.4\",\n    \"template_rank\": 0,\n    \"group_std_mult\": {\n        \"force\": 1.18,\n        \"vibration\": 1.15,\n        \"ae\": 1.05,\n        \"cnc\": 1.02\n    },\n    \"group_mean_mult\": {\n        \"force\": 0.96,\n        \"vibration\": 0.97,\n        \"ae\": 0.98,\n        \"cnc\": 0.99\n    },\n    \"high_freq_gain\": {\n        \"force\": 1.12,\n        \"vibration\": 1.10,\n        \"ae\": 1.05,\n        \"cnc\": 1.01\n    },\n    \"low_freq_gain\": {\n        \"force\": 0.95,\n        \"vibration\": 0.96,\n        \"ae\": 0.98,\n        \"cnc\": 0.99\n    },\n    \"band_eq_strength\": 0.38,\n    \"noise_gain\": 0.04,\n    \"impulse_rate_hz\": 120.0,\n    \"impulse_amp_std\": 0.25,\n    \"trend_strength\": 0.02,\n    \"shared_gain\": 0.03,\n    \"spectral_mix\": 0.25,\n    \"rationale\": \"Boundary point for worn class near VB 0.1/0.2. Force/vibration show strongest wear signatures (worn/healthy RMS ~1.66/1.33) so use elevated std_mult (1.18/1.15) and high_freq_gain (1.12/1.10) to push toward class boundary. AE shows slight decrease in worn (0.92 ratio) so keep near neutral. Mean multipliers slightly below 1.0 to create separation from healthy cluster. Moderate impulse rate (120 Hz) and amp_std (0.25) to simulate early wear without crossing into severe wear territory.\"\n}\n```",
+  "recipe": {
+    "class": "worn",
+    "recipe_type": "boundary",
+    "condition_id": "CastIron.GG30|Vc200|fz0.1|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.18,
+      "vibration": 1.15,
+      "ae": 1.05,
+      "cnc": 1.02
+    },
+    "group_mean_mult": {
+      "force": 0.96,
+      "vibration": 0.97,
+      "ae": 0.98,
+      "cnc": 0.99
+    },
+    "high_freq_gain": {
+      "force": 1.12,
+      "vibration": 1.1,
+      "ae": 1.05,
+      "cnc": 1.01
+    },
+    "low_freq_gain": {
+      "force": 0.95,
+      "vibration": 0.96,
+      "ae": 0.98,
+      "cnc": 0.99
+    },
+    "band_eq_strength": 0.38,
+    "noise_gain": 0.04,
+    "impulse_rate_hz": 18.0,
+    "impulse_amp_std": 0.25,
+    "trend_strength": 0.02,
+    "shared_gain": 0.03,
+    "spectral_mix": 0.25,
+    "rationale": "Boundary point for worn class near VB 0.1/0.2. Force/vibration show strongest wear signatures (worn/healthy RMS ~1.66/1.33) so use elevated std_mult (1.18/1.15) and high_freq_gain (1.12/1.10) to push toward class boundary. AE shows slight decrease in worn (0.92 ratio) so keep near neutral. Mean mult"
+  },
+  "accepted": [
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1661.2411683450703,
+        "other_axis": 1299.1747534501194,
+        "identity_ratio": 1.2786895403666347,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1327.827644964955,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0025_readmit_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 2135.716907993959,
+        "other_axis": 1606.9012355896941,
+        "identity_ratio": 1.3290903390277131,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1675.2144166271482,
+        "stat_pass_fraction": 1.0
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0025_readmit_e2.npy"
+    }
+  ],
+  "rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=1794.692 other=1451.014"
+      ],
+      "scores": {
+        "own_axis": 1794.6918662548128,
+        "other_axis": 1451.0136090175106,
+        "nn_feature_dist": 1480.251497748353,
+        "stat_pass_fraction": 1.0
+      }
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=1799.151 other=1353.811"
+      ],
+      "scores": {
+        "own_axis": 1799.1505383988601,
+        "other_axis": 1353.8107461538584,
+        "nn_feature_dist": 1394.6304059172503,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=2457.004 other=2023.534"
+      ],
+      "scores": {
+        "own_axis": 2457.004456110087,
+        "other_axis": 2023.5337944355122,
+        "nn_feature_dist": 2095.747651168394,
+        "stat_pass_fraction": 1.0
+      }
+    }
+  ],
+  "accepted_count": 2,
+  "readmission_rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "own_axis 3742.426>2636.564"
+      ],
+      "scores": {
+        "own_axis": 3742.425674550704,
+        "other_axis": 2942.6336095156194,
+        "identity_ratio": 1.2717946476410753,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 3118.5753838162386,
+        "stat_pass_fraction": 1.0
+      },
+      "readmit": true
+    }
+  ]
+}

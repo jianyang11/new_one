@@ -1,0 +1,14 @@
+unit,class,n_windows,inner_split
+experiment_04,unworn,6,train
+experiment_11,unworn,25,train
+experiment_12,unworn,23,train
+experiment_17,unworn,20,train
+experiment_09,worn,9,train
+experiment_10,worn,15,train
+experiment_14,worn,28,train
+experiment_15,worn,12,train
+experiment_16,worn,3,train
+experiment_18,worn,26,train
+experiment_03,unworn,16,val
+experiment_05,unworn,1,val
+experiment_13,worn,24,val

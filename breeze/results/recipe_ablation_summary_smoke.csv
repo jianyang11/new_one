@@ -1,0 +1,9 @@
+source,class,slots,accepted_slots,acceptance,accepted_items_before_diversity,kept_after_diversity,kept_healthy,kept_OR,kept_IR
+random,all,15,0,0.0,0,0,0,0,0
+random,healthy,5,0,0.0,0,0,,,
+random,OR,5,0,0.0,0,0,,,
+random,IR,5,0,0.0,0,0,,,
+rule,all,15,1,0.06666666666666667,5,5,5,0,0
+rule,healthy,5,1,0.2,5,5,,,
+rule,OR,5,0,0.0,0,0,,,
+rule,IR,5,0,0.0,0,0,,,

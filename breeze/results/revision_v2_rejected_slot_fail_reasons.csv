@@ -1,0 +1,8 @@
+scope,class,kind,gate,count,evaluations,rate_per_evaluation
+terminal_rejected_slot,IR,slot,soft_spectrum,7,44,0.1590909090909091
+terminal_rejected_slot,IR,slot,stats_union,43,44,0.9772727272727273
+terminal_rejected_slot,OR,slot,soft_spectrum,21,60,0.35
+terminal_rejected_slot,OR,slot,stats_union,45,60,0.75
+terminal_rejected_slot,healthy,slot,envelope_multi,51,60,0.85
+terminal_rejected_slot,healthy,slot,psd_w1,10,60,0.16666666666666666
+terminal_rejected_slot,healthy,slot,stats_union,4,60,0.06666666666666667

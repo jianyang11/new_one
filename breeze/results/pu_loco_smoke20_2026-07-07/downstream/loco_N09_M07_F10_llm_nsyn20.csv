@@ -1,0 +1,3 @@
+dataset,split,baseline,n_real,seed,actual_real_per_class,n_syn,acc,macro_f1,per_class_f1_json,confusion_json,class_names_json
+PU,loco_N09_M07_F10,custom_pool,5,0,"{""0"":5,""1"":5,""2"":5}",60,0.4368,0.3567,"{""healthy"":0.5414185165132648,""OR"":0.5286343612334802,""IR"":0.0}","[[1500,0,0],[903,600,0],[1638,167,0]]","[""healthy"",""OR"",""IR""]"
+PU,loco_N09_M07_F10,custom_pool,5,1,"{""0"":5,""1"":5,""2"":5}",60,0.5060,0.5315,"{""healthy"":0.7407718120805369,""OR"":0.41296060991105465,""IR"":0.4407443682664055}","[[883,90,527],[1,650,852],[0,905,900]]","[""healthy"",""OR"",""IR""]"

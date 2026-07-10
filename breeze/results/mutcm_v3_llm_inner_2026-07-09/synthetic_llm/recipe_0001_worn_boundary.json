@@ -1,0 +1,137 @@
+{
+  "raw_response": "```json\n{\n    \"class\": \"worn\",\n    \"recipe_type\": \"boundary\",\n    \"condition_id\": \"CastIron.GG30|Vc200|fz0.1|ap1.5|ae58.4\",\n    \"template_rank\": 0,\n    \"group_std_mult\": {\n        \"force\": 1.12,\n        \"vibration\": 1.08,\n        \"ae\": 1.15,\n        \"cnc\": 1.03\n    },\n    \"group_mean_mult\": {\n        \"force\": 1.05,\n        \"vibration\": 1.02,\n        \"ae\": 1.08,\n        \"cnc\": 1.01\n    },\n    \"high_freq_gain\": {\n        \"force\": 1.18,\n        \"vibration\": 1.15,\n        \"ae\": 1.22,\n        \"cnc\": 1.05\n    },\n    \"low_freq_gain\": {\n        \"force\": 0.92,\n        \"vibration\": 0.95,\n        \"ae\": 0.88,\n        \"cnc\": 0.98\n    },\n    \"band_eq_strength\": 0.38,\n    \"noise_gain\": 0.065,\n    \"impulse_rate_hz\": 12.5,\n    \"impulse_amp_std\": 0.38,\n    \"trend_strength\": 0.04,\n    \"shared_gain\": 0.03,\n    \"spectral_mix\": 0.25,\n    \"rationale\": \"Boundary support for CastIron.GG30 worn class. Template 0 shows strong worn signature (force RMS 289 vs healthy avg 193, vibration 0.76 vs 0.28). Applied moderate multipliers to push toward decision boundary: force/vibration/AE show worn_over_healthy ratios of 1.66/1.33/0.92 respectively. Increased high-freq gain (1.18-1.22) for force/vibration/AE to emphasize wear-induced spectral content, reduced low-freq to sharpen boundary. Added moderate texture (noise_gain 0.065, impulse_amp_std 0.38) to create feasible but challenging support point. AE shows slight decrease in worn (0.92 ratio) so AE std/mean mults are higher to maintain class identity while staying within train ranges.\"\n}\n```",
+  "recipe": {
+    "class": "worn",
+    "recipe_type": "boundary",
+    "condition_id": "CastIron.GG30|Vc200|fz0.1|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.12,
+      "vibration": 1.08,
+      "ae": 1.15,
+      "cnc": 1.03
+    },
+    "group_mean_mult": {
+      "force": 1.05,
+      "vibration": 1.02,
+      "ae": 1.08,
+      "cnc": 1.01
+    },
+    "high_freq_gain": {
+      "force": 1.18,
+      "vibration": 1.15,
+      "ae": 1.22,
+      "cnc": 1.05
+    },
+    "low_freq_gain": {
+      "force": 0.92,
+      "vibration": 0.95,
+      "ae": 0.88,
+      "cnc": 0.98
+    },
+    "band_eq_strength": 0.38,
+    "noise_gain": 0.065,
+    "impulse_rate_hz": 12.5,
+    "impulse_amp_std": 0.38,
+    "trend_strength": 0.04,
+    "shared_gain": 0.03,
+    "spectral_mix": 0.25,
+    "rationale": "Boundary support for CastIron.GG30 worn class. Template 0 shows strong worn signature (force RMS 289 vs healthy avg 193, vibration 0.76 vs 0.28). Applied moderate multipliers to push toward decision boundary: force/vibration/AE show worn_over_healthy ratios of 1.66/1.33/0.92 respectively. Increased "
+  },
+  "accepted": [],
+  "rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "own_axis 4832.719>2636.564",
+        "class_identity weak own=4832.719 other=3760.869"
+      ],
+      "scores": {
+        "own_axis": 4832.718990267794,
+        "other_axis": 3760.8686541072307,
+        "nn_feature_dist": 4014.1454791368005,
+        "stat_pass_fraction": 0.9924812030075187
+      }
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "own_axis 3520.070>2636.564",
+        "class_identity weak own=3520.070 other=2657.485"
+      ],
+      "scores": {
+        "own_axis": 3520.06998587503,
+        "other_axis": 2657.485038889949,
+        "nn_feature_dist": 2832.2258695962537,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "own_axis 6613.186>2636.564",
+        "class_identity weak own=6613.186 other=5474.164"
+      ],
+      "scores": {
+        "own_axis": 6613.18580172447,
+        "other_axis": 5474.163865972657,
+        "nn_feature_dist": 5763.787102121209,
+        "stat_pass_fraction": 0.9924812030075187
+      }
+    }
+  ],
+  "accepted_count": 0,
+  "readmission_rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "own_axis 2978.362>2636.564"
+      ],
+      "scores": {
+        "own_axis": 2978.362112902641,
+        "other_axis": 2256.9669765325375,
+        "identity_ratio": 1.3196303463324963,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 2377.028761317777,
+        "stat_pass_fraction": 0.9924812030075187
+      },
+      "readmit": true
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "own_axis 3637.830>2636.564"
+      ],
+      "scores": {
+        "own_axis": 3637.8297910847373,
+        "other_axis": 2660.039688580253,
+        "identity_ratio": 1.367584779543782,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 2856.393333993775,
+        "stat_pass_fraction": 0.9924812030075187
+      },
+      "readmit": true
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "own_axis 5215.135>2636.564"
+      ],
+      "scores": {
+        "own_axis": 5215.135211206466,
+        "other_axis": 4175.28259777778,
+        "identity_ratio": 1.2490496365400818,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 4437.37567820521,
+        "stat_pass_fraction": 0.9924812030075187
+      },
+      "readmit": true
+    }
+  ]
+}

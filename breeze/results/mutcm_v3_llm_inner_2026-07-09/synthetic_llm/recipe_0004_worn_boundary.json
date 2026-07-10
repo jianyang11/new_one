@@ -1,0 +1,132 @@
+{
+  "raw_response": "{\n  \"class\": \"worn\",\n  \"recipe_type\": \"boundary\",\n  \"condition_id\": \"StainlessSteel.316L|Vc100|fz0.1|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 1.12,\n    \"vibration\": 1.08,\n    \"ae\": 1.15,\n    \"cnc\": 1.02\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.05,\n    \"vibration\": 1.03,\n    \"ae\": 0.95,\n    \"cnc\": 1.01\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.18,\n    \"vibration\": 1.12,\n    \"ae\": 1.22,\n    \"cnc\": 1.05\n  },\n  \"low_freq_gain\": {\n    \"force\": 0.98,\n    \"vibration\": 0.96,\n    \"ae\": 0.92,\n    \"cnc\": 0.99\n  },\n  \"band_eq_strength\": 0.38,\n  \"noise_gain\": 0.04,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.01,\n  \"shared_gain\": 0.03,\n  \"spectral_mix\": 0.25,\n  \"rationale\": \"Boundary point for worn class in target condition. Force and vibration mean multipliers are slightly elevated (1.05, 1.03) to reflect the worn/healthy RMS ratio (~1.66, 1.33) but kept below full worn-center to stay on boundary. AE mean is reduced (0.95) as worn/healthy ratio is <1. Standard deviations are moderately increased (1.02-1.15) to enhance separability while staying within physical bounds. High-frequency gains are boosted (1.12-1.22) to emphasize wear-induced spectral content, while low-frequency gains are slightly reduced. Small trend_strength (0.01) and shared_gain (0.03) add minor, feasible variation without crossing class identity.\"\n}",
+  "recipe": {
+    "class": "worn",
+    "recipe_type": "boundary",
+    "condition_id": "StainlessSteel.316L|Vc100|fz0.1|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.12,
+      "vibration": 1.08,
+      "ae": 1.15,
+      "cnc": 1.02
+    },
+    "group_mean_mult": {
+      "force": 1.05,
+      "vibration": 1.03,
+      "ae": 0.95,
+      "cnc": 1.01
+    },
+    "high_freq_gain": {
+      "force": 1.18,
+      "vibration": 1.12,
+      "ae": 1.22,
+      "cnc": 1.05
+    },
+    "low_freq_gain": {
+      "force": 0.98,
+      "vibration": 0.96,
+      "ae": 0.92,
+      "cnc": 0.99
+    },
+    "band_eq_strength": 0.38,
+    "noise_gain": 0.04,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.01,
+    "shared_gain": 0.03,
+    "spectral_mix": 0.25,
+    "rationale": "Boundary point for worn class in target condition. Force and vibration mean multipliers are slightly elevated (1.05, 1.03) to reflect the worn/healthy RMS ratio (~1.66, 1.33) but kept below full worn-center to stay on boundary. AE mean is reduced (0.95) as worn/healthy ratio is <1. Standard deviatio"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 2254.9021639859693,
+        "other_axis": 1828.1844075567317,
+        "identity_ratio": 1.2334106749108102,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1891.1118424593274,
+        "stat_pass_fraction": 1.0
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0004_readmit_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1658.98595236593,
+        "other_axis": 1222.5817303513813,
+        "identity_ratio": 1.356953004597182,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1250.6453342314246,
+        "stat_pass_fraction": 1.0
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0004_readmit_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1901.4405054582387,
+        "other_axis": 1550.9141855870105,
+        "identity_ratio": 1.226012711166579,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1586.4158958950477,
+        "stat_pass_fraction": 1.0
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0004_readmit_e2.npy"
+    }
+  ],
+  "rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=2198.771 other=1695.948"
+      ],
+      "scores": {
+        "own_axis": 2198.7711860786926,
+        "other_axis": 1695.9484518233855,
+        "nn_feature_dist": 1759.1902092071039,
+        "stat_pass_fraction": 1.0
+      }
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "own_axis 3065.986>2636.564",
+        "class_identity weak own=3065.986 other=2453.052"
+      ],
+      "scores": {
+        "own_axis": 3065.9855553349557,
+        "other_axis": 2453.0518475086046,
+        "nn_feature_dist": 2571.5545291591447,
+        "stat_pass_fraction": 1.0
+      }
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=2039.477 other=1550.686"
+      ],
+      "scores": {
+        "own_axis": 2039.4771632951295,
+        "other_axis": 1550.6859893618941,
+        "nn_feature_dist": 1608.4770560038062,
+        "stat_pass_fraction": 1.0
+      }
+    }
+  ],
+  "accepted_count": 3,
+  "readmission_rejected": []
+}

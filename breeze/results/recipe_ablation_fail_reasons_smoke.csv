@@ -1,0 +1,16 @@
+source,class,gate,count,slots,rate_per_slot
+random,IR,psd_w1,4,5,0.8
+random,IR,soft_spectrum,5,5,1.0
+random,IR,stats_union,3,5,0.6
+random,OR,envelope_multi,1,5,0.2
+random,OR,soft_spectrum,4,5,0.8
+random,OR,stats_union,5,5,1.0
+random,healthy,envelope_multi,1,5,0.2
+random,healthy,psd_w1,5,5,1.0
+random,healthy,soft_spectrum,5,5,1.0
+random,healthy,stats_union,5,5,1.0
+rule,IR,soft_spectrum,3,5,0.6
+rule,IR,stats_union,4,5,0.8
+rule,OR,stats_union,5,5,1.0
+rule,healthy,envelope_multi,1,5,0.2
+rule,healthy,stats_union,3,5,0.6

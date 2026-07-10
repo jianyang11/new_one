@@ -1,0 +1,4 @@
+pool,path,manifest,n,healthy,OR,IR
+phaseA_v2_rule_B150,breeze/runs/phaseA_v2_balanced/phaseA_v2_rule_B150.npz,breeze/runs/phaseA_v2_balanced/phaseA_v2_rule_B150_manifest.csv,450,150,150,150
+phaseA_v2_llm_k3_B150,breeze/runs/phaseA_v2_balanced/phaseA_v2_llm_k3_B150.npz,breeze/runs/phaseA_v2_balanced/phaseA_v2_llm_k3_B150_manifest.csv,450,150,150,150
+phaseA_v2_random_open_loop_B150,breeze/runs/phaseA_v2_balanced/phaseA_v2_random_open_loop_B150.npz,breeze/runs/phaseA_v2_balanced/phaseA_v2_random_open_loop_B150_manifest.csv,450,150,150,150

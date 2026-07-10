@@ -1,0 +1,89 @@
+{
+  "raw_response": "```json\n{\n    \"class\": \"healthy\",\n    \"recipe_type\": \"boundary\",\n    \"condition_id\": \"StainlessSteel.316L|Vc100|fz0.1|ap1.5|ae58.4\",\n    \"template_rank\": 0,\n    \"group_std_mult\": {\n        \"force\": 1.05,\n        \"vibration\": 1.06,\n        \"ae\": 1.03,\n        \"cnc\": 1.04\n    },\n    \"group_mean_mult\": {\n        \"force\": 1.03,\n        \"vibration\": 1.04,\n        \"ae\": 1.02,\n        \"cnc\": 1.03\n    },\n    \"high_freq_gain\": {\n        \"force\": 1.04,\n        \"vibration\": 1.05,\n        \"ae\": 1.03,\n        \"cnc\": 1.04\n    },\n    \"low_freq_gain\": {\n        \"force\": 1.02,\n        \"vibration\": 1.03,\n        \"ae\": 1.01,\n        \"cnc\": 1.02\n    },\n    \"band_eq_strength\": 0.38,\n    \"noise_gain\": 0.035,\n    \"impulse_rate_hz\": 0.0,\n    \"impulse_amp_std\": 0.0,\n    \"trend_strength\": 0.0,\n    \"shared_gain\": 0.025,\n    \"spectral_mix\": 0.25,\n    \"rationale\": \"Boundary recipe for healthy class at VB\u00e2\u0089\u00880.1. Template 0 has force/vibration RMS slightly above condition mean (200.9 vs ~210 avg), providing a good base. Multipliers are set to push RMS toward the upper bound of the healthy range (force: 200.9*1.03\u00e2\u0089\u0088207, vibration: 0.2107*1.04\u00e2\u0089\u00880.219, ae: 0.0616*1.02\u00e2\u0089\u00880.063, cnc: 471.9*1.03\u00e2\u0089\u0088486) without approaching worn thresholds (force worn/healthy ratio 1.66). Increased std_mult (1.03-1.06) and spectral_mix (0.25) add mild variability appropriate for a boundary point, while noise_gain (0.035) and band_eq_strength (0.38) stay below physical limits (noise \u00e2\u0089\u00a40.04, impulse_amp_std \u00e2\u0089\u00a40.10). No trend or impulses to maintain healthy identity. Recipe stays within train-supported ranges for this condition.\"\n}\n```",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "boundary",
+    "condition_id": "StainlessSteel.316L|Vc100|fz0.1|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.05,
+      "vibration": 1.06,
+      "ae": 1.03,
+      "cnc": 1.04
+    },
+    "group_mean_mult": {
+      "force": 1.03,
+      "vibration": 1.04,
+      "ae": 1.02,
+      "cnc": 1.03
+    },
+    "high_freq_gain": {
+      "force": 1.04,
+      "vibration": 1.05,
+      "ae": 1.03,
+      "cnc": 1.04
+    },
+    "low_freq_gain": {
+      "force": 1.02,
+      "vibration": 1.03,
+      "ae": 1.01,
+      "cnc": 1.02
+    },
+    "band_eq_strength": 0.38,
+    "noise_gain": 0.035,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.025,
+    "spectral_mix": 0.25,
+    "rationale": "Boundary recipe for healthy class at VB\u00e2\u0089\u00880.1. Template 0 has force/vibration RMS slightly above condition mean (200.9 vs ~210 avg), providing a good base. Multipliers are set to push RMS toward the upper bound of the healthy range (force: 200.9*1.03\u00e2\u0089\u0088207, vibration: 0.2107*1.04\u00e2\u0089\u00880.219, ae: 0.0616"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1642.4510971988557,
+        "other_axis": 2000.213089364317,
+        "identity_ratio": 0.8211380607057414,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 1691.6415026682976,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0010_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1574.3029294666612,
+        "other_axis": 1992.2339917255524,
+        "identity_ratio": 0.7902198918426719,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 1621.560919944481,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0010_e1.npy"
+    }
+  ],
+  "rejected": [
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "own_axis 3137.163>1660.112"
+      ],
+      "scores": {
+        "own_axis": 3137.1630408364517,
+        "other_axis": 3770.013736838509,
+        "identity_ratio": 0.8321357055497736,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 3295.8044860031296,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    }
+  ],
+  "accepted_count": 2
+}

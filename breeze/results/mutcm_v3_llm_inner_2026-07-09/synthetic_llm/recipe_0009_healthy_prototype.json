@@ -1,0 +1,87 @@
+{
+  "raw_response": "{\n  \"class\": \"healthy\",\n  \"recipe_type\": \"prototype\",\n  \"condition_id\": \"StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 0.98,\n    \"vibration\": 0.95,\n    \"ae\": 0.92,\n    \"cnc\": 1.01\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.02,\n    \"vibration\": 1.01,\n    \"ae\": 0.98,\n    \"cnc\": 1.01\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.02,\n    \"vibration\": 1.03,\n    \"ae\": 0.99,\n    \"cnc\": 1.01\n  },\n  \"low_freq_gain\": {\n    \"force\": 0.99,\n    \"vibration\": 0.98,\n    \"ae\": 1.01,\n    \"cnc\": 1.00\n  },\n  \"band_eq_strength\": 0.32,\n  \"noise_gain\": 0.025,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.0,\n  \"trend_strength\": 0.0,\n  \"shared_gain\": 0.02,\n  \"spectral_mix\": 0.22,\n  \"rationale\": \"Prototype targets the low-RMS StainlessSteel.316L|Vc100|fz0.05 condition. Group mean multipliers are tuned to match the template_rank=0 exemplar (force ~137.5, vibration ~0.13, ae ~0.051, cnc ~436.8) relative to the healthy class average. Group std multipliers are set slightly below 1.0 (0.92-1.01) to keep the signal compact and stable, adhering to the 0.88-1.08 bound. A mild high-freq gain (1.02-1.03) is applied to force and vibration to capture characteristic cutting dynamics without increasing overall energy. Noise and impulse parameters are kept minimal to maintain a clean, healthy signature.\"\n}",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "prototype",
+    "condition_id": "StainlessSteel.316L|Vc100|fz0.05|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 0.98,
+      "vibration": 0.95,
+      "ae": 0.92,
+      "cnc": 1.01
+    },
+    "group_mean_mult": {
+      "force": 1.02,
+      "vibration": 1.01,
+      "ae": 0.98,
+      "cnc": 1.01
+    },
+    "high_freq_gain": {
+      "force": 1.02,
+      "vibration": 1.03,
+      "ae": 0.99,
+      "cnc": 1.01
+    },
+    "low_freq_gain": {
+      "force": 0.99,
+      "vibration": 0.98,
+      "ae": 1.01,
+      "cnc": 1.0
+    },
+    "band_eq_strength": 0.32,
+    "noise_gain": 0.025,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.02,
+    "spectral_mix": 0.22,
+    "rationale": "Prototype targets the low-RMS StainlessSteel.316L|Vc100|fz0.05 condition. Group mean multipliers are tuned to match the template_rank=0 exemplar (force ~137.5, vibration ~0.13, ae ~0.051, cnc ~436.8) relative to the healthy class average. Group std multipliers are set slightly below 1.0 (0.92-1.01) "
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1083.851621540303,
+        "other_axis": 1308.707666524825,
+        "identity_ratio": 0.8281846658837027,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 1094.1341431888527,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0009_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 802.3654676590535,
+        "other_axis": 992.7026696252316,
+        "identity_ratio": 0.808263634429395,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 792.5838477982264,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0009_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 865.565935889798,
+        "other_axis": 1044.8102932696775,
+        "identity_ratio": 0.8284431551502572,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 867.587403006743,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0009_e2.npy"
+    }
+  ],
+  "rejected": [],
+  "accepted_count": 3
+}

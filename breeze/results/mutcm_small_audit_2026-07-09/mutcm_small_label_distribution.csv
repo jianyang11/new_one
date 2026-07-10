@@ -1,0 +1,6 @@
+scheme,label,n_experiments,experiment_ids,VB_values
+A,healthy,4,Insert0Edge2_Vc100.0_fz0.1_ap1.5_VB0.0_Rep1;Insert1Edge1_Vc100.0_fz0.1_ap1.5_VB0.139_Rep1;Insert2Edge1_Vc100.0_fz0.1_ap1.5_VB0.12_Rep1;Insert9Edge2_Vc100.0_fz0.1_ap1.5_VB0.039_Rep2,0;0.039;0.12;0.139
+A,worn,4,Insert3Edge1_Vc100.0_fz0.1_ap1.5_VB0.213_Rep2;Insert4Edge1_Vc100.0_fz0.1_ap1.5_VB0.201_Rep1;Insert6Edge1_Vc100.0_fz0.1_ap1.5_VB0.276_Rep1;Insert6Edge1_Vc100.0_fz0.1_ap1.5_VB0.291_Rep1,0.201;0.213;0.276;0.291
+B,healthy,1,Insert0Edge2_Vc100.0_fz0.1_ap1.5_VB0.0_Rep1,0
+B,unlabeled,3,Insert1Edge1_Vc100.0_fz0.1_ap1.5_VB0.139_Rep1;Insert2Edge1_Vc100.0_fz0.1_ap1.5_VB0.12_Rep1;Insert9Edge2_Vc100.0_fz0.1_ap1.5_VB0.039_Rep2,0.039;0.12;0.139
+B,worn,4,Insert3Edge1_Vc100.0_fz0.1_ap1.5_VB0.213_Rep2;Insert4Edge1_Vc100.0_fz0.1_ap1.5_VB0.201_Rep1;Insert6Edge1_Vc100.0_fz0.1_ap1.5_VB0.276_Rep1;Insert6Edge1_Vc100.0_fz0.1_ap1.5_VB0.291_Rep1,0.201;0.213;0.276;0.291

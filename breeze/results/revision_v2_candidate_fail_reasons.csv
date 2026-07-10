@@ -1,0 +1,17 @@
+scope,class,kind,gate,count,evaluations,rate_per_evaluation
+candidate_or_expansion,IR,expansion,soft_spectrum,10,222,0.04504504504504504
+candidate_or_expansion,IR,expansion,stats_union,59,222,0.26576576576576577
+candidate_or_expansion,IR,round,psd_w1,1,383,0.0026109660574412533
+candidate_or_expansion,IR,round,soft_spectrum,23,383,0.06005221932114883
+candidate_or_expansion,IR,round,stats_union,237,383,0.618798955613577
+candidate_or_expansion,OR,expansion,soft_spectrum,41,319,0.12852664576802508
+candidate_or_expansion,OR,expansion,stats_union,67,319,0.21003134796238246
+candidate_or_expansion,OR,round,envelope_multi,7,238,0.029411764705882353
+candidate_or_expansion,OR,round,soft_spectrum,22,238,0.09243697478991597
+candidate_or_expansion,OR,round,stats_union,122,238,0.5126050420168067
+candidate_or_expansion,healthy,expansion,envelope_multi,103,218,0.4724770642201835
+candidate_or_expansion,healthy,expansion,psd_w1,13,218,0.05963302752293578
+candidate_or_expansion,healthy,expansion,stats_union,6,218,0.027522935779816515
+candidate_or_expansion,healthy,round,envelope_multi,133,301,0.4418604651162791
+candidate_or_expansion,healthy,round,psd_w1,19,301,0.06312292358803986
+candidate_or_expansion,healthy,round,stats_union,49,301,0.16279069767441862

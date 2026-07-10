@@ -1,0 +1,137 @@
+{
+  "raw_response": "{\n  \"class\": \"worn\",\n  \"recipe_type\": \"boundary\",\n  \"condition_id\": \"StainlessSteel.316L|Vc100|fz0.1|ap1.5|ae58.4\",\n  \"template_rank\": 0,\n  \"group_std_mult\": {\n    \"force\": 1.12,\n    \"vibration\": 1.08,\n    \"ae\": 1.05,\n    \"cnc\": 1.03\n  },\n  \"group_mean_mult\": {\n    \"force\": 1.04,\n    \"vibration\": 1.02,\n    \"ae\": 0.98,\n    \"cnc\": 1.01\n  },\n  \"high_freq_gain\": {\n    \"force\": 1.15,\n    \"vibration\": 1.12,\n    \"ae\": 1.08,\n    \"cnc\": 1.05\n  },\n  \"low_freq_gain\": {\n    \"force\": 0.95,\n    \"vibration\": 0.97,\n    \"ae\": 0.99,\n    \"cnc\": 1.01\n  },\n  \"band_eq_strength\": 0.42,\n  \"noise_gain\": 0.06,\n  \"impulse_rate_hz\": 0.0,\n  \"impulse_amp_std\": 0.35,\n  \"trend_strength\": 0.02,\n  \"shared_gain\": 0.03,\n  \"spectral_mix\": 0.25,\n  \"rationale\": \"Boundary point near VB 0.1/0.2 for worn class in target condition. Train statistics show worn/healthy RMS ratios: force=1.66, vibration=1.33, ae=0.92, cnc=1.06. Prototype samples exhibit high force/vibration RMS. To create a hard boundary support, we apply moderate mean multipliers (force +4%, vibration +2%) and stronger std multipliers (force +12%, vibration +8%) to push toward the class edge without crossing. High-frequency gains enhance worn-tool spectral signatures. AE is slightly reduced per train trend. Noise and impulse are within physical bounds to maintain feasibility while adding discriminative texture.\"\n}",
+  "recipe": {
+    "class": "worn",
+    "recipe_type": "boundary",
+    "condition_id": "StainlessSteel.316L|Vc100|fz0.1|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.12,
+      "vibration": 1.08,
+      "ae": 1.05,
+      "cnc": 1.03
+    },
+    "group_mean_mult": {
+      "force": 1.04,
+      "vibration": 1.02,
+      "ae": 0.98,
+      "cnc": 1.01
+    },
+    "high_freq_gain": {
+      "force": 1.15,
+      "vibration": 1.12,
+      "ae": 1.08,
+      "cnc": 1.05
+    },
+    "low_freq_gain": {
+      "force": 0.95,
+      "vibration": 0.97,
+      "ae": 0.99,
+      "cnc": 1.01
+    },
+    "band_eq_strength": 0.42,
+    "noise_gain": 0.06,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.35,
+    "trend_strength": 0.02,
+    "shared_gain": 0.03,
+    "spectral_mix": 0.25,
+    "rationale": "Boundary point near VB 0.1/0.2 for worn class in target condition. Train statistics show worn/healthy RMS ratios: force=1.66, vibration=1.33, ae=0.92, cnc=1.06. Prototype samples exhibit high force/vibration RMS. To create a hard boundary support, we apply moderate mean multipliers (force +4%, vibra"
+  },
+  "accepted": [],
+  "rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "own_axis 3432.699>2636.564",
+        "class_identity weak own=3432.699 other=2690.118"
+      ],
+      "scores": {
+        "own_axis": 3432.699350864108,
+        "other_axis": 2690.1183908192106,
+        "nn_feature_dist": 2839.0077918346115,
+        "stat_pass_fraction": 1.0
+      }
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "own_axis 5332.068>2636.564",
+        "class_identity weak own=5332.068 other=4373.840"
+      ],
+      "scores": {
+        "own_axis": 5332.067786964775,
+        "other_axis": 4373.840437314725,
+        "nn_feature_dist": 4601.672987403128,
+        "stat_pass_fraction": 1.0
+      }
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "own_axis 3177.273>2636.564",
+        "class_identity weak own=3177.273 other=2274.332"
+      ],
+      "scores": {
+        "own_axis": 3177.272757842711,
+        "other_axis": 2274.3318991183437,
+        "nn_feature_dist": 2446.7403547818058,
+        "stat_pass_fraction": 1.0
+      }
+    }
+  ],
+  "accepted_count": 0,
+  "readmission_rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "own_axis 3575.346>2636.564"
+      ],
+      "scores": {
+        "own_axis": 3575.346458091511,
+        "other_axis": 2838.0005343359603,
+        "identity_ratio": 1.2598117635407968,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 2991.6636507575254,
+        "stat_pass_fraction": 1.0
+      },
+      "readmit": true
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "own_axis 4516.218>2636.564"
+      ],
+      "scores": {
+        "own_axis": 4516.218356793629,
+        "other_axis": 3462.054571101296,
+        "identity_ratio": 1.3044908056885416,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 3695.3892439897913,
+        "stat_pass_fraction": 1.0
+      },
+      "readmit": true
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "own_axis 3292.981>2636.564"
+      ],
+      "scores": {
+        "own_axis": 3292.981128432168,
+        "other_axis": 2540.0350543694203,
+        "identity_ratio": 1.2964313711999815,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 2670.6326515650935,
+        "stat_pass_fraction": 1.0
+      },
+      "readmit": true
+    }
+  ]
+}

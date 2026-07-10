@@ -1,0 +1,4 @@
+baseline,recipe_slots,accepted_slots,slot_acceptance,accepted_items_before_diversity,kept_after_diversity,kept_healthy,kept_OR,kept_IR
+phaseA_random_v2,450,0,0.0,0,0,0,0,0
+phaseA_rule_v2,450,167,0.3711111111111111,763,703,227,407,69
+phaseA_llm_k3_v2,450,286,0.6355555555555555,761,757,192,304,261

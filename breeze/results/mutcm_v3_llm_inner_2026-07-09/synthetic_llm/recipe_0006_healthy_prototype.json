@@ -1,0 +1,87 @@
+{
+  "raw_response": "```json\n{\n    \"class\": \"healthy\",\n    \"recipe_type\": \"prototype\",\n    \"condition_id\": \"CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4\",\n    \"template_rank\": 0,\n    \"group_std_mult\": {\n        \"force\": 0.95,\n        \"vibration\": 0.92,\n        \"ae\": 0.98,\n        \"cnc\": 0.96\n    },\n    \"group_mean_mult\": {\n        \"force\": 1.02,\n        \"vibration\": 1.01,\n        \"ae\": 0.99,\n        \"cnc\": 1.01\n    },\n    \"high_freq_gain\": {\n        \"force\": 1.03,\n        \"vibration\": 1.04,\n        \"ae\": 1.02,\n        \"cnc\": 1.01\n    },\n    \"low_freq_gain\": {\n        \"force\": 0.98,\n        \"vibration\": 0.97,\n        \"ae\": 0.99,\n        \"cnc\": 0.98\n    },\n    \"band_eq_strength\": 0.32,\n    \"noise_gain\": 0.018,\n    \"impulse_rate_hz\": 0.0,\n    \"impulse_amp_std\": 0.0,\n    \"trend_strength\": 0.0,\n    \"shared_gain\": 0.025,\n    \"spectral_mix\": 0.22,\n    \"rationale\": \"Prototype anchored to top-ranked exemplar (mutcm_004, rank 0). Multipliers gently perturb within train-supported healthy ranges (force_rms ~225-247, vibration ~0.40-0.67, ae ~0.11-0.17, cnc ~510-521). Slight std reduction and minor spectral shaping create a distinct support point without mimicking worn signatures (worn/healthy rms ratios: force=1.66, vibration=1.33, ae=0.92, cnc=1.06). No impulses or trends to maintain healthy stability.\"\n}\n```",
+  "recipe": {
+    "class": "healthy",
+    "recipe_type": "prototype",
+    "condition_id": "CastIron.GG30|Vc100|fz0.2|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 0.95,
+      "vibration": 0.92,
+      "ae": 0.98,
+      "cnc": 0.96
+    },
+    "group_mean_mult": {
+      "force": 1.02,
+      "vibration": 1.01,
+      "ae": 0.99,
+      "cnc": 1.01
+    },
+    "high_freq_gain": {
+      "force": 1.03,
+      "vibration": 1.04,
+      "ae": 1.02,
+      "cnc": 1.01
+    },
+    "low_freq_gain": {
+      "force": 0.98,
+      "vibration": 0.97,
+      "ae": 0.99,
+      "cnc": 0.98
+    },
+    "band_eq_strength": 0.32,
+    "noise_gain": 0.018,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.0,
+    "shared_gain": 0.025,
+    "spectral_mix": 0.22,
+    "rationale": "Prototype anchored to top-ranked exemplar (mutcm_004, rank 0). Multipliers gently perturb within train-supported healthy ranges (force_rms ~225-247, vibration ~0.40-0.67, ae ~0.11-0.17, cnc ~510-521). Slight std reduction and minor spectral shaping create a distinct support point without mimicking w"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 402.6303397218717,
+        "other_axis": 637.9679684363649,
+        "identity_ratio": 0.6311137230113647,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 374.81348951945984,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0006_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 520.6357436637393,
+        "other_axis": 690.9824288217128,
+        "identity_ratio": 0.7534717554996943,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 487.79085785143354,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0006_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 500.0600240583942,
+        "other_axis": 683.8666414112711,
+        "identity_ratio": 0.7312244724006972,
+        "identity_ratio_hi": 1.2756379164203477,
+        "nn_feature_dist": 470.8300023419251,
+        "stat_pass_fraction": 1.0
+      },
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_healthy_0006_e2.npy"
+    }
+  ],
+  "rejected": [],
+  "accepted_count": 3
+}

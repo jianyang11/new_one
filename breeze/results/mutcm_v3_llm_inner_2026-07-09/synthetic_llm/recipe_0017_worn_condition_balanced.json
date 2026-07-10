@@ -1,0 +1,132 @@
+{
+  "raw_response": "```json\n{\n    \"class\": \"worn\",\n    \"recipe_type\": \"condition_balanced\",\n    \"condition_id\": \"StainlessSteel.316L|Vc50|fz0.1|ap1.5|ae58.4\",\n    \"template_rank\": 0,\n    \"group_std_mult\": {\n        \"force\": 1.12,\n        \"vibration\": 1.08,\n        \"ae\": 1.05,\n        \"cnc\": 1.03\n    },\n    \"group_mean_mult\": {\n        \"force\": 1.15,\n        \"vibration\": 1.05,\n        \"ae\": 0.95,\n        \"cnc\": 1.08\n    },\n    \"high_freq_gain\": {\n        \"force\": 1.1,\n        \"vibration\": 1.05,\n        \"ae\": 1.0,\n        \"cnc\": 1.02\n    },\n    \"low_freq_gain\": {\n        \"force\": 1.05,\n        \"vibration\": 1.02,\n        \"ae\": 1.0,\n        \"cnc\": 1.01\n    },\n    \"band_eq_strength\": 0.38,\n    \"noise_gain\": 0.04,\n    \"impulse_rate_hz\": 0.0,\n    \"impulse_amp_std\": 0.0,\n    \"trend_strength\": 0.01,\n    \"shared_gain\": 0.03,\n    \"spectral_mix\": 0.25,\n    \"rationale\": \"Worn class shows 1.66x force RMS increase and 1.33x vibration increase vs healthy. Template 0 has lower force/vibration than worn average, so mean multipliers boost force (+15%) and CNC (+8%) to align with worn statistics while reducing AE (-5%) per worn_over_healthy=0.92. Texture controls add moderate variability (std_mult 1.03-1.12) and slight high-frequency emphasis in force/vibration to capture wear-induced spectral changes. Small trend reflects gradual wear progression. Recipe stays within physical bounds while making this condition class-balanced.\"\n}\n```",
+  "recipe": {
+    "class": "worn",
+    "recipe_type": "condition_balanced",
+    "condition_id": "StainlessSteel.316L|Vc50|fz0.1|ap1.5|ae58.4",
+    "template_rank": 0,
+    "group_std_mult": {
+      "force": 1.12,
+      "vibration": 1.08,
+      "ae": 1.05,
+      "cnc": 1.03
+    },
+    "group_mean_mult": {
+      "force": 1.08,
+      "vibration": 1.05,
+      "ae": 0.95,
+      "cnc": 1.08
+    },
+    "high_freq_gain": {
+      "force": 1.1,
+      "vibration": 1.05,
+      "ae": 1.0,
+      "cnc": 1.02
+    },
+    "low_freq_gain": {
+      "force": 1.05,
+      "vibration": 1.02,
+      "ae": 1.0,
+      "cnc": 1.01
+    },
+    "band_eq_strength": 0.38,
+    "noise_gain": 0.04,
+    "impulse_rate_hz": 0.0,
+    "impulse_amp_std": 0.0,
+    "trend_strength": 0.01,
+    "shared_gain": 0.03,
+    "spectral_mix": 0.25,
+    "rationale": "Worn class shows 1.66x force RMS increase and 1.33x vibration increase vs healthy. Template 0 has lower force/vibration than worn average, so mean multipliers boost force (+15%) and CNC (+8%) to align with worn statistics while reducing AE (-5%) per worn_over_healthy=0.92. Texture controls add moder"
+  },
+  "accepted": [
+    {
+      "expansion": 0,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1851.5262157875145,
+        "other_axis": 1383.4217565735769,
+        "identity_ratio": 1.3383671371291177,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1422.056934427979,
+        "stat_pass_fraction": 0.9774436090225563
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0017_readmit_e0.npy"
+    },
+    {
+      "expansion": 1,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1856.876527706587,
+        "other_axis": 1383.598056762885,
+        "identity_ratio": 1.3420635556911664,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1428.1865185027764,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0017_readmit_e1.npy"
+    },
+    {
+      "expansion": 2,
+      "ok": true,
+      "reasons": [],
+      "scores": {
+        "own_axis": 1370.938581426263,
+        "other_axis": 1063.1480673748918,
+        "identity_ratio": 1.2895086051478808,
+        "identity_ratio_hi": 6.421619002034601,
+        "nn_feature_dist": 1072.3321937293324,
+        "stat_pass_fraction": 0.9849624060150376
+      },
+      "readmit": true,
+      "path": "breeze/results/mutcm_v3_llm_inner_2026-07-09/synthetic_llm/llm_worn_0017_readmit_e2.npy"
+    }
+  ],
+  "rejected": [
+    {
+      "expansion": 0,
+      "ok": false,
+      "reasons": [
+        "own_axis 2675.319>2636.564",
+        "class_identity weak own=2675.319 other=2184.478"
+      ],
+      "scores": {
+        "own_axis": 2675.3185954733544,
+        "other_axis": 2184.477865236723,
+        "nn_feature_dist": 2271.47658368924,
+        "stat_pass_fraction": 0.9774436090225563
+      }
+    },
+    {
+      "expansion": 1,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=2164.209 other=1613.227"
+      ],
+      "scores": {
+        "own_axis": 2164.2089590402115,
+        "other_axis": 1613.2273794659586,
+        "nn_feature_dist": 1693.2206187043641,
+        "stat_pass_fraction": 0.9849624060150376
+      }
+    },
+    {
+      "expansion": 2,
+      "ok": false,
+      "reasons": [
+        "class_identity weak own=1907.741 other=1367.574"
+      ],
+      "scores": {
+        "own_axis": 1907.7410178539496,
+        "other_axis": 1367.5744697002087,
+        "nn_feature_dist": 1429.5796378122222,
+        "stat_pass_fraction": 0.9774436090225563
+      }
+    }
+  ],
+  "accepted_count": 3,
+  "readmission_rejected": []
+}

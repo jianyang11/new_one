@@ -1,0 +1,2 @@
+dataset,fs_hz,channels,window,window_seconds,label_definition,split,train_counts,test_counts
+Berkeley_NASA_milling,250.0,smcAC;smcDC;vib_table;vib_spindle;AE_table;AE_spindle,512,2.048,healthy VB<0.2; degradation 0.2<=VB<0.7; failure VB>=0.7; measured VB only,"case-level; test_cases=[2, 4, 8, 14, 15]","{'healthy': 629, 'degradation': 1054, 'failure': 153}","{'healthy': 221, 'degradation': 374, 'failure': 51}"

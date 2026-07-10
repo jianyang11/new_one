@@ -1,0 +1,5 @@
+source,class,slots,accepted_slots,acceptance,accepted_items_before_diversity,kept_after_diversity,kept_healthy,kept_OR,kept_IR
+rule,all,700,204,0.2914285714285714,866,785,227,407,151
+rule,healthy,150,58,0.38666666666666666,270,227,,,
+rule,OR,150,87,0.58,421,407,,,
+rule,IR,400,59,0.1475,175,151,,,

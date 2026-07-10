@@ -1,0 +1,3 @@
+dataset,split,baseline,n_real,seed,actual_real_per_class,n_syn,acc,macro_f1,per_class_f1_json,confusion_json,class_names_json
+PU,loco_N09_M07_F10,noise_aug,5,0,"{""0"":5,""1"":5,""2"":5}",60,0.3126,0.1588,"{""healthy"":0.0,""OR"":0.4763112026620187,""IR"":0.0}","[[0,1500,0],[0,1503,0],[0,1805,0]]","[""healthy"",""OR"",""IR""]"
+PU,loco_N09_M07_F10,noise_aug,5,1,"{""0"":5,""1"":5,""2"":5}",60,0.3126,0.1588,"{""healthy"":0.0,""OR"":0.4763112026620187,""IR"":0.0}","[[0,1500,0],[0,1503,0],[0,1805,0]]","[""healthy"",""OR"",""IR""]"

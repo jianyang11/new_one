@@ -1,0 +1,7 @@
+n_syn,n_real,metric,llm,rule,noise_aug,random_open_loop,pass_rule_noise,pass_all_registered_controls
+20,2,Acc,0.73194,0.73698,0.52186,0.46808,False,False
+20,2,Macro-F1,0.58534,0.58903,0.45745,0.4048,False,False
+20,5,Acc,0.71261,0.70701,0.5308,0.46332,True,True
+20,5,Macro-F1,0.57491,0.55931,0.47386,0.39898,True,True
+20,10,Acc,0.72129,0.72353,0.62354,0.48208,False,False
+20,10,Macro-F1,0.60658,0.6095,0.5561,0.43354,False,False
