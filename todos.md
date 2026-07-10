@@ -154,6 +154,188 @@ random split; no inferred mechanical metadata; every enabled domain gate has a
 documented physical source and applicability domain; every accepted synthetic
 sample can be traced to one frozen calibration artifact.
 
+## Framework design: Layer 2 -- generic deterministic signal constraints (planned 2026-07-10)
+
+### Position lock
+
+Layer 2 is the domain-neutral deterministic signal-structure admission layer.
+It receives a window that has already passed Layer-0 schema/legality checks and
+a frozen Layer-1 `CalibrationArtifact`, then returns an auditable generic
+accept/reject result. It does not contain bearing geometry, current-sideband
+rules, tooth-pass frequency, screw order, spindle 1X, an inferred machine
+state, or a trained class-identity classifier. Those are Layer-3 physics
+plugins, enabled only when their data-card preconditions are satisfied.
+
+The layer is conditioned on the declared `(dataset, class, sensor_schema,
+regime_id)` cell of the artifact. This is not a learned recognition model: the
+class is the requested generation label and the layer only measures whether the
+candidate has the real data's declared generic signal structure. A missing
+regime or sensor description is an invalid protocol state, not a value to
+impute.
+
+### Literature basis for the boundary
+
+- Multi-sensor milling research extracts time-, frequency-, and time-frequency
+  information across sensors, while warning that redundant channels can obscure
+  useful information. This supports separate generic temporal, spectral, and
+  cross-channel blocks rather than treating one sensor layout as universal.
+  Zhou and Xue, *Sensors* 18(11), 3866, 2018:
+  https://doi.org/10.3390/s18113866
+- The MU-TCM public CNC dataset pairs synchronized signals with cutting
+  conditions and tool-wear observations. Signal agreement is therefore
+  distinct from a validated machining-mechanism claim; the latter needs the
+  metadata handled by Layer 3:
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC12102343/
+- Ball-screw vibration diagnosis is based on a specific fault definition and
+  test setting. Its spectral signatures must remain a CNC physics plugin, not
+  a generic spectral constraint:
+  https://jvs.sjtu.edu.cn/EN/Y2018/V37/I12/201
+- Multivariate conformal prediction supplies the calibration principle:
+  combine deterministic nonconformity scores first, then calibrate their joint
+  tail on held-out data. It does not license a guarantee when independent
+  source groups or exchangeability are absent. Sun and Yu, ICLR 2024:
+  https://arxiv.org/abs/2212.03281
+
+### Formal input and output contract
+
+```text
+GenericSignalConstraint(
+    CandidateWindow, SensorSchema, CalibrationArtifact, declared_class,
+    declared_regime
+) -> GenericReport
+```
+
+`SensorSchema` declares channel count, channel order, units, synchronisation,
+sampling rate, and whether each channel is a vibration, current, force, AE, or
+another measured quantity. Layer 2 never pads a missing channel with zeros or
+renames a channel to fit another dataset.
+
+`GenericReport` must contain the artifact hash, protocol-cell identifier,
+active/inactive feature blocks, every block score, the joint score and its
+calibrated threshold, both diversity distances and thresholds, pass/fail
+reasons, and a statement that the result is `generic_structural` only. It must
+not assert a bearing, tool, lead-screw, or imbalance mechanism.
+
+### Algorithm to implement
+
+1. **Use the frozen Layer-1 reference cell.** Construct every reference set
+   from outer-train `reference` source groups only. Compute calibration scores
+   only on the disjoint Layer-1 `calibration` source groups. Outer-test data,
+   synthetic data, and downstream-classifier outputs cannot enter either set.
+2. **Extract deterministic, schema-aware block representations.** For every
+   channel, compute robust amplitude/distribution descriptors and temporal
+   dependence descriptors. Compare normalized one-sided PSD shapes on the
+   normalized frequency axis with a distributional distance; do not introduce
+   equipment-specific fixed bands. When two or more time-synchronised channels
+   are declared, additionally compute channel-energy composition and
+   cross-channel dependence. A one-channel schema (CWRU) marks the last block
+   `inactive` and removes it from the composite score; it is not compared to a
+   fabricated multi-channel vector.
+3. **Make all block scores comparable without a fitted classifier.** For each
+   active block, derive reference leave-one-source-out distances. Convert a
+   candidate distance to its empirical reference rank, with the rank convention
+   and ties fixed in the artifact. Combine active block ranks as their maximum,
+   so the joint score records the strongest generic departure rather than
+   allowing one plausible block to compensate for another implausible block.
+4. **Calibrate one source-level joint threshold.** Before looking at
+   calibration data, freeze a deterministic non-overlapping window manifest
+   and source-level aggregate. Compute one joint score per calibration
+   `source_id`, then select the exact declared empirical order statistic. The
+   same threshold applies to all Layer-2 blocks in that protocol cell; no
+   per-gate coverage powers, tail multipliers, or search over test performance
+   are permitted. The artifact records group count and whether the requested
+   coverage is non-vacuous.
+5. **Apply non-copy diversity at source level.** Use the same schema-aware
+   representation to compute real--real nearest-neighbour distances while
+   excluding windows from the same `source_id`. Calibrate a lower diversity
+   bound from those leave-one-source-out distances. For a declared generation
+   batch, report both candidate-to-real and candidate-to-candidate distances;
+   an exact duplicate is rejected by the Layer-0 content hash, while a
+   sub-threshold near-copy fails this Layer-2 criterion. Thresholds are frozen
+   before generation and are never updated with accepted synthetic samples.
+6. **Reject without altering the waveform.** A Layer-2 failure produces its
+   report and returns control to recipe generation. No clipping, spectral
+   equalisation, template mixing, learned repair, or post-hoc projection is an
+   admissible Layer-2 operation.
+
+The only numerical choices exposed by this layer are declared protocol
+parameters: target coverage, the source-level aggregation definition, the
+non-overlapping window manifest, and the deterministic feature-definition
+version. They are selected before calibration, stored in the artifact, and are
+shared across all four core adapters. Dataset names may select a schema and
+metadata card, but may not select hidden Layer-2 constants.
+
+### Block definitions and scope
+
+| block | generic evidence | applicability | explicitly excluded |
+|---|---|---|---|
+| temporal distribution | robust amplitude, quantile, impulse, and temporal-dependence descriptors per declared channel | all schemas | bearing defect rates, tool wear thresholds, current-sideband rules |
+| spectral shape | normalized PSD distribution and its distance to the reference PSD distribution | all schemas | fixed bearing/CNC frequency bands and assumed speed orders |
+| multichannel structure | channel-energy composition and cross-channel dependence for declared synchronised channels | `n_channels >= 2` | assumed X/Y/Z orientation or vibration-current semantics |
+| non-copy diversity | leave-one-source-out real-real and candidate distances in the same generic representation | all schemas | synthetic-pool-driven recalibration and within-file window neighbours |
+
+Layer 2 starts after M1 format/legality validation. Layer 3 may append a
+physics score, but Layer 3 cannot silently override a Layer-2 failure and Layer
+2 cannot turn an unavailable physics plugin into a generic pass.
+
+### Required migration of the four core datasets
+
+| dataset | reusable generic material | move out of Layer 2 | migration boundary |
+|---|---|---|---|
+| private machine-tool | time statistics, channel-energy/correlation, normalized PSD-CDF distance in `MachineToolVerifier` | the `ExtraTrees` class-identity certificate; any label-mechanism assertion | first adapter; four declared channels remain schema-owned, while lead-screw/base-imbalance evidence waits for Layer 3 metadata validation |
+| MU-TCM full | synchronized multi-sensor time/spectral/cross-channel representation | local quantile multipliers (`.995*1.15`, `.002/.998`, `.01*.35`) and tool/process rules | rebuild its `AdmissionCalib` scores from the shared artifact; use its public cutting metadata only in Layer 3 |
+| PU | v2 time statistics, generic soft spectral shape, PSD-Wasserstein and diversity calculations | envelope defect bands, MCSA, 6203 geometry, and PU channel assumptions | reproduce the frozen PU generic row before enabling `BearingPhysicsPlugin` |
+| CWRU 12 kHz DE | single-channel time/spectral representation and generic diversity | 6205 geometry, drive-end envelope frequencies, and any current-channel logic | replace the standalone generic portion of `CwruVerifier`; retain the one-channel schema rather than borrowing PU channels |
+
+The current duplicated verifiers are evidence sources, not interfaces to
+preserve. In particular, a trained `ExtraTrees` identity certificate is useful
+only as an exploratory downstream diagnostic; it cannot be a formal Layer-2
+admission gate in a training-free framework.
+
+### Execution plan
+
+- [ ] L2.1: Define typed `GenericFeatureSchema`, `GenericSignalConstraint`,
+  `GenericReferenceCell`, `GenericDiversityPool`, and `GenericReport` objects
+  under `breeze/src/`; make the Layer-1 artifact their only calibration input.
+- [ ] L2.2: Implement deterministic temporal, normalized-PSD, and declared
+  multichannel representations with source-balanced reference aggregation.
+  Unit-test channel permutation, one-channel activation, non-finite input,
+  and sample-rate/schema mismatches.
+- [ ] L2.3: Implement leave-one-source-out block distances, empirical-rank
+  transformation, maximum joint score, and exact source-level order-statistic
+  calibration. Unit-test that changing outer-test data cannot alter the
+  artifact.
+- [ ] L2.4: Implement content-hash duplicate detection plus the frozen,
+  leave-one-source-out real--real diversity calibration. Unit-test that
+  overlapping windows from the same source cannot calibrate a diversity
+  threshold.
+- [ ] L2.5: Migrate private machine-tool generic code first. Remove the
+  per-gate coverage exponent and classifier certificate from formal admission;
+  preserve a separate exploratory report only where required for historical
+  comparability.
+- [ ] L2.6: Migrate MU-TCM, PU, and CWRU adapters onto the same contract. No
+  adapter may retain local tail multipliers, fixed generic thresholds, or
+  dataset-name branching inside the generic scorer.
+- [ ] L2.7: Run a real-data-only audit for each dataset and each declared
+  class/regime cell: reference/calibration/test source counts, active blocks,
+  per-source scores, pass rates, diversity distributions, and unavailable
+  fields. Do this before any LLM generation, downstream training, or physics
+  claim.
+- [ ] L2.8: Freeze four artifacts and establish regression tests: PU and CWRU
+  must reproduce their declared generic features on frozen legacy inputs;
+  private machine-tool and MU-TCM must prove schema compatibility without
+  importing bearing-only assumptions.
+- [ ] L2.9: Only after L2.1--L2.8 pass, attach the separate CNC, milling, and
+  bearing Layer-3 plugins. Formal certificates must list generic and physics
+  decisions separately.
+
+Acceptance criteria: a single Layer-2 implementation accepts schemas with one,
+three, or four declared channels without padding; no trained classifier,
+equipment kinematic value, local threshold multiplier, or outer-test source is
+reachable from it; each decision is reproducible from the artifact and report;
+rejected signals are never post-processed into acceptance; generic and
+domain-physics claims are separable in every certificate.
+
 ## 当前执行游标（2026-07-08，必须按顺序）
 
 1. [completed] `12.A KinematicsPlugin`：统一运动学插件接口、轴承/铣削插件最小实现已完成；PU smoke 回归与 Phase-A v2 对应冻结行完全一致。
