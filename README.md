@@ -1,4 +1,4 @@
-# BREEZE
+# breeze_full
 
 This repository contains the BREEZE research code, experiment configuration,
 analysis, reports, compact result tables, and task records.
