@@ -1461,7 +1461,7 @@ repair enters Layer 3; a certificate cleanly distinguishes `pass`, `fail`, and
 
 - [x] Run S-A one-sample-per-class renderer/admission smoke under the frozen rule; all three classes are admitted on attempt 0 with hard gates, class identity, and diversity all passing. The smoke manifest records only inner-train carrier sources `1_2`, `2_1`, and `3_2`.
 - [x] Run S-B one-sample-per-class renderer/admission smoke under the identical frozen rule; all three classes are admitted on attempt 0 with hard gates, class identity, and diversity all passing. Each manifest row records two distinct target-class carrier indices; the normal-class pair happens to originate from different windows of source file `1_2`.
-- [ ] Expand each independently passing S-A/S-B smoke pool to `n_syn=5/class` with checkpointed per-item certificates and manifests; discard rejected items without repair.
+- [x] Expand each independently passing S-A/S-B smoke pool to `n_syn=5/class` with checkpointed per-item certificates and manifests; both pools are balanced at 5/class. S-A used 16 attempts total (one lead-screw rejection); S-B used 17 (two lead-screw rejections); each rejected candidate was discarded without repair.
 - [ ] Expand only a balanced five/class pool to `n_syn=20/class`; retain exactly the immutable admitted waveforms and their target-class carrier provenance.
 - [ ] If a zero-API candidate cannot fill all three classes within its predeclared attempt budget, freeze the capacity result rather than changing renderer bounds or sampling from validation/formal data.
 
