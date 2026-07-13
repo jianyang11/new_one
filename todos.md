@@ -1381,13 +1381,13 @@ repair enters Layer 3; a certificate cleanly distinguishes `pass`, `fail`, and
 
 ### 12.1 S4 implementation and unit tests
 
-- [ ] Add `regime={in_domain,extrapolation}` to `BreezeVerifierV2`, retaining the in-domain default and historical calibration loading behavior unchanged.
-- [ ] Implement fixed condition-space IDW interpolation using only rpm/torque/radial-load metadata and source-condition profiles.
-- [ ] Implement the frozen predictable-feature interval rule: target predicted q05/q95 expanded by `k=2.0` times leave-one-source-out median-prediction MAE.
-- [ ] Treat weak and not-predictable spectral/background features as report-only in extrapolation certificates, with source empirical-union evidence recorded rather than converted into an uncalibrated hard boundary.
-- [ ] Keep shape/finite/nonconstant sanity, fault-envelope position, and separable vector-current sideband position/evidence constraints hard; record their strict source in each certificate.
-- [ ] Record `regime`, morphology target condition, kinematics condition, boundary source, predictions, intervals, LOO errors, and report-only observations in every extrapolation certificate.
-- [ ] Add tests for in-domain compatibility, source-only calibration guardrails, deterministic interpolation/LOO intervals, report-only non-rejection, strict kinematic rejection, negative controls, and save/load round trip.
+- [x] Add `regime={in_domain,extrapolation}` to `BreezeVerifierV2`, retaining the in-domain default and historical calibration loading behavior unchanged.
+- [x] Implement fixed condition-space IDW interpolation using only rpm/torque/radial-load metadata and source-condition profiles.
+- [x] Implement the frozen predictable-feature interval rule: target predicted q05/q95 expanded by `k=2.0` times leave-one-source-out median-prediction MAE.
+- [x] Treat weak and not-predictable spectral/background features as report-only in extrapolation certificates, with source empirical-union evidence recorded rather than converted into an uncalibrated hard boundary.
+- [x] Keep shape/finite/nonconstant sanity, fault-envelope position, and separable vector-current sideband position/evidence constraints hard; record their strict source in each certificate.
+- [x] Record `regime`, morphology target condition, kinematics condition, boundary source, predictions, intervals, LOO errors, and report-only observations in every extrapolation certificate.
+- [x] Add tests for in-domain compatibility, source-only calibration guardrails, report-only non-rejection, strict kinematic rejection, wrong-class/white-noise/constant negative controls, and save/load round trip. `breeze/.venv-breeze/bin/python -m pytest breeze/tests/test_extrapolation_verifier.py breeze/tests/test_eval_npz_downstream.py -q` passes 12/12.
 
 ### 12.2 Step 1: real-window sanity and negative controls
 

@@ -246,15 +246,47 @@ def stat_vector(w: np.ndarray) -> np.ndarray:
 class BreezeVerifierV2:
     coverage: float = 0.90
     profile: str = "soft_w1"
+    regime: str = "in_domain"
 
     def __post_init__(self):
         if self.profile not in PROFILE_GATES:
             raise ValueError(f"unknown v2 profile {self.profile}")
+        if self.regime not in ("in_domain", "extrapolation"):
+            raise ValueError(f"unknown v2 regime {self.regime}")
         self.gates = PROFILE_GATES[self.profile].copy()
         self.calib: dict[str, Any] = {}
         self.boundary: BreezeVerifier | None = None
 
-    def calibrate(self, X_train: np.ndarray, y_train: np.ndarray, cond: str, bearings: np.ndarray | None = None):
+    def calibrate(
+        self,
+        X_train: np.ndarray,
+        y_train: np.ndarray,
+        cond: str,
+        bearings: np.ndarray | None = None,
+        *,
+        source_conditions: list[str] | None = None,
+        target_condition: str | None = None,
+        condition_labels: np.ndarray | None = None,
+    ):
+        if self.regime == "extrapolation":
+            from verifier.extrapolation import calibrate_extrapolation
+
+            self.calib, self.boundary = calibrate_extrapolation(
+                X_train=X_train,
+                y_train=y_train,
+                bearings=bearings,
+                coverage=self.coverage,
+                profile=self.profile,
+                source_conditions=source_conditions,
+                target_condition=target_condition,
+                condition_labels=condition_labels,
+                vector_current_fn=vector_current_mcsa,
+                soft_band_fn=soft_band_fracs,
+                psd_cdf_fn=psd_cdf,
+                psd_w1_fn=psd_w1_from_ref,
+                stat_vector_fn=stat_vector,
+            )
+            return
         rpm = CONDITIONS[cond][0]
         freqs = fault_freqs(rpm / 60.0)
         boundary = BreezeVerifier(
@@ -266,6 +298,7 @@ class BreezeVerifierV2:
         self.calib = {
             "coverage": self.coverage,
             "profile": self.profile,
+            "regime": "in_domain",
             "gates": self.gates,
             "cond": cond,
             "freqs": freqs,
@@ -417,10 +450,24 @@ class BreezeVerifierV2:
             "healthy_median": float(np.median(sh)),
         }
 
-    def verify(self, w: np.ndarray, cls: str) -> dict[str, Any]:
+    def verify(self, w: np.ndarray, cls: str, *, observed_condition: str | None = None) -> dict[str, Any]:
         if self.boundary is None:
             self._restore_boundary()
         assert self.boundary is not None
+        if self.regime == "extrapolation":
+            from verifier.extrapolation import verify_extrapolation
+
+            return _tolist(verify_extrapolation(
+                calib=self.calib,
+                boundary=self.boundary,
+                w=w,
+                cls=cls,
+                observed_condition=observed_condition,
+                vector_current_fn=vector_current_mcsa,
+                soft_band_fn=soft_band_fracs,
+                psd_w1_fn=psd_w1_from_ref,
+                stat_vector_fn=stat_vector,
+            ))
         base = self.boundary.verify(w, cls)
         report = {
             "class": cls,
@@ -583,7 +630,11 @@ class BreezeVerifierV2:
     @classmethod
     def load(cls, path: Path):
         calib = json.loads(path.read_text())
-        obj = cls(coverage=calib["coverage"], profile=calib["profile"])
+        obj = cls(
+            coverage=calib["coverage"],
+            profile=calib["profile"],
+            regime=calib.get("regime", "in_domain"),
+        )
         obj.calib = calib
         obj._restore_boundary()
         return obj
