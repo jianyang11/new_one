@@ -2,20 +2,26 @@
 
 ## Scope
 
-This is the first target checkpoint of the preregistered S4 audit:
-`N09_M07_F10` is the morphology target, and only the train-bearing windows of
-`N15_M01_F10`, `N15_M07_F04`, and `N15_M07_F10` were loaded. No pseudo-held-out
-or registered formal held-out waveform was read. API requests: 0.
+This is the completed v1 zero-API audit of all four internal S4 targets. For
+each target, only the three other conditions' train-bearing windows were
+loaded. No pseudo-held-out or registered formal held-out waveform was read.
+API requests: 0.
 
 The complete aggregate certificate is `s4_target_N09_M07_F10.json`.
 
 ## Predeclared stop criteria and observed result
 
-| criterion | required | observed | status |
-|---|---:|---:|---|
-| pooled raw healthy admission | >= 0.600 | 87/300 = 0.290 | fail |
-| per-source raw healthy admission | >= 0.400 each | 0.310, 0.240, 0.320 | fail |
-| wrong-label/white-noise/constant admission | 0/800 | 221/800 | fail |
+| target | pooled raw healthy admission | per-source minimum | prohibited negative admission | status |
+|---|---:|---:|---:|---|
+| N09_M07_F10 | 87/300 = 0.290 | 0.240 | 221/800 | fail |
+| N15_M01_F10 | 263/300 = 0.877 | 0.740 | 311/800 | fail |
+| N15_M07_F04 | 265/300 = 0.883 | 0.740 | 319/800 | fail |
+| N15_M07_F10 | 276/300 = 0.920 | 0.880 | 350/800 | fail |
+
+The required criteria were raw healthy admission >=0.600 pooled, >=0.400 for
+every source, and exactly 0/800 prohibited negative admissions in every
+target. `N09_M07_F10` fails both healthy criteria; every target fails the
+negative-control criterion.
 
 The unhealthy v1 behavior is bidirectional rather than a shortage of
 admission: `real_OR_labeled_IR` admitted 76/100, `real_IR_labeled_OR` admitted
@@ -37,8 +43,8 @@ of `s4_design.md`:
    more plausible than the competing fault rate. This explains the wrong-label
    and OR-white-noise admissions.
 
-No S1/S2/S5 pool is built from this regime. The v1 target result remains in the
-repository as an audit artifact and is not used for candidate selection.
+No S1/S2/S5 pool is built from this regime. The four v1 target results remain
+in the repository as audit artifacts and are not used for candidate selection.
 
 ## Permitted next action
 

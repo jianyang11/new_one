@@ -1,0 +1,218 @@
+{
+  "target_condition": "N15_M07_F10",
+  "boundary": "only the three non-target conditions' config.SPLIT train-bearing windows are loaded; target and formal held-out windows are unread",
+  "regime": "extrapolation",
+  "source_conditions": [
+    "N09_M07_F10",
+    "N15_M01_F10",
+    "N15_M07_F04"
+  ],
+  "n_per_source_condition": 100,
+  "healthy_carrier_rows": [
+    {
+      "target_condition": "N15_M07_F10",
+      "source_condition": "N09_M07_F10",
+      "class": "healthy",
+      "n": 100,
+      "raw_pass": 88,
+      "noise_aug_scale_jitter_pass": 81
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "source_condition": "N15_M01_F10",
+      "class": "healthy",
+      "n": 100,
+      "raw_pass": 89,
+      "noise_aug_scale_jitter_pass": 89
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "source_condition": "N15_M07_F04",
+      "class": "healthy",
+      "n": 100,
+      "raw_pass": 99,
+      "noise_aug_scale_jitter_pass": 99
+    }
+  ],
+  "fault_transfer_rows": [
+    {
+      "target_condition": "N15_M07_F10",
+      "source_condition": "N09_M07_F10",
+      "class": "OR",
+      "n": 100,
+      "morphology_transfer_source_kinematics_pass": 100,
+      "literal_target_kinematics_pass": 98
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "source_condition": "N09_M07_F10",
+      "class": "IR",
+      "n": 100,
+      "morphology_transfer_source_kinematics_pass": 92,
+      "literal_target_kinematics_pass": 91
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "source_condition": "N15_M01_F10",
+      "class": "OR",
+      "n": 100,
+      "morphology_transfer_source_kinematics_pass": 99,
+      "literal_target_kinematics_pass": 99
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "source_condition": "N15_M01_F10",
+      "class": "IR",
+      "n": 100,
+      "morphology_transfer_source_kinematics_pass": 91,
+      "literal_target_kinematics_pass": 91
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "source_condition": "N15_M07_F04",
+      "class": "OR",
+      "n": 100,
+      "morphology_transfer_source_kinematics_pass": 97,
+      "literal_target_kinematics_pass": 97
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "source_condition": "N15_M07_F04",
+      "class": "IR",
+      "n": 100,
+      "morphology_transfer_source_kinematics_pass": 87,
+      "literal_target_kinematics_pass": 87
+    }
+  ],
+  "negative_control_rows": [
+    {
+      "target_condition": "N15_M07_F10",
+      "control": "real_OR_labeled_IR",
+      "n": 100,
+      "admitted": 79
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "control": "real_IR_labeled_OR",
+      "n": 100,
+      "admitted": 80
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "control": "white_noise_labeled_healthy",
+      "n": 100,
+      "admitted": 0
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "control": "white_noise_labeled_OR",
+      "n": 100,
+      "admitted": 99
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "control": "white_noise_labeled_IR",
+      "n": 100,
+      "admitted": 92
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "control": "constant_labeled_healthy",
+      "n": 100,
+      "admitted": 0
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "control": "constant_labeled_OR",
+      "n": 100,
+      "admitted": 0
+    },
+    {
+      "target_condition": "N15_M07_F10",
+      "control": "constant_labeled_IR",
+      "n": 100,
+      "admitted": 0
+    }
+  ],
+  "criteria": {
+    "healthy_pooled_raw_rate_min": 0.6,
+    "healthy_source_raw_rate_min": 0.4,
+    "negative_admitted_required": 0
+  },
+  "decision": {
+    "healthy_pooled_raw_rate": 0.92,
+    "healthy_source_raw_rates": {
+      "N09_M07_F10": 0.88,
+      "N15_M01_F10": 0.89,
+      "N15_M07_F04": 0.99
+    },
+    "negative_admitted": 350,
+    "sanity_pass": false
+  },
+  "top_healthy_failures": {
+    "healthy_fault_absence: healthy candidate contains source-incompatible periodic fault evidence at target kinematics": 8,
+    "morphology_interpolated: vib_rms=0.0672222 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0666932 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0645184 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0650659 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0594837 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0668716 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.062176 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0648149 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0650297 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0648014 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0636225 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0656097 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0630935 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0598211 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0606687 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0650271 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0642143 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0662394 outside extrapolated interval [0.0674445,0.203586]": 1,
+    "morphology_interpolated: vib_rms=0.0636089 outside extrapolated interval [0.0674445,0.203586]": 1
+  },
+  "top_fault_transfer_failures": {
+    "morphology_interpolated: vib_kurtosis=14.8946 outside extrapolated interval [1.86434,13.0121]": 1,
+    "morphology_interpolated: vib_kurtosis=14.7276 outside extrapolated interval [1.86434,13.0121]": 1,
+    "morphology_interpolated: vib_kurtosis=15.7362 outside extrapolated interval [1.86434,13.0121]": 1,
+    "morphology_interpolated: vib_kurtosis=15.9154 outside extrapolated interval [1.86434,13.0121]": 1,
+    "morphology_interpolated: vib_crest=8.89235 outside extrapolated interval [2.67739,8.46591]": 1,
+    "morphology_interpolated: env_peak_prominence=0.354879 outside extrapolated interval [0.634035,3.04229]": 1,
+    "envelope_kinematics: IR envelope peak 70.312 Hz / prominence 0.355 fails strict target-rate evidence": 1,
+    "morphology_interpolated: vib_kurtosis=13.4756 outside extrapolated interval [1.86434,13.0121]": 1,
+    "morphology_interpolated: vib_crest=8.70665 outside extrapolated interval [2.67739,8.46591]": 1,
+    "morphology_interpolated: vib_kurtosis=16.4438 outside extrapolated interval [1.86434,13.0121]": 1,
+    "morphology_interpolated: vib_crest=8.60918 outside extrapolated interval [2.67739,8.46591]": 1,
+    "envelope_kinematics: OR envelope peak 82.031 Hz / prominence 0.657 fails strict target-rate evidence": 1,
+    "morphology_interpolated: mod_depth_fr=4.61714 outside extrapolated interval [0.687579,3.99607]": 1,
+    "morphology_interpolated: mod_depth_fr=4.59661 outside extrapolated interval [0.687579,3.99607]": 1,
+    "morphology_interpolated: mod_depth_fr=4.3929 outside extrapolated interval [0.687579,3.99607]": 1,
+    "morphology_interpolated: mod_depth_fr=0.624993 outside extrapolated interval [0.687579,3.99607]": 1,
+    "morphology_interpolated: mod_depth_fr=4.53068 outside extrapolated interval [0.687579,3.99607]": 1,
+    "morphology_interpolated: env_peak_prominence=3.51572 outside extrapolated interval [0.634035,3.04229]": 1,
+    "morphology_interpolated: env_peak_prominence=5.02883 outside extrapolated interval [0.634035,3.04229]": 1,
+    "morphology_interpolated: mod_depth_fr=4.22746 outside extrapolated interval [0.687579,3.99607]": 1
+  },
+  "top_negative_rejections": {
+    "sanity: X constant": 300,
+    "sanity: Y constant": 300,
+    "sanity: Z constant": 300,
+    "sanity: large repeated segments": 300,
+    "morphology_interpolated: vib_rms=1.02749 outside extrapolated interval [0.0674445,0.203586]": 2,
+    "morphology_interpolated: ir_resonance_3000_3600=0.119422 outside extrapolated interval [0.12983,0.765054]": 1,
+    "morphology_interpolated: ir_resonance_3000_3600=0.1014 outside extrapolated interval [0.12983,0.765054]": 1,
+    "morphology_interpolated: ir_resonance_3000_3600=0.0852049 outside extrapolated interval [0.12983,0.765054]": 1,
+    "morphology_interpolated: env_peak_prominence=3.16468 outside extrapolated interval [0.634035,3.04229]": 1,
+    "morphology_interpolated: ir_resonance_3000_3600=0.114071 outside extrapolated interval [0.12983,0.765054]": 1,
+    "morphology_interpolated: mod_depth_fr=0.57379 outside extrapolated interval [0.687579,3.99607]": 1,
+    "morphology_interpolated: ir_resonance_3000_3600=0.0818832 outside extrapolated interval [0.12983,0.765054]": 1,
+    "morphology_interpolated: ir_resonance_3000_3600=0.075887 outside extrapolated interval [0.12983,0.765054]": 1,
+    "morphology_interpolated: ir_resonance_3000_3600=0.128842 outside extrapolated interval [0.12983,0.765054]": 1,
+    "morphology_interpolated: ir_resonance_3000_3600=0.0816268 outside extrapolated interval [0.12983,0.765054]": 1,
+    "morphology_interpolated: ir_resonance_3000_3600=0.115367 outside extrapolated interval [0.12983,0.765054]": 1,
+    "morphology_interpolated: env_peak_prominence=3.59641 outside extrapolated interval [0.634035,3.04229]": 1,
+    "morphology_interpolated: ir_resonance_3000_3600=0.0749278 outside extrapolated interval [0.12983,0.765054]": 1,
+    "morphology_interpolated: ir_resonance_3000_3600=0.0742604 outside extrapolated interval [0.12983,0.765054]": 1,
+    "morphology_interpolated: ir_resonance_3000_3600=0.119025 outside extrapolated interval [0.12983,0.765054]": 1
+  }
+}
