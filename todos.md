@@ -1391,34 +1391,34 @@ repair enters Layer 3; a certificate cleanly distinguishes `pass`, `fail`, and
 
 ### 12.2 Step 1: real-window sanity and negative controls
 
-- [ ] Build one extrapolation verifier per internal target condition using only the other three source-condition train-bearing windows.
-- [ ] Re-run the healthy-carrier audit with the v4 deterministic 100-per-source sampling schedule; report raw and frozen-noise pass rates separately.
-- [ ] Run the cross-condition OR/IR audit with target morphology boundaries and the source waveform's observed kinematics; separately log literal target-kinematics mismatch as an expected strict rejection, never as a successful transfer.
-- [ ] Apply the predeclared healthy sanity criterion: pooled raw healthy admission at least 60/100 and no source-condition raw rate below 40/100 for every target verifier.
-- [ ] Run fixed negative controls for wrong-class fault labels, white-noise windows, and constant windows; require all to be rejected before reopening pool construction.
+- [x] Build one extrapolation verifier per internal target condition using only the other three source-condition train-bearing windows for both v1 and v1.1; target/formal windows remain unread.
+- [x] Re-run the healthy-carrier audit with the v4 deterministic 100-per-source sampling schedule; v1.1 raw rates are 0.783--0.923 and frozen-noise rates are retained in every target certificate.
+- [x] Run the cross-condition OR/IR audit with target morphology boundaries and the source waveform's observed kinematics; literal target-kinematics results are logged separately as strict mismatch controls.
+- [x] Apply the predeclared healthy sanity criterion: v1.1 satisfies it in all four targets, but this necessary condition cannot override negative-control failure.
+- [x] Run fixed negative controls for wrong-class fault labels, white-noise windows, and constant windows. v1 and v1.1 both fail the required zero-admission criterion; S4 remains closed.
 - [x] Complete the zero-API v1 audit for all four targets. The batch was already in flight when the first target failed; all four failure checkpoints are retained, no pools were started, and every target admitted prohibited negatives (221, 311, 319, and 350 of 800 respectively). `N09_M07_F10` also fails healthy sanity at 87/300 (0.290), with every source below 0.40.
 - [x] Write `s4_v1_failure.md` and freeze `s4_design_amendment_1.md` before any v1.1 calibration. The correction tightens class/rate discrimination and fixes target-frequency healthy calibration; it does not use pseudo-held-out or formal windows and does not relax a threshold to increase admission.
 - [x] Re-run all four targets under v1.1 in independent `v1_1/` run/result directories. Healthy raw rates now pass (0.783--0.923), but prohibited negatives still admit 103--231 of 800 per target; no pool construction is eligible.
-- [ ] Run a source-only rate/harmonic/modulation separability diagnostic before proposing any further S4 change. Do not change a quantile merely to eliminate the observed controls; a v1.2 proposal requires a distinct physically defined feature with an auditable source-only separation check.
+- [x] Run a source-only rate/harmonic/modulation separability diagnostic. Neither OR nor IR has a feature whose true-class q10 exceeds both wrong-class and white-noise q90; no v1.2 gate is admissible.
 
 ### 12.3 Step 2: zero-API S2/S1 pool reopening
 
-- [ ] Thread `--regime extrapolation` and target/source condition labels through morphology-IDW and morphology-nearest construction without modifying source recipe templates or rejected waveforms.
-- [ ] Thread the same verifier mode through BREEZE-H while retaining healthy carriers strictly from source train windows and target-kinematic fault injection.
-- [ ] For every candidate and all four internal targets, run a checkpointed five-per-class smoke pool and retain per-item certificates/manifests.
-- [ ] Expand only candidates with every fold balanced at five admitted samples per class to `n_syn=20/class`; preserve single-pass admission and real-real diversity decisions.
-- [ ] Write per-fold pool counts, certificate failure reasons, and source composition to independent v5 result directories.
+- [ ] Thread `--regime extrapolation` and target/source condition labels through morphology-IDW and morphology-nearest construction without modifying source recipe templates or rejected waveforms; prohibited because no valid S4 regime passed Step 1.
+- [ ] Thread the same verifier mode through BREEZE-H while retaining healthy carriers strictly from source train windows and target-kinematic fault injection; prohibited because no valid S4 regime passed Step 1.
+- [ ] For every candidate and all four internal targets, run a checkpointed five-per-class smoke pool and retain per-item certificates/manifests; prohibited by S4 negative-control failure.
+- [ ] Expand only candidates with every fold balanced at five admitted samples per class to `n_syn=20/class`; preserve single-pass admission and real-real diversity decisions; not reached.
+- [ ] Write per-fold pool counts, certificate failure reasons, and source composition to independent v5 result directories; no pool may be reported because no candidate is eligible.
 
 ### 12.4 Step 3: zero-API internal simulated LOCO comparison
 
-- [ ] Build BREEZE-U only from an eligible balanced BREEZE pool and `noise_aug`, with exactly equal per-class contributions and immutable admitted source waveforms.
-- [ ] Compare `real_only`, `noise_aug`, eligible morphology-IDW, morphology-nearest, BREEZE-H, and BREEZE-U over four internal targets, `n_real={5,10,25}`, 10 fixed seeds, `n_syn=20/class`, and `--normalize none`.
-- [ ] Use checkpointed evaluator rows and strict summarizer schema validation; do not mix S4 rows with historical v4 result identities.
-- [ ] Mechanically evaluate the frozen rule for both Acc and Macro-F1: each candidate must meet or exceed `noise_aug` in at least three of four folds for every shot-count cell.
+- [ ] Build BREEZE-U only from an eligible balanced BREEZE pool and `noise_aug`, with exactly equal per-class contributions and immutable admitted source waveforms; not eligible after S4 failure.
+- [ ] Compare `real_only`, `noise_aug`, eligible morphology-IDW, morphology-nearest, BREEZE-H, and BREEZE-U over four internal targets, `n_real={5,10,25}`, 10 fixed seeds, `n_syn=20/class`, and `--normalize none`; prohibited by the Step 1 stop rule.
+- [ ] Use checkpointed evaluator rows and strict summarizer schema validation; do not mix S4 rows with historical v4 result identities; not reached.
+- [ ] Mechanically evaluate the frozen rule for both Acc and Macro-F1: each candidate must meet or exceed `noise_aug` in at least three of four folds for every shot-count cell; not reached.
 
 ### 12.5 Decision and formal boundary
 
-- [ ] If exactly one candidate passes, commit `pu_loco_v5_preregistration.md` before formal access, naming the candidate, code hash, 40 seeds, metrics, paired Wilcoxon direction, and complete Holm family.
-- [ ] Run the registered formal held-out experiment exactly once only after preregistration; freeze and report its outcome without new selection or tuning.
-- [ ] If no candidate passes, commit an honest v5 failure analysis and manuscript-safe language that scopes cross-condition PU LOCO as a stress test while retaining S4 as a methodological result.
+- [ ] If exactly one candidate passes, commit `pu_loco_v5_preregistration.md` before formal access, naming the candidate, code hash, 40 seeds, metrics, paired Wilcoxon direction, and complete Holm family; no eligible candidate exists.
+- [ ] Run the registered formal held-out experiment exactly once only after preregistration; freeze and report its outcome without new selection or tuning; prohibited.
+- [x] Commit an honest v5 failure analysis and manuscript-safe language that scopes cross-condition PU LOCO as a stress test while retaining the S4 diagnostic as a methodological result. No formal held-out experiment is run.
 - [ ] Update API ledger, command manifests, todos, and GitHub verification; exclude raw datasets, generated arrays, checkpoints, virtual environments, and intermediate training runs from commits.
