@@ -1396,7 +1396,9 @@ repair enters Layer 3; a certificate cleanly distinguishes `pass`, `fail`, and
 - [ ] Run the cross-condition OR/IR audit with target morphology boundaries and the source waveform's observed kinematics; separately log literal target-kinematics mismatch as an expected strict rejection, never as a successful transfer.
 - [ ] Apply the predeclared healthy sanity criterion: pooled raw healthy admission at least 60/100 and no source-condition raw rate below 40/100 for every target verifier.
 - [ ] Run fixed negative controls for wrong-class fault labels, white-noise windows, and constant windows; require all to be rejected before reopening pool construction.
-- [ ] If a predeclared sanity or negative-control criterion fails, write the failure report and return to the frozen design/implementation audit; do not tune from pseudo-held-out or formal windows.
+- [x] Run the v1 audit on the first target `N09_M07_F10` and stop at its predeclared failure: healthy raw 87/300 (0.290), every source below 0.40, and 221/800 negative controls admitted. Preserve the target checkpoint and report; do not use this invalid regime for pools.
+- [x] Write `s4_v1_failure.md` and freeze `s4_design_amendment_1.md` before any v1.1 calibration. The correction tightens class/rate discrimination and fixes target-frequency healthy calibration; it does not use pseudo-held-out or formal windows and does not relax a threshold to increase admission.
+- [ ] Re-run all four targets under v1.1 only after the amended design and implementation are committed; apply the unchanged healthy and negative-control stop criteria.
 
 ### 12.3 Step 2: zero-API S2/S1 pool reopening
 
