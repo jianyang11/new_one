@@ -1431,19 +1431,19 @@ repair enters Layer 3; a certificate cleanly distinguishes `pass`, `fail`, and
 - [x] Read the private-MT v1 preflight reports, v2 smoke report, v2 failure analysis, v2 inner-train class-difference report, PU-v5 S4 failure analysis, and the active todo boundary in that order.
 - [x] Correct the v2 causal statement: all three five-sample closed-loop pools were admitted; `BLOCKED` was caused by the downstream core gate (`0/6` versus real/noise), not an empty/admission-rejected pool.
 - [x] Search the local `合成数据sci` project tree for factual spindle speed, feed, lead/pitch or transmission, sensor mounting, current definition, sampling, and file-to-operation records; distinguish direct evidence from missing fields and never infer a physical order from waveform appearance or filenames.
-- [ ] Write and freeze an auditable v3 machine-tool data-card search record with a field-by-field provenance table, exact local search scope, and an explicit `unavailable` status for every absent physical datum.
-- [ ] Keep file IDs `7/8` unread during all v3 development, calibration, candidate selection, and diagnostics; retain a loader-level hard error for any attempted access.
-- [ ] Lock the only development split: per class IDs `1/2/4/5` inner train and ID `10` inner validation; prohibit all tuning on formal files.
-- [ ] Lock v3 API use at zero through S-A, S-B, S-E, all admission audits, and the first internal downstream comparison; allow S-C only after both zero-API candidates pass admission but lose the frozen inner downstream gate, with a total S-C ceiling of 100 counted requests.
-- [ ] Do not add TPF, spindle/shaft order, lead-screw order, rotational imbalance, bearing frequency, guessed sensor semantics, learned generators, post-rejection repairs, or a new learned admission certificate.
+- [x] Write and freeze an auditable v3 machine-tool data-card search record with a field-by-field provenance table, exact local search scope, and an explicit `unavailable` status for every absent physical datum.
+- [x] Keep file IDs `7/8` unread during all v3 development, calibration, candidate selection, and diagnostics; retain a loader-level hard error for any attempted access.
+- [x] Lock the only development split: per class IDs `1/2/4/5` inner train and ID `10` inner validation; prohibit all tuning on formal files.
+- [x] Lock v3 API use at zero through S-A, S-B, S-E, all admission audits, and the first internal downstream comparison; allow S-C only after both zero-API candidates pass admission but lose the frozen inner downstream gate, with a total S-C ceiling of 100 counted requests.
+- [x] Do not add TPF, spindle/shaft order, lead-screw order, rotational imbalance, bearing frequency, guessed sensor semantics, learned generators, post-rejection repairs, or a new learned admission certificate.
 - [ ] For every code/document/result change: review only scoped paths, commit without raw data or generated arrays/checkpoints, push `main`, and verify the remote SHA.
 
 ### 13.1 Pre-registered zero-API design and implementation
 
-- [ ] Create `breeze/results/mt_private_v3_design_2026-07-13/mt_private_v3_design.md` before running v3 candidate/audit outputs; specify every fixed candidate recipe rule, audit rule, downstream grid, threshold source, file-access boundary, and formal-selection gate.
-- [ ] Define S-A from inner-train only: select the strongest signed pairwise class-difference features already reported by the frozen normalized soft-band/statistics extractor; use deterministic target-class IAAFT carriers and fixed, feature-directional renderer gains rather than an LLM or physical-frequency assumption.
-- [ ] Define S-B from inner-train only: mix two nonidentical target-class real carriers through the same deterministic surrogate renderer; retain target class label, source-carrier hashes/IDs inside run manifests, and no cross-class carrier borrowing.
-- [ ] Keep the existing `MachineToolVerifier` and its existing ExtraTrees class-identity audit unchanged as exploratory admission components; record that neither is a component-physics certificate.
+- [x] Create `breeze/results/mt_private_v3_design_2026-07-13/mt_private_v3_design.md` before running v3 candidate/audit outputs; specify every fixed candidate recipe rule, audit rule, downstream grid, threshold source, file-access boundary, and formal-selection gate.
+- [x] Define S-A from inner-train only: select the strongest signed pairwise class-difference features already reported by the frozen normalized soft-band/statistics extractor; use deterministic target-class IAAFT carriers and fixed, feature-directional renderer gains rather than an LLM or physical-frequency assumption.
+- [x] Define S-B from inner-train only: mix two nonidentical target-class real carriers through the same deterministic surrogate renderer; retain target class label, source-carrier hashes/IDs inside run manifests, and no cross-class carrier borrowing.
+- [x] Keep the existing `MachineToolVerifier` and its existing ExtraTrees class-identity audit unchanged as exploratory admission components; record that neither is a component-physics certificate.
 - [ ] Add a v3 entry point with independent `prepare`, `audit`, `smoke`, `pool`, `downstream`, and `summarize` checkpoints, deterministic seeds, dedicated v3 run/result paths, and no write to any frozen v1/v2 artifact.
 - [ ] Add unit tests for formal-file guards, target-class-only carriers, signed directional rendering, no exact real/synthetic duplicate, all four admission controls, resume keys, and deterministic small-pool construction.
 
