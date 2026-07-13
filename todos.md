@@ -1422,3 +1422,60 @@ repair enters Layer 3; a certificate cleanly distinguishes `pass`, `fail`, and
 - [ ] Run the registered formal held-out experiment exactly once only after preregistration; freeze and report its outcome without new selection or tuning; prohibited.
 - [x] Commit an honest v5 failure analysis and manuscript-safe language that scopes cross-condition PU LOCO as a stress test while retaining the S4 diagnostic as a methodological result. No formal held-out experiment is run.
 - [ ] Update API ledger, command manifests, todos, and GitHub verification; exclude raw datasets, generated arrays, checkpoints, virtual environments, and intermediate training runs from commits.
+
+## 13. Private-MT v3 discriminative conditional synthesis (started 2026-07-13; inner-development only)
+
+### 13.0 Protocol correction, scope lock, and data-card search
+
+- [x] Synchronize local `main` with `origin/main` before beginning v3; record the baseline commit and preserve unrelated untracked PU-v4 outputs.
+- [x] Read the private-MT v1 preflight reports, v2 smoke report, v2 failure analysis, v2 inner-train class-difference report, PU-v5 S4 failure analysis, and the active todo boundary in that order.
+- [x] Correct the v2 causal statement: all three five-sample closed-loop pools were admitted; `BLOCKED` was caused by the downstream core gate (`0/6` versus real/noise), not an empty/admission-rejected pool.
+- [x] Search the local `合成数据sci` project tree for factual spindle speed, feed, lead/pitch or transmission, sensor mounting, current definition, sampling, and file-to-operation records; distinguish direct evidence from missing fields and never infer a physical order from waveform appearance or filenames.
+- [ ] Write and freeze an auditable v3 machine-tool data-card search record with a field-by-field provenance table, exact local search scope, and an explicit `unavailable` status for every absent physical datum.
+- [ ] Keep file IDs `7/8` unread during all v3 development, calibration, candidate selection, and diagnostics; retain a loader-level hard error for any attempted access.
+- [ ] Lock the only development split: per class IDs `1/2/4/5` inner train and ID `10` inner validation; prohibit all tuning on formal files.
+- [ ] Lock v3 API use at zero through S-A, S-B, S-E, all admission audits, and the first internal downstream comparison; allow S-C only after both zero-API candidates pass admission but lose the frozen inner downstream gate, with a total S-C ceiling of 100 counted requests.
+- [ ] Do not add TPF, spindle/shaft order, lead-screw order, rotational imbalance, bearing frequency, guessed sensor semantics, learned generators, post-rejection repairs, or a new learned admission certificate.
+- [ ] For every code/document/result change: review only scoped paths, commit without raw data or generated arrays/checkpoints, push `main`, and verify the remote SHA.
+
+### 13.1 Pre-registered zero-API design and implementation
+
+- [ ] Create `breeze/results/mt_private_v3_design_2026-07-13/mt_private_v3_design.md` before running v3 candidate/audit outputs; specify every fixed candidate recipe rule, audit rule, downstream grid, threshold source, file-access boundary, and formal-selection gate.
+- [ ] Define S-A from inner-train only: select the strongest signed pairwise class-difference features already reported by the frozen normalized soft-band/statistics extractor; use deterministic target-class IAAFT carriers and fixed, feature-directional renderer gains rather than an LLM or physical-frequency assumption.
+- [ ] Define S-B from inner-train only: mix two nonidentical target-class real carriers through the same deterministic surrogate renderer; retain target class label, source-carrier hashes/IDs inside run manifests, and no cross-class carrier borrowing.
+- [ ] Keep the existing `MachineToolVerifier` and its existing ExtraTrees class-identity audit unchanged as exploratory admission components; record that neither is a component-physics certificate.
+- [ ] Add a v3 entry point with independent `prepare`, `audit`, `smoke`, `pool`, `downstream`, and `summarize` checkpoints, deterministic seeds, dedicated v3 run/result paths, and no write to any frozen v1/v2 artifact.
+- [ ] Add unit tests for formal-file guards, target-class-only carriers, signed directional rendering, no exact real/synthetic duplicate, all four admission controls, resume keys, and deterministic small-pool construction.
+
+### 13.2 Admission-audit four-piece gate (must precede downstream)
+
+- [ ] Audit real inner-train target carriers under their own target label; record count/rate and per-gate failures without interpreting this as a physical validation claim.
+- [ ] Audit wrong-class controls by submitting each real inner-train class under each other class label; require zero admitted wrong-label windows.
+- [ ] Audit deterministic white-noise and constant-signal controls for every target label; require zero admissions for each control family.
+- [ ] Audit source-only class separability using the frozen structure features and existing class-identity certificate; report leave-one-file-out behavior separately from the admission decision, without fitting a new model.
+- [ ] Freeze the v3 admission rule before S-A/S-B pool expansion: a candidate is eligible only when every target class has the declared real-carrier sanity evidence and every wrong-label, white-noise, and constant control has zero admission.
+- [ ] If the four-piece audit fails, write a v3 failure analysis and stop before downstream/formal work; do not loosen quantiles or suppress controls to recover a pool.
+
+### 13.3 S-A and S-B zero-API pool construction
+
+- [ ] Run S-A one-sample-per-class renderer/admission smoke under the frozen rule; inspect certificates, controls, source provenance, and rejection reasons.
+- [ ] Run S-B one-sample-per-class renderer/admission smoke under the identical frozen rule; inspect certificates, controls, source provenance, and rejection reasons.
+- [ ] Expand each independently passing S-A/S-B smoke pool to `n_syn=5/class` with checkpointed per-item certificates and manifests; discard rejected items without repair.
+- [ ] Expand only a balanced five/class pool to `n_syn=20/class`; retain exactly the immutable admitted waveforms and their target-class carrier provenance.
+- [ ] If a zero-API candidate cannot fill all three classes within its predeclared attempt budget, freeze the capacity result rather than changing renderer bounds or sampling from validation/formal data.
+
+### 13.4 Internal downstream comparison and conditional S-C/S-E
+
+- [ ] Compare each eligible S-A/S-B pool against `real_only` and `noise_aug` on inner validation only, with `n_real={10,25,50}`, ten fixed seeds, target-class-balanced `n_syn=20/class`, fixed model/training settings, Acc, Macro-F1, per-class F1, confusion matrices, and paired Wilcoxon/Holm summaries.
+- [ ] Predeclare S-A/S-B success as mean Acc and mean Macro-F1 each at least `noise_aug` in at least five of the six `(shot, metric)` cells; report all cells rather than selecting a favorable shot count.
+- [ ] Enable S-C only if a zero-API candidate passes all four admission controls and fills its pool but fails the inner downstream gate; before any request, write an API budget plan, confirm `DASHSCOPE_API_KEY` configuration without exposing a secret, and obtain/record explicit user authorization if credentials or endpoint configuration are unresolved.
+- [ ] For any activated S-C run, cap cumulative v3 requests at 100, count HTTP/format failures, retain the same renderer/admission/audit/downstream rules, and forbid repair of rejected waveforms.
+- [ ] Construct S-E (`BREEZE-U`) only from the selected eligible BREEZE pool and `noise_aug`, exactly half each per class at the same total `n_syn=20/class`; preserve source labels and avoid post-mix filtering.
+- [ ] Compare S-E on the identical internal grid and apply the same two-metric gate; do not use formal files to choose its mixture or candidate.
+
+### 13.5 Formal boundary and honest closeout
+
+- [ ] If exactly one named v3 candidate meets both internal metrics, commit `mt_private_v3_preregistration.md` before reading file IDs `7/8`; freeze candidate identity, source code SHA, pool hash, split, seeds, CNN settings, metrics, Wilcoxon direction, and Holm family.
+- [ ] Run the formal file-ID `7/8` experiment exactly once only after preregistration; retain raw formal data outside Git and report the outcome regardless of direction.
+- [ ] If zero or multiple candidates fail the single-candidate decision rule, do not read formal files; write and commit an honest v3 failure analysis with a data-card-aware manuscript boundary.
+- [ ] Update the API ledger, reproducibility commands, manifests/checksums, and these todo statuses; verify that no raw data, virtual environment, checkpoint, generated array, or credential is staged.
