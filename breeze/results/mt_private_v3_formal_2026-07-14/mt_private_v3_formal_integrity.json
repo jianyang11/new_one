@@ -1,0 +1,246 @@
+{
+  "candidate_method": "s_c_llm",
+  "expected_rows": 360,
+  "formal_test_files_read": [
+    "1_7.csv",
+    "1_8_pre.csv",
+    "2_7.csv",
+    "2_8_pre.csv",
+    "3_7.csv",
+    "3_8_pre.csv"
+  ],
+  "formal_test_rows": [
+    {
+      "class_name": "normal_machining",
+      "display_name": "Normal machining",
+      "file_id": "7",
+      "n_rows": 86016,
+      "raw_class_id": "1",
+      "source_file": "1_7.csv",
+      "split": "formal_test",
+      "window_count": 83
+    },
+    {
+      "class_name": "normal_machining",
+      "display_name": "Normal machining",
+      "file_id": "8",
+      "n_rows": 86016,
+      "raw_class_id": "1",
+      "source_file": "1_8_pre.csv",
+      "split": "formal_test",
+      "window_count": 83
+    },
+    {
+      "class_name": "lead_screw_anomaly",
+      "display_name": "Lead-screw anomaly",
+      "file_id": "7",
+      "n_rows": 86016,
+      "raw_class_id": "2",
+      "source_file": "2_7.csv",
+      "split": "formal_test",
+      "window_count": 83
+    },
+    {
+      "class_name": "lead_screw_anomaly",
+      "display_name": "Lead-screw anomaly",
+      "file_id": "8",
+      "n_rows": 86016,
+      "raw_class_id": "2",
+      "source_file": "2_8_pre.csv",
+      "split": "formal_test",
+      "window_count": 83
+    },
+    {
+      "class_name": "base_imbalance",
+      "display_name": "Base imbalance",
+      "file_id": "7",
+      "n_rows": 81920,
+      "raw_class_id": "3",
+      "source_file": "3_7.csv",
+      "split": "formal_test",
+      "window_count": 79
+    },
+    {
+      "class_name": "base_imbalance",
+      "display_name": "Base imbalance",
+      "file_id": "8",
+      "n_rows": 77824,
+      "raw_class_id": "3",
+      "source_file": "3_8_pre.csv",
+      "split": "formal_test",
+      "window_count": 75
+    }
+  ],
+  "formal_train_files_read": [
+    "1_1_pre.csv",
+    "1_2_pre.csv",
+    "1_4_pre.csv",
+    "1_5_pre.csv",
+    "1_10_pre.csv",
+    "2_1_pre.csv",
+    "2_2_pre.csv",
+    "2_4_pre.csv",
+    "2_5_pre.csv",
+    "2_10_pre.csv",
+    "3_1_pre.csv",
+    "3_2_pre.csv",
+    "3_4_pre.csv",
+    "3_5_pre.csv",
+    "3_10_pre.csv"
+  ],
+  "formal_train_rows": [
+    {
+      "class_name": "normal_machining",
+      "display_name": "Normal machining",
+      "file_id": "1",
+      "n_rows": 196608,
+      "raw_class_id": "1",
+      "source_file": "1_1_pre.csv",
+      "split": "formal_train",
+      "window_count": 191
+    },
+    {
+      "class_name": "normal_machining",
+      "display_name": "Normal machining",
+      "file_id": "2",
+      "n_rows": 180224,
+      "raw_class_id": "1",
+      "source_file": "1_2_pre.csv",
+      "split": "formal_train",
+      "window_count": 175
+    },
+    {
+      "class_name": "normal_machining",
+      "display_name": "Normal machining",
+      "file_id": "4",
+      "n_rows": 118784,
+      "raw_class_id": "1",
+      "source_file": "1_4_pre.csv",
+      "split": "formal_train",
+      "window_count": 115
+    },
+    {
+      "class_name": "normal_machining",
+      "display_name": "Normal machining",
+      "file_id": "5",
+      "n_rows": 126976,
+      "raw_class_id": "1",
+      "source_file": "1_5_pre.csv",
+      "split": "formal_train",
+      "window_count": 123
+    },
+    {
+      "class_name": "normal_machining",
+      "display_name": "Normal machining",
+      "file_id": "10",
+      "n_rows": 73728,
+      "raw_class_id": "1",
+      "source_file": "1_10_pre.csv",
+      "split": "formal_train",
+      "window_count": 71
+    },
+    {
+      "class_name": "lead_screw_anomaly",
+      "display_name": "Lead-screw anomaly",
+      "file_id": "1",
+      "n_rows": 65536,
+      "raw_class_id": "2",
+      "source_file": "2_1_pre.csv",
+      "split": "formal_train",
+      "window_count": 63
+    },
+    {
+      "class_name": "lead_screw_anomaly",
+      "display_name": "Lead-screw anomaly",
+      "file_id": "2",
+      "n_rows": 61440,
+      "raw_class_id": "2",
+      "source_file": "2_2_pre.csv",
+      "split": "formal_train",
+      "window_count": 59
+    },
+    {
+      "class_name": "lead_screw_anomaly",
+      "display_name": "Lead-screw anomaly",
+      "file_id": "4",
+      "n_rows": 73728,
+      "raw_class_id": "2",
+      "source_file": "2_4_pre.csv",
+      "split": "formal_train",
+      "window_count": 71
+    },
+    {
+      "class_name": "lead_screw_anomaly",
+      "display_name": "Lead-screw anomaly",
+      "file_id": "5",
+      "n_rows": 73728,
+      "raw_class_id": "2",
+      "source_file": "2_5_pre.csv",
+      "split": "formal_train",
+      "window_count": 71
+    },
+    {
+      "class_name": "lead_screw_anomaly",
+      "display_name": "Lead-screw anomaly",
+      "file_id": "10",
+      "n_rows": 122880,
+      "raw_class_id": "2",
+      "source_file": "2_10_pre.csv",
+      "split": "formal_train",
+      "window_count": 119
+    },
+    {
+      "class_name": "base_imbalance",
+      "display_name": "Base imbalance",
+      "file_id": "1",
+      "n_rows": 172032,
+      "raw_class_id": "3",
+      "source_file": "3_1_pre.csv",
+      "split": "formal_train",
+      "window_count": 167
+    },
+    {
+      "class_name": "base_imbalance",
+      "display_name": "Base imbalance",
+      "file_id": "2",
+      "n_rows": 217088,
+      "raw_class_id": "3",
+      "source_file": "3_2_pre.csv",
+      "split": "formal_train",
+      "window_count": 211
+    },
+    {
+      "class_name": "base_imbalance",
+      "display_name": "Base imbalance",
+      "file_id": "4",
+      "n_rows": 118784,
+      "raw_class_id": "3",
+      "source_file": "3_4_pre.csv",
+      "split": "formal_train",
+      "window_count": 115
+    },
+    {
+      "class_name": "base_imbalance",
+      "display_name": "Base imbalance",
+      "file_id": "5",
+      "n_rows": 122880,
+      "raw_class_id": "3",
+      "source_file": "3_5_pre.csv",
+      "split": "formal_train",
+      "window_count": 119
+    },
+    {
+      "class_name": "base_imbalance",
+      "display_name": "Base imbalance",
+      "file_id": "10",
+      "n_rows": 69632,
+      "raw_class_id": "3",
+      "source_file": "3_10_pre.csv",
+      "split": "formal_train",
+      "window_count": 67
+    }
+  ],
+  "inner_decision_sha256": "d2a982ef3364db96a015583e5afbf42832d6506b5072525bcb0d7e8ed8a98d84",
+  "observed_rows": 360,
+  "pool_manifest_sha256": "f55df09ccbe34007833be0e5691f6ec3c4dc765e7c2ad9aaf1f232fe50b8e7ec"
+}
