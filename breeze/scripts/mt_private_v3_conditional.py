@@ -505,10 +505,8 @@ def s_c_default_state(cls: str, slot: int) -> dict[str, Any]:
 
 def s_c_slot_specs() -> list[tuple[str, int]]:
     """Return the frozen S-C slots, including amendment-3 base replacements."""
-    specs: list[tuple[str, int]] = []
-    for cls in MT_CLASSES:
-        count = POOL_N_SYN + (S_C_EXTRA_BASE_REPLACEMENT_SLOTS if cls == "base_imbalance" else 0)
-        specs.extend((cls, slot) for slot in range(count))
+    specs = [(cls, slot) for slot in range(POOL_N_SYN) for cls in MT_CLASSES]
+    specs.extend(("base_imbalance", slot) for slot in range(POOL_N_SYN, POOL_N_SYN + S_C_EXTRA_BASE_REPLACEMENT_SLOTS))
     return specs
 
 
