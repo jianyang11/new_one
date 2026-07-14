@@ -5,3 +5,4 @@ request_index,slot,target_class,round_id,model,prompt_hash,response_hash,http_st
 4,0,base_imbalance,1,mimo-v2.5,993eebd14a62b5cf6c00d810aa08fbc7fd9a8db38ccba4cab66f84ab61e5f047,1c80a5671ff42d4375c51606eac504728b5c9aa3e67f20fb47e1fe2fd52bbb97,200,json_object_ok,2026-07-14T01:46:30Z,True,
 5,0,lead_screw_anomaly,1,mimo-v2.5,4cb0a52d6fa894bd6f453b75581571d87c725e61c6750e002520a075b20a7ccc,a9f7134eaf218a572a5c56eeaf91ffa6337d17924ca053404651a31431548e4e,200,json_object_ok,2026-07-14T01:46:41Z,True,
 6,0,normal_machining,1,mimo-v2.5,4e762bedc885e0604ef2e0b6f1c72a9400d5e6fef57adc55fc32e73618a271fe,638eb206d8c554170ff8310a0fff28dc174c37352858a5ed861300138852ac93,200,json_object_ok,2026-07-14T01:46:50Z,False,psd_w1
+7,0,normal_machining,2,mimo-v2.5,6b0c0c8c5e57f87e0e0c5fa1044ed2bf557d1fc3c10e5ec36dd52003881646ba,a500a822cbf10325b9c1bd8814f59d4f605aa81f4f6012e0143dad6ad6e2af3d,200,json_object_ok,2026-07-14T01:55:05Z,True,
