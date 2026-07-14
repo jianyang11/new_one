@@ -6,6 +6,8 @@
 
 Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命令必须使用该解释器。
 
+> 收口决定（2026-07-14）：L1.1--L1.9 与 L2.1--L2.9 全部 **deferred（投稿后工作）**。理由：投稿前不开启新的框架重构工程；这些计划不得被描述为本稿已实现的方法或结果。
+
 ## Framework reset: Layer 1 -- real-data, group-aware calibration (planned 2026-07-10)
 
 ### Position lock
@@ -122,29 +124,29 @@ Adapter mapping:
 
 ### Execution plan
 
-- [ ] L1.1: Add `breeze/src/datasets/protocol.py` with typed `DatasetProtocol`,
+- [x] L1.1: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Add `breeze/src/datasets/protocol.py` with typed `DatasetProtocol`,
   `SensorSchema`, `PhysicsMetadata`, and immutable `SplitManifest` objects.
-- [ ] L1.2: Write data cards and manifests for private machine-tool, MU-TCM,
+- [x] L1.2: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Write data cards and manifests for private machine-tool, MU-TCM,
   PU, and CWRU. Resolve the stale private-label mapping in the registry and
   reports from the documented owner confirmation; record missing fields
   explicitly.
-- [ ] L1.3: Implement the source-group-aware calibration engine and artifact
+- [x] L1.3: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Implement the source-group-aware calibration engine and artifact
   serializer. Unit-test that outer-test identifiers cannot reach its API.
-- [ ] L1.4: Implement generic deterministic score extractors and group-level
+- [x] L1.4: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Implement generic deterministic score extractors and group-level
   joint order-statistic calibration; unit-test leave-one-source-out diversity.
-- [ ] L1.5: Move the existing PU verifier behind `BearingPhysicsPlugin` without
+- [x] L1.5: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Move the existing PU verifier behind `BearingPhysicsPlugin` without
   altering frozen legacy outputs. Reproduce a frozen PU row before using the
   new protocol for any new claim.
-- [ ] L1.6: Implement `CncMachinePhysicsPlugin` with two explicitly separate
+- [x] L1.6: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Implement `CncMachinePhysicsPlugin` with two explicitly separate
   modes: `lead_screw` and `base_imbalance`. Each mode must validate its required
   metadata before it exposes any gate.
-- [ ] L1.7: Implement `MillingPhysicsPlugin` for MU-TCM. It may use tooth-pass
+- [x] L1.7: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Implement `MillingPhysicsPlugin` for MU-TCM. It may use tooth-pass
   and process-order evidence only after tooth count, spindle speed, and active
   cutting intervals are validated from the data card.
-- [ ] L1.8: Run real-data-only audits on reference, calibration, and untouched
+- [x] L1.8: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Run real-data-only audits on reference, calibration, and untouched
   test source groups. Report per-source and per-regime pass rates before any
   LLM call or downstream classifier training.
-- [ ] L1.9: Decide whether additional independent private CNC runs are required
+- [x] L1.9: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Decide whether additional independent private CNC runs are required
   for a formal 90 percent calibration claim. If they are unavailable, retain the
   private dataset as a CNC case study with an explicit empirical-audit scope,
   not a distribution-free coverage claim.
@@ -294,38 +296,38 @@ admission gate in a training-free framework.
 
 ### Execution plan
 
-- [ ] L2.1: Define typed `GenericFeatureSchema`, `GenericSignalConstraint`,
+- [x] L2.1: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Define typed `GenericFeatureSchema`, `GenericSignalConstraint`,
   `GenericReferenceCell`, `GenericDiversityPool`, and `GenericReport` objects
   under `breeze/src/`; make the Layer-1 artifact their only calibration input.
-- [ ] L2.2: Implement deterministic temporal, normalized-PSD, and declared
+- [x] L2.2: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Implement deterministic temporal, normalized-PSD, and declared
   multichannel representations with source-balanced reference aggregation.
   Unit-test channel permutation, one-channel activation, non-finite input,
   and sample-rate/schema mismatches.
-- [ ] L2.3: Implement leave-one-source-out block distances, empirical-rank
+- [x] L2.3: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Implement leave-one-source-out block distances, empirical-rank
   transformation, maximum joint score, and exact source-level order-statistic
   calibration. Unit-test that changing outer-test data cannot alter the
   artifact.
-- [ ] L2.4: Implement content-hash duplicate detection plus the frozen,
+- [x] L2.4: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Implement content-hash duplicate detection plus the frozen,
   leave-one-source-out real--real diversity calibration. Unit-test that
   overlapping windows from the same source cannot calibrate a diversity
   threshold.
-- [ ] L2.5: Migrate private machine-tool generic code first. Remove the
+- [x] L2.5: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Migrate private machine-tool generic code first. Remove the
   per-gate coverage exponent and classifier certificate from formal admission;
   preserve a separate exploratory report only where required for historical
   comparability.
-- [ ] L2.6: Migrate MU-TCM, PU, and CWRU adapters onto the same contract. No
+- [x] L2.6: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Migrate MU-TCM, PU, and CWRU adapters onto the same contract. No
   adapter may retain local tail multipliers, fixed generic thresholds, or
   dataset-name branching inside the generic scorer.
-- [ ] L2.7: Run a real-data-only audit for each dataset and each declared
+- [x] L2.7: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Run a real-data-only audit for each dataset and each declared
   class/regime cell: reference/calibration/test source counts, active blocks,
   per-source scores, pass rates, diversity distributions, and unavailable
   fields. Do this before any LLM generation, downstream training, or physics
   claim.
-- [ ] L2.8: Freeze four artifacts and establish regression tests: PU and CWRU
+- [x] L2.8: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Freeze four artifacts and establish regression tests: PU and CWRU
   must reproduce their declared generic features on frozen legacy inputs;
   private machine-tool and MU-TCM must prove schema compatibility without
   importing bearing-only assumptions.
-- [ ] L2.9: Only after L2.1--L2.8 pass, attach the separate CNC, milling, and
+- [x] L2.9: Deferred（投稿后工作；投稿前不开启新的框架重构工程）. Only after L2.1--L2.8 pass, attach the separate CNC, milling, and
   bearing Layer-3 plugins. Formal certificates must list generic and physics
   decisions separately.
 
