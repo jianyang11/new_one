@@ -1,0 +1,20 @@
+{
+  "candidate_method": "s_c_llm",
+  "code_commit": "567108a62ea7c0241135c99314e6dadc1326ea65",
+  "formal_seeds": [
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+    10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+    30, 31, 32, 33, 34, 35, 36, 37, 38, 39
+  ],
+  "formal_test_file_ids": ["7", "8"],
+  "formal_train_file_ids": ["1", "2", "4", "5", "10"],
+  "inner_decision_sha256": "d2a982ef3364db96a015583e5afbf42832d6506b5072525bcb0d7e8ed8a98d84",
+  "n_reals": [10, 25, 50],
+  "n_syn_by_n_real": {"10": 10, "25": 20, "50": 20},
+  "pool_manifest_sha256": "f55df09ccbe34007833be0e5691f6ec3c4dc765e7c2ad9aaf1f232fe50b8e7ec",
+  "source_sha256": {
+    "breeze/scripts/mt_private_v3_conditional.py": "74d9e151fd80a5cd78252f5a876f94dd21b8cd1cb445b8fbda701f5dbf00805b",
+    "breeze/scripts/mt_private_v3_formal.py": "5edb6a69ab081c604e2b2707d4575c1bcf665956af8ea4cbb12300a467aae1ef"
+  }
+}

@@ -1484,7 +1484,7 @@ repair enters Layer 3; a certificate cleanly distinguishes `pass`, `fail`, and
 
 ### 13.5 Formal boundary and honest closeout
 
-- [ ] If exactly one named v3 candidate meets both internal metrics, commit `mt_private_v3_preregistration.md` before reading file IDs `7/8`; freeze candidate identity, source code SHA, pool hash, split, seeds, CNN settings, metrics, Wilcoxon direction, and Holm family.
+- [x] Exactly one named v3 candidate meets the internal rule: S-C is `6/6`, while S-A/S-B are `4/6`/`2/6`. Commit `mt_private_v3_preregistration.md` and its machine-readable hash lock locally before reading IDs `7/8`; freeze candidate identity, source code SHA, pool hash, split, seeds, CNN settings, metrics, Wilcoxon direction, and Holm family. This local commit is intentionally not pushed until the final result exists.
 - [ ] Run the formal file-ID `7/8` experiment exactly once only after preregistration; retain raw formal data outside Git and report the outcome regardless of direction.
 - [ ] If zero or multiple candidates fail the single-candidate decision rule, do not read formal files; write and commit an honest v3 failure analysis with a data-card-aware manuscript boundary.
 - [ ] Update the API ledger, reproducibility commands, manifests/checksums, and these todo statuses; verify that no raw data, virtual environment, checkpoint, generated array, or credential is staged.
