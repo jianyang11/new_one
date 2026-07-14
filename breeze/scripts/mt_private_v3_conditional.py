@@ -76,12 +76,15 @@ DOWNSTREAM_SEEDS = 10
 DOWNSTREAM_N_REALS = (10, 25, 50)
 POOL_N_SYN = 20
 DOWNSTREAM_N_SYN_BY_N_REAL = {10: 10, 25: 20, 50: 20}
-S_C_API_BUDGET = 100
+S_C_API_BUDGET = 200
 S_C_SMOKE_REQUESTS = 3
 S_C_AMENDMENT_1_SMOKE_REQUESTS = 6
 S_C_AMENDMENT_2_SMOKE_REQUESTS = 8
 S_C_MAX_FEEDBACK_ROUNDS = 3
 S_C_EXPANSIONS_PER_RECIPE = 3
+# Amendment 3: only these two base-imbalance replacement slots may use the
+# user-authorized extension.  The target remains 20 admitted samples/class.
+S_C_EXTRA_BASE_REPLACEMENT_SLOTS = 2
 
 
 def json_ready(value: Any) -> Any:
@@ -500,6 +503,15 @@ def s_c_default_state(cls: str, slot: int) -> dict[str, Any]:
     return {"class_name": cls, "slot": slot, "status": "pending", "history": []}
 
 
+def s_c_slot_specs() -> list[tuple[str, int]]:
+    """Return the frozen S-C slots, including amendment-3 base replacements."""
+    specs: list[tuple[str, int]] = []
+    for cls in MT_CLASSES:
+        count = POOL_N_SYN + (S_C_EXTRA_BASE_REPLACEMENT_SLOTS if cls == "base_imbalance" else 0)
+        specs.extend((cls, slot) for slot in range(count))
+    return specs
+
+
 def s_c_load_state(cls: str, slot: int) -> dict[str, Any]:
     path = s_c_state_path(cls, slot)
     return json.loads(path.read_text()) if path.exists() else s_c_default_state(cls, slot)
@@ -510,7 +522,7 @@ def s_c_save_state(state: dict[str, Any]) -> None:
 
 
 def s_c_load_states() -> list[dict[str, Any]]:
-    return [s_c_load_state(cls, slot) for slot in range(POOL_N_SYN) for cls in MT_CLASSES]
+    return [s_c_load_state(cls, slot) for cls, slot in s_c_slot_specs()]
 
 
 def s_c_api_log_path() -> Path:
@@ -703,9 +715,12 @@ def generate_s_c_pool(context: Context, max_api_requests: int, smoke: bool) -> d
         if state.get("status") == "accepted" and state.get("accepted_report", {}).get("candidate_sha256")
     }
     last_call = [0.0]
-    permitted_slots = {0} if smoke else set(range(POOL_N_SYN))
+    permitted_slots = {0} if smoke else None
     while s_c_api_attempt_count() < max_api_requests:
-        states = [state for state in s_c_load_states() if int(state["slot"]) in permitted_slots]
+        states = [
+            state for state in s_c_load_states()
+            if permitted_slots is None or int(state["slot"]) in permitted_slots
+        ]
         accepted_counts = Counter(state["class_name"] for state in states if state["status"] == "accepted")
         eligible = [state for state in states if state["status"] == "pending" and len(state["history"]) <= S_C_MAX_FEEDBACK_ROUNDS]
         if not eligible:

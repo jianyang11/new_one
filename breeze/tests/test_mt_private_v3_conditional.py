@@ -131,7 +131,7 @@ class PrivateMachineToolV3ConditionalTests(unittest.TestCase):
         )
         payload = json.loads(messages[1]["content"])
         direction = payload["v3_discriminative_direction"]
-        self.assertEqual(v3.S_C_API_BUDGET, 100)
+        self.assertEqual(v3.S_C_API_BUDGET, 200)
         self.assertEqual(v3.S_C_SMOKE_REQUESTS, 3)
         self.assertEqual(v3.S_C_AMENDMENT_2_SMOKE_REQUESTS, 8)
         self.assertEqual(np.asarray(direction["soft_band_signed_effect"]).shape, (4, v3.N_BANDS))
@@ -139,6 +139,15 @@ class PrivateMachineToolV3ConditionalTests(unittest.TestCase):
         self.assertIn("not physical frequencies", payload["s_c_generation_rule"])
         self.assertNotIn("inner_validation", payload)
         self.assertNotIn("formal_file_ids", payload)
+
+    def test_s_c_amendment_three_replaces_only_the_two_exhausted_base_slots(self) -> None:
+        slots_by_class = {
+            cls: [slot for candidate_cls, slot in v3.s_c_slot_specs() if candidate_cls == cls]
+            for cls in v3.MT_CLASSES
+        }
+        self.assertEqual(slots_by_class["normal_machining"], list(range(v3.POOL_N_SYN)))
+        self.assertEqual(slots_by_class["lead_screw_anomaly"], list(range(v3.POOL_N_SYN)))
+        self.assertEqual(slots_by_class["base_imbalance"], list(range(v3.POOL_N_SYN + 2)))
 
     def test_s_c_transport_parser_accepts_a_json_object_without_relaxing_schema(self) -> None:
         recipe = v3.parse_s_c_recipe_content("Here is the recipe:\n```json\n{\"class_name\": \"normal_machining\"}\n```")
