@@ -124,6 +124,21 @@ class PrivateMachineToolV3ConditionalTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             v3.row_is_accepted({"accepted": "true"})
 
+    def test_s_c_prompt_uses_only_frozen_train_supported_direction(self) -> None:
+        exemplar, differences, schema = v3.s_c_materials(self.context)
+        messages = v3.s_c_prompt_messages(
+            "base_imbalance", self.context, exemplar, differences, schema, 0, None,
+        )
+        payload = json.loads(messages[1]["content"])
+        direction = payload["v3_discriminative_direction"]
+        self.assertEqual(v3.S_C_API_BUDGET, 100)
+        self.assertEqual(v3.S_C_SMOKE_REQUESTS, 3)
+        self.assertEqual(np.asarray(direction["soft_band_signed_effect"]).shape, (4, v3.N_BANDS))
+        self.assertEqual(np.asarray(direction["channel_std_signed_effect"]).shape, (4,))
+        self.assertIn("not physical frequencies", payload["s_c_generation_rule"])
+        self.assertNotIn("inner_validation", payload)
+        self.assertNotIn("formal_file_ids", payload)
+
 
 if __name__ == "__main__":
     unittest.main()

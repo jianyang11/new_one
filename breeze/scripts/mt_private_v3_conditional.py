@@ -9,6 +9,7 @@ No component-specific frequency or machine parameter is inferred here.
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import csv
 import json
 import sys
@@ -33,12 +34,19 @@ from mt_private_v2_llm_smoke import (  # noqa: E402
     apply_soft_band_gain,
     admit_candidate,
     build_admission,
+    call_recipe_api,
+    candidate_feedback,
+    class_exemplar_statistics,
     iaaft_surrogate,
     load_development_train,
     load_inner_validation,
     noise_augment,
+    normalize_recipe,
     normalize_train_val,
     predict_cnn,
+    prompt_messages,
+    recipe_schema,
+    render_mt_recipe,
     robust_scale,
     sample_real_subset,
     stable_seed,
@@ -64,6 +72,10 @@ DOWNSTREAM_SEEDS = 10
 DOWNSTREAM_N_REALS = (10, 25, 50)
 POOL_N_SYN = 20
 DOWNSTREAM_N_SYN_BY_N_REAL = {10: 10, 25: 20, 50: 20}
+S_C_API_BUDGET = 100
+S_C_SMOKE_REQUESTS = 3
+S_C_MAX_FEEDBACK_ROUNDS = 3
+S_C_EXPANSIONS_PER_RECIPE = 3
 
 
 def json_ready(value: Any) -> Any:
@@ -463,7 +475,263 @@ def pool_is_balanced(method: str, target_per_class: int) -> bool:
     return bool(json.loads(decision_path.read_text()).get("balanced"))
 
 
+S_C_API_LOG_FIELDS = [
+    "request_index", "slot", "target_class", "round_id", "model", "prompt_hash",
+    "response_hash", "http_status", "parse_status", "timestamp", "accepted",
+    "rejection_reasons",
+]
+
+
+def s_c_dir() -> Path:
+    return RUN_DIR / "s_c"
+
+
+def s_c_state_path(cls: str, slot: int) -> Path:
+    return s_c_dir() / "checkpoints" / f"{cls}_slot_{slot:02d}.json"
+
+
+def s_c_default_state(cls: str, slot: int) -> dict[str, Any]:
+    return {"class_name": cls, "slot": slot, "status": "pending", "history": []}
+
+
+def s_c_load_state(cls: str, slot: int) -> dict[str, Any]:
+    path = s_c_state_path(cls, slot)
+    return json.loads(path.read_text()) if path.exists() else s_c_default_state(cls, slot)
+
+
+def s_c_save_state(state: dict[str, Any]) -> None:
+    write_json(s_c_state_path(state["class_name"], int(state["slot"])), state)
+
+
+def s_c_load_states() -> list[dict[str, Any]]:
+    return [s_c_load_state(cls, slot) for slot in range(POOL_N_SYN) for cls in MT_CLASSES]
+
+
+def s_c_api_log_path() -> Path:
+    return OUT_DIR / "mt_private_v3_s_c_api_log.csv"
+
+
+def s_c_api_attempt_count() -> int:
+    return len(read_csv(s_c_api_log_path()))
+
+
+def append_s_c_api_log(row: dict[str, Any]) -> None:
+    path = s_c_api_log_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fresh = not path.exists()
+    with path.open("a", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=S_C_API_LOG_FIELDS, lineterminator="\n", extrasaction="ignore")
+        if fresh:
+            writer.writeheader()
+        writer.writerow({field: json_ready(row.get(field, "")) for field in S_C_API_LOG_FIELDS})
+
+
+def s_c_materials(context: Context) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    exemplar, differences = class_exemplar_statistics(context.dev, context.verifier)
+    schema = recipe_schema(max(len(context.templates[cls]) for cls in MT_CLASSES))
+    return exemplar, differences, schema
+
+
+def s_c_prompt_messages(
+    cls: str,
+    context: Context,
+    exemplar: dict[str, Any],
+    differences: dict[str, Any],
+    schema: dict[str, Any],
+    round_id: int,
+    feedback: dict[str, Any] | None,
+) -> list[dict[str, str]]:
+    """Use only frozen inner-train discriminative statistics in an S-C prompt."""
+    messages = prompt_messages(cls, exemplar, differences, schema, round_id, feedback)
+    payload = json.loads(messages[1]["content"])
+    profile = context.profile[cls]
+    payload["v3_discriminative_direction"] = {
+        "soft_band_signed_effect": profile["soft_direction"],
+        "channel_std_signed_effect": profile["std_direction"],
+        "reference_directional_gain": profile["soft_gain"],
+    }
+    payload["s_c_generation_rule"] = (
+        "Choose recipe band gains and channel standard-deviation multipliers that explicitly "
+        "follow the target class signed discriminative directions while staying within the "
+        "provided schema. These are train-only normalized effects, not physical frequencies."
+    )
+    payload["frozen_rules"].extend([
+        "Do not infer machine metadata or physical frequencies from the effects.",
+        "Do not copy a real carrier; the deterministic renderer will choose the allowed template.",
+    ])
+    messages[0]["content"] = (
+        "You are an expert in multichannel CNC condition-monitoring signal synthesis. "
+        "Return exactly one JSON recipe, and use only the supplied inner-train statistics."
+    )
+    messages[1]["content"] = json.dumps(json_ready(payload), ensure_ascii=False, separators=(",", ":"))
+    return messages
+
+
+def s_c_write_outputs(smoke: bool) -> dict[str, Any]:
+    states = s_c_load_states()
+    selected = [state for state in states if not smoke or int(state["slot"]) == 0]
+    counts = {cls: sum(state["class_name"] == cls and state["status"] == "accepted" for state in selected) for cls in MT_CLASSES}
+    target = 1 if smoke else POOL_N_SYN
+    slot_rows, manifest_rows = [], []
+    for state in selected:
+        report = state.get("accepted_report", {})
+        slot_rows.append({
+            "class_name": state["class_name"], "slot": state["slot"], "status": state["status"],
+            "rounds_attempted": len(state["history"]), "accepted": state["status"] == "accepted",
+            "accepted_path": state.get("accepted_path", ""),
+            "candidate_sha256": report.get("candidate_sha256", ""),
+            "class_identity_prediction": report.get("class_identity_prediction", ""),
+            "failure_reasons": "|".join(report.get("failure_reasons", [])),
+        })
+        if state["status"] == "accepted":
+            manifest_rows.append({
+                "method": "s_c_llm", "target_per_class": target, "class_name": state["class_name"],
+                "slot": state["slot"], "accepted": True, "path": state["accepted_path"],
+                "candidate_sha256": report.get("candidate_sha256", ""),
+                "class_identity_prediction": report.get("class_identity_prediction", ""),
+                "nearest_train_distance": report.get("nearest_train_distance", ""),
+                "diversity_minimum": report.get("diversity_minimum", ""),
+                "failure_reasons": "|".join(report.get("failure_reasons", [])),
+            })
+    decision = {
+        "method": "s_c_llm", "target_per_class": target, "accepted_counts": counts,
+        "balanced": bool(all(count == target for count in counts.values())),
+        "api_requests": s_c_api_attempt_count(), "api_budget": S_C_API_BUDGET,
+        "formal_test_files_read": 0,
+        "next_allowed_stage": "s_c_pool_extension" if smoke else "s_c_downstream" if all(count == target for count in counts.values()) else "failure_analysis_only",
+    }
+    stem = "mt_private_v3_s_c_smoke" if smoke else "mt_private_v3_s_c_llm_n20_pool"
+    write_csv(OUT_DIR / f"{stem}_slots.csv", slot_rows)
+    if not smoke:
+        write_csv(OUT_DIR / f"{stem}_manifest.csv", manifest_rows)
+    write_json(OUT_DIR / f"{stem}_decision.json", decision)
+    return decision
+
+
+def s_c_prepare(context: Context) -> dict[str, Any]:
+    exemplar, differences, schema = s_c_materials(context)
+    previews = []
+    for cls in MT_CLASSES:
+        messages = s_c_prompt_messages(cls, context, exemplar, differences, schema, 0, None)
+        previews.extend([f"## {cls}", "", "```json", messages[1]["content"], "```", ""])
+    (OUT_DIR / "mt_private_v3_s_c_prompt_preview.md").write_text(
+        "# Private machine-tool v3 S-C prompt preview\n\n"
+        "The prompts contain inner-train statistics only; no API request was made.\n\n" + "\n".join(previews)
+    )
+    write_json(OUT_DIR / "mt_private_v3_s_c_prepare.json", {
+        "api_requests": s_c_api_attempt_count(), "api_budget": S_C_API_BUDGET,
+        "smoke_request_cap": S_C_SMOKE_REQUESTS, "max_feedback_rounds": S_C_MAX_FEEDBACK_ROUNDS,
+        "expansions_per_recipe": S_C_EXPANSIONS_PER_RECIPE, "formal_test_files_read": 0,
+    })
+    return json.loads((OUT_DIR / "mt_private_v3_s_c_prepare.json").read_text())
+
+
+def generate_s_c_pool(context: Context, max_api_requests: int, smoke: bool) -> dict[str, Any]:
+    if max_api_requests < 0 or max_api_requests > S_C_API_BUDGET:
+        raise ValueError(f"S-C API request ceiling must be in [0,{S_C_API_BUDGET}]")
+    if smoke and max_api_requests != S_C_SMOKE_REQUESTS:
+        raise ValueError(f"S-C smoke request ceiling is frozen at {S_C_SMOKE_REQUESTS}")
+    exemplar, differences, schema = s_c_materials(context)
+    class_std = {cls: context.templates[cls].std(axis=(0, 2)) for cls in MT_CLASSES}
+    accepted_hashes = {
+        str(state["accepted_report"]["candidate_sha256"])
+        for state in s_c_load_states()
+        if state.get("status") == "accepted" and state.get("accepted_report", {}).get("candidate_sha256")
+    }
+    last_call = [0.0]
+    permitted_slots = {0} if smoke else set(range(POOL_N_SYN))
+    while s_c_api_attempt_count() < max_api_requests:
+        states = [state for state in s_c_load_states() if int(state["slot"]) in permitted_slots]
+        accepted_counts = Counter(state["class_name"] for state in states if state["status"] == "accepted")
+        eligible = [state for state in states if state["status"] == "pending" and len(state["history"]) <= S_C_MAX_FEEDBACK_ROUNDS]
+        if not eligible:
+            break
+        if smoke:
+            eligible.sort(key=lambda state: (len(state["history"]), state["class_name"]))
+        else:
+            eligible.sort(key=lambda state: (accepted_counts[state["class_name"]], int(state["slot"]), state["class_name"]))
+        state = eligible[0]
+        cls, slot = state["class_name"], int(state["slot"])
+        round_id = len(state["history"])
+        feedback = state["history"][-1].get("feedback") if state["history"] else None
+        messages = s_c_prompt_messages(cls, context, exemplar, differences, schema, round_id, feedback)
+        raw_recipe, api_row = call_recipe_api(messages, s_c_api_attempt_count() + 1, slot, cls, round_id, last_call)
+        record: dict[str, Any] = {"round_id": round_id, "api_request_index": api_row["request_index"], "attempts": []}
+        recipe = None
+        if raw_recipe is None:
+            record["recipe_error"] = api_row["parse_status"]
+            record["feedback"] = {"failed_gates": ["api_or_json"], "violations": []}
+            api_row["rejection_reasons"] = "api_or_json"
+        else:
+            try:
+                recipe = normalize_recipe(raw_recipe, cls, len(context.templates[cls]))
+                record["recipe"] = recipe
+                write_json(s_c_dir() / "recipes" / f"{cls}_slot_{slot:02d}_round_{round_id}.json", recipe)
+            except (TypeError, ValueError) as exc:
+                record["recipe_error"] = str(exc)
+                record["feedback"] = {"failed_gates": ["recipe_schema"], "violations": []}
+                api_row["rejection_reasons"] = "recipe_schema"
+        first_accepted: dict[str, Any] | None = None
+        if recipe is not None:
+            for expansion_id in range(S_C_EXPANSIONS_PER_RECIPE):
+                seed = stable_seed("mt_private_v3", "s_c", cls, slot, round_id, expansion_id)
+                try:
+                    window = render_mt_recipe(recipe, context.templates, class_std, seed)
+                    report = admit_candidate(window, cls, context.admission, accepted_hashes)
+                    report.update({"slot": slot, "round_id": round_id, "expansion_id": expansion_id, "seed": seed})
+                    if report["accepted"] and first_accepted is None:
+                        path = s_c_dir() / "accepted" / f"{cls}_slot_{slot:02d}.npy"
+                        path.parent.mkdir(parents=True, exist_ok=True)
+                        np.save(path, window)
+                        state["accepted_path"] = str(path.relative_to(RUN_DIR))
+                        state["accepted_report"] = report
+                        first_accepted = report
+                        accepted_hashes.add(report["candidate_sha256"])
+                    elif report["accepted"]:
+                        report["accepted"] = False
+                        report["failure_reasons"] = ["slot_already_retained"]
+                    else:
+                        path = s_c_dir() / "rejected" / f"{cls}_slot_{slot:02d}_round_{round_id}_exp_{expansion_id}.npy"
+                        path.parent.mkdir(parents=True, exist_ok=True)
+                        np.save(path, window)
+                except (RuntimeError, ValueError) as exc:
+                    report = {
+                        "slot": slot, "round_id": round_id, "expansion_id": expansion_id, "seed": seed,
+                        "accepted": False, "failure_reasons": [f"render:{type(exc).__name__}"],
+                    }
+                record["attempts"].append(report)
+                write_json(s_c_dir() / "attempts" / f"{cls}_slot_{slot:02d}_round_{round_id}_exp_{expansion_id}.json", report)
+            if first_accepted is None:
+                last_report = record["attempts"][-1]
+                record["feedback"] = candidate_feedback(last_report) if "verifier" in last_report else {"failed_gates": last_report["failure_reasons"], "violations": []}
+                api_row["rejection_reasons"] = "|".join(record["feedback"]["failed_gates"])
+        if first_accepted is not None:
+            state["status"] = "accepted"
+            api_row["accepted"] = True
+        elif round_id >= S_C_MAX_FEEDBACK_ROUNDS:
+            state["status"] = "exhausted"
+        state["history"].append(record)
+        s_c_save_state(state)
+        append_s_c_api_log(api_row)
+    return s_c_write_outputs(smoke)
+
+
+def load_s_c_pool() -> dict[str, np.ndarray]:
+    if not pool_is_balanced("s_c_llm", POOL_N_SYN):
+        raise RuntimeError("balanced S-C n=20 pool is unavailable")
+    manifest = read_csv(OUT_DIR / "mt_private_v3_s_c_llm_n20_pool_manifest.csv")
+    pools: dict[str, np.ndarray] = {}
+    for cls in MT_CLASSES:
+        rows = sorted((row for row in manifest if row["class_name"] == cls and row_is_accepted(row)), key=lambda row: int(row["slot"]))
+        pools[cls] = np.stack([np.load(RUN_DIR / row["path"]) for row in rows]).astype(np.float32)
+    return pools
+
+
 def load_pool(method: str, target_per_class: int = POOL_N_SYN) -> dict[str, np.ndarray]:
+    if method == "s_c_llm":
+        if target_per_class != POOL_N_SYN:
+            raise ValueError("S-C pool is frozen at n=20 per class")
+        return load_s_c_pool()
     if not pool_is_balanced(method, target_per_class):
         raise RuntimeError(f"balanced {method} n={target_per_class} pool is unavailable")
     pools: dict[str, np.ndarray] = {}
@@ -628,9 +896,10 @@ def audit_passed() -> bool:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--stage", choices=["prepare", "audit", "smoke", "pool", "downstream", "summarize"], required=True)
-    parser.add_argument("--method", choices=["s_a_directional", "s_b_carrier_mix"], default="s_a_directional")
+    parser.add_argument("--stage", choices=["prepare", "audit", "smoke", "pool", "s_c_prepare", "s_c_smoke", "s_c_generate", "downstream", "summarize"], required=True)
+    parser.add_argument("--method", choices=["s_a_directional", "s_b_carrier_mix", "s_c_llm"], default="s_a_directional")
     parser.add_argument("--target-per-class", type=int, default=None)
+    parser.add_argument("--max-api-requests", type=int, default=S_C_API_BUDGET)
     args = parser.parse_args()
     ensure_dirs()
     context = build_context()
@@ -641,12 +910,28 @@ def main() -> None:
     if args.stage == "audit":
         print(json.dumps(run_admission_audit(context), sort_keys=True))
         return
+    if args.stage == "s_c_prepare":
+        print(json.dumps(s_c_prepare(context), sort_keys=True))
+        return
     if not audit_passed():
         raise RuntimeError("v3 admission audit is not PASS; pool/downstream stages are prohibited")
+    if args.stage == "s_c_smoke":
+        print(json.dumps(generate_s_c_pool(context, S_C_SMOKE_REQUESTS, smoke=True), sort_keys=True))
+        return
+    if args.stage == "s_c_generate":
+        smoke_path = OUT_DIR / "mt_private_v3_s_c_smoke_decision.json"
+        if not smoke_path.exists() or not json.loads(smoke_path.read_text()).get("balanced"):
+            raise RuntimeError("S-C full generation requires a balanced committed S-C smoke")
+        print(json.dumps(generate_s_c_pool(context, args.max_api_requests, smoke=False), sort_keys=True))
+        return
     if args.stage == "smoke":
+        if args.method == "s_c_llm":
+            raise ValueError("use --stage s_c_smoke for S-C")
         print(json.dumps(build_pool(context, args.method, 1), sort_keys=True))
         return
     if args.stage == "pool":
+        if args.method == "s_c_llm":
+            raise ValueError("use --stage s_c_generate for S-C")
         if args.target_per_class not in {5, 20}:
             raise ValueError("pool stage requires --target-per-class 5 or 20")
         print(json.dumps(build_pool(context, args.method, args.target_per_class), sort_keys=True))

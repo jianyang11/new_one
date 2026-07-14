@@ -1,0 +1,8 @@
+{
+  "api_budget": 100,
+  "api_requests": 0,
+  "expansions_per_recipe": 3,
+  "formal_test_files_read": 0,
+  "max_feedback_rounds": 3,
+  "smoke_request_cap": 3
+}
