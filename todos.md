@@ -1670,3 +1670,22 @@ repair enters Layer 3; a certificate cleanly distinguishes `pass`, `fail`, and
 - [x] Run the formal file-ID `7/8` experiment exactly once after the locally committed preregistration. All 360 preregistered rows completed (3 methods × 3 real-shot cells × 40 seeds); raw data remain outside Git. S-C is significantly better than `noise_aug` at `n_real=10` in both primary metrics after Holm, non-significant at 25, and worse at 50; the full directionally mixed outcome is frozen without retuning.
 - [x] The zero/multiple-candidate failure branch is not applicable: S-C was the unique internally eligible candidate before formal files were read. No post-formal candidate, pool, or union is considered.
 - [x] Freeze the API ledger, reproducibility commands, manifests/checksums, and final result reports; verify that no raw data, virtual environment, checkpoint, generated array, or credential is staged.
+
+## 15. Writing-only logic revision (started 2026-07-15; zero API)
+
+- [x] Fetch `origin/main`, verify local/remote equality, preserve unrelated untracked artifacts, and freeze the source/evidence/generated/figure baseline.
+- [x] Activate and read `awesome-ai-research-writing` and `pdf` skill instructions.
+- [x] Create `analysis/writing_revision_log.md` with P1--P6 line-level diagnosis, examples, word/negation/page baselines, and acceptance criteria before editing manuscript prose.
+- [x] Rewrite and compile the abstract; retain every result macro and boundary while meeting the six-sentence, 220-word, and two-limitation limits. Final abstract: six sentences, 190 words, zero counted negative limitations, 17-page compile.
+- [x] Rewrite and compile the Introduction into the required problem--cost--opportunity--gap--solution--questions--contributions--scope chain; retain 17 pages and the baseline compile-diagnostic ceiling.
+- [x] Rewrite and compile Related Work; all four subsections now close with an evidence-bounded BREEZE contrast, with citations and the positioning table unchanged.
+- [x] Rewrite and compile Method; every subsection is motivation-first, equations are introduced by their interpretive purpose, and slot/window accounting is separate from provenance. Equations and parameters remain unchanged.
+- [x] Rewrite and compile Experimental Design; protocol choices are motivated, dataset details are separated, all split/budget/seed/hyperparameter values are unchanged, and a newly introduced 5.9-pt overfull line was removed before proceeding.
+- [x] Rewrite and compile Results; all subsection headings and opening sentences state bounded conclusions, Berkeley follows the registered 12/12--lower-shot--ten-shot order, and no rule-vs-unstructured significance was added.
+- [x] Rewrite and compile Boundaries/Negative Results; one opening sentence now frames protocol value, while the full PU v1--v6 and UMich/MU-TCM stop evidence remains intact.
+- [x] Rewrite and compile Discussion; the three evaluation questions are answered in order, beginning with the random-plus-verifier result of 0 admitted slots. Compile is 18 pages, within the +1-page ceiling.
+- [x] Rewrite and compile Conclusion and final prose; retain a positive synthesis and one final boundary sentence. The PDF returned from 18 to the baseline 17 pages.
+- [x] Extract all 81 final paragraph/list opening sentences into the revision log and verify that the sequence reconstructs the manuscript argument.
+- [x] Recount the abstract (six sentences, 166 words, zero counted negative limitations) and full prose (67 to 8 negative-qualifier sentences, 88.1% reduction); audit terminology, numerical values/macros, citations, equations, tables, figures, generated files, and claim terms.
+- [x] Run a clean final compile with zero errors, LaTeX warnings, or undefined references and no new box diagnostics; render all 17 pages with Poppler and inspect every page for clipping, overlap, missing content, or illegibility.
+- [ ] Review the scoped diff, stage only writing artifacts, commit with a writing-only message, push `origin/main`, and verify the remote SHA.

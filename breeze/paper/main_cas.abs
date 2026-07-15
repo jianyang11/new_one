@@ -1,26 +1,20 @@
-Training a signal generator for every machine and operating regime is often
-impractical when labelled faults are scarce. We introduce \breeze, a
-training-free generation workflow in which a large language model (LLM)
-proposes a structured recipe, a seeded deterministic renderer executes fixed
-signal equations, and a verifier admits only candidates satisfying physical
-gates calibrated on the real training split. The verifier rejects rather than
-repairs a failed waveform, and its pass decision is an auditable
-train-calibrated admissibility statement rather than a formal guarantee of
-physical validity. On a file-disjoint Paderborn University protocol, LLM
-recipes outperform matched rule and random open-loop recipes for Accuracy and
-Macro-F1 at 5, 10, and 25 real windows per class; all
-\BreezePUPassedTests{} registered comparisons remain significant after Holm
-correction ($q<\BreezePUHolmBound$, 20 seeds). On Case Western Reserve
-University, all \BreezeCWRUPassedTests{} provenance-valid comparisons across within-load and
-held-out loads 1--3 pass Holm correction (40 seeds); the archived held-out-
-load0 fold is excluded because it reuses a load0-derived pool. A case/run-
-disjoint Berkeley milling test is deliberately qualified:
+Scarce labelled faults make it costly to train and select a signal generator
+for every machine and operating regime. We introduce \breeze, a training-free
+workflow that separates LLM recipe proposal, seeded deterministic rendering,
+and physical admission calibrated exclusively on the real training split. The
+verifier records each gate decision, rejects failed candidates unchanged, and
+uses structured failure reports for bounded resampling. On file-disjoint PU,
+LLM recipes outperform matched rule and random open-loop recipes for Accuracy
+and Macro-F1 at 5, 10, and 25 real windows per class; all
+\BreezePUPassedTests{} registered comparisons pass Holm correction
+($q<\BreezePUHolmBound$, 20 seeds), as do all \BreezeCWRUPassedTests{}
+provenance-valid CWRU comparisons across within-load0 and held-out loads 1--3
+(40 seeds). On case/run-disjoint Berkeley milling,
 \BreezeBerkeleyPassedTests/\BreezeBerkeleyRegisteredTests{} comparisons pass,
-including all \BreezeBerkeleyUnstructuredPassedTests{} against non-structured baselines, whereas the LLM--rule
-advantage is confined to the lower-shot settings. Class-conditional waveform,
-envelope, PSD-Wasserstein, band-energy, statistical-distance, and nearest-
-neighbour diagnostics provide complementary evidence without being collapsed
-into a universal fidelity score. Six predeclared Paderborn cross-condition
-attempts fail, establishing the present extrapolation boundary. The results
-support LLM-guided, physics-verified admission for the stated few-shot
-protocols, not zero-data diagnosis or universal generator superiority.
+including all \BreezeBerkeleyUnstructuredPassedTests{} against non-structured
+baselines; its lower-shot LLM--rule advantage, class-conditional diagnostics,
+and six failed PU cross-condition attempts delimit the evidence. A pass states
+train-calibrated admissibility; these results establish auditable,
+physics-verified LLM-guided admission for the stated few-shot protocols,
+outside claims of formal physical validity, zero-data diagnosis, or universal
+generator superiority.
