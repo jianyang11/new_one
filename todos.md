@@ -145,7 +145,7 @@ Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命
 - [x] R6.6 输出终稿重构快照，列出完成项、blocker、未使用结果和复现命令。
 - [x] R6.7 审查 `git diff` 与拟提交文件，排除 raw data、checkpoint、训练 runs、
   虚拟环境和用户未跟踪原始副本。
-- [ ] R6.8 创建描述性 commit，推送 `origin/main`，再次核对远端包含当前提交。
+- [x] R6.8 创建描述性 commit，推送 `origin/main`，再次核对远端包含当前提交。
 
 ## Framework reset: Layer 1 -- real-data, group-aware calibration (planned 2026-07-10)
 
