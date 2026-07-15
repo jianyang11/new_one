@@ -1,6 +1,6 @@
 # BREEZE Writing-Only Revision Log
 
-Status: in progress (2026-07-15, Asia/Shanghai)
+Status: complete (2026-07-15, Asia/Shanghai)
 
 ## Scope and controls
 
@@ -277,4 +277,7 @@ the problem, mechanism, protocol, evidence, boundary, and conclusion.
   all five generated-table hashes and all figure hashes match the frozen
   baseline. `git diff` is empty for the ledger, generated tables, figures, and
   bibliography.
-- Pending only: staged-diff review, commit, push, and remote-SHA verification.
+- Delivery: staged-diff review included only this log, `main_cas.tex`, the
+  synchronized `.abs`/`.pdf`, and `todos.md`. Content commit `2009ccf`
+  (`docs: writing-only revision of BREEZE manuscript`) was pushed successfully
+  to `origin/main`; the push advanced the remote from `1f06c84` to `2009ccf`.
