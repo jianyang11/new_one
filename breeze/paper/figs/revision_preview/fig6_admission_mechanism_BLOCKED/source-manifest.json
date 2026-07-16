@@ -1,0 +1,50 @@
+{
+  "figure_directory": "breeze/paper/figs/revision_preview/fig6_admission_mechanism_BLOCKED",
+  "status": "blocked",
+  "generated_at_utc": "2026-07-16T10:46:54.272923+00:00",
+  "git_head": "621dfe73e8193aa69b88f356e8e73736b2ae2e26",
+  "generator": "breeze/src/figure_revision_data.py",
+  "generator_sha256": "30d186cfb6320c927fcfbb1b264e71df96b91819f57353fb9551ef8dde069493",
+  "code": [
+    {
+      "path": "breeze/src/figure_revision_data.py",
+      "sha256": "30d186cfb6320c927fcfbb1b264e71df96b91819f57353fb9551ef8dde069493",
+      "size_bytes": 34524
+    },
+    {
+      "path": "breeze/src/figures_revision_preview.py",
+      "sha256": "41ca1d9d62a0fc8309aceeda5b904432e9af2d1d47574d8af5a5da4d6932878f",
+      "size_bytes": 30247
+    }
+  ],
+  "sources": [
+    {
+      "path": "breeze/results/phaseA_v2_frozen_2026-07-06/breeze/runs/rescreen_v2_full/slot_summary.csv",
+      "sha256": "4df45eb7ca29dbd052dce537c6f269fad8572e6c06c4537898bf9114e0ed0a6a",
+      "size_bytes": 8307
+    }
+  ],
+  "filters": {
+    "required_panel": "cumulative K=0,1,2,3 admission by class"
+  },
+  "sample_counts": {
+    "frozen_slots": 450,
+    "final_admitted": 286
+  },
+  "outputs": [
+    {
+      "path": "breeze/paper/figs/revision_preview/fig6_admission_mechanism_BLOCKED/blocker.json",
+      "sha256": "903d98bd74d703ce18f05c5a42f502d54600565b48198d765ad3737bbe0f1aad",
+      "size_bytes": 737
+    },
+    {
+      "path": "breeze/paper/figs/revision_preview/fig6_admission_mechanism_BLOCKED/BLOCKED.md",
+      "sha256": "518fe38894d1c7b86439905a1fa7b981c92755116d93df094dbc1b95f0aa721b",
+      "size_bytes": 391
+    }
+  ],
+  "notes": [
+    "The frozen 450-slot summary stores final admission and candidate count, but not the first passing feedback round. n_candidates is not a round label.",
+    "Create a separate audited round-level freeze whose aggregate reproduces 450 slots and 286 final admissions before drawing cumulative K=0..3."
+  ]
+}

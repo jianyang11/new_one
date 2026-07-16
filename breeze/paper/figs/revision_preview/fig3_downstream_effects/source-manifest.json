@@ -1,0 +1,138 @@
+{
+  "figure_directory": "breeze/paper/figs/revision_preview/fig3_downstream_effects",
+  "status": "complete",
+  "generated_at_utc": "2026-07-16T10:46:42.904438+00:00",
+  "git_head": "621dfe73e8193aa69b88f356e8e73736b2ae2e26",
+  "generator": "breeze/src/figure_revision_data.py",
+  "generator_sha256": "30d186cfb6320c927fcfbb1b264e71df96b91819f57353fb9551ef8dde069493",
+  "code": [
+    {
+      "path": "breeze/src/figure_revision_data.py",
+      "sha256": "30d186cfb6320c927fcfbb1b264e71df96b91819f57353fb9551ef8dde069493",
+      "size_bytes": 34524
+    },
+    {
+      "path": "breeze/src/figures_revision_preview.py",
+      "sha256": "41ca1d9d62a0fc8309aceeda5b904432e9af2d1d47574d8af5a5da4d6932878f",
+      "size_bytes": 30247
+    }
+  ],
+  "sources": [
+    {
+      "path": "breeze/results/cwru_patch_v2_2026-07-07_frozen/cwru_patch_v2_wilcoxon.csv",
+      "sha256": "a3b3ddda37d6d312326a7c1ce3f9d1e684b2b33b4d213154b1005a5409c70b0b",
+      "size_bytes": 20841
+    },
+    {
+      "path": "breeze/results/cwru_patch_v2_2026-07-07_frozen/downstream/within_load0_llm_nsyn20.csv",
+      "sha256": "b31ce0370de0e3f831825e7bae55f56f65abd9d9cd8694357b3de95103439ad3",
+      "size_bytes": 33900
+    },
+    {
+      "path": "breeze/results/cwru_patch_v2_2026-07-07_frozen/downstream/within_load0_noise_aug_nsyn20.csv",
+      "sha256": "420bec6461283a24afd80bf87bdf34a80e6d2ea8c89f1f46d2c7421c6f224746",
+      "size_bytes": 33726
+    },
+    {
+      "path": "breeze/results/cwru_patch_v2_2026-07-07_frozen/downstream/within_load0_rule_nsyn20.csv",
+      "sha256": "240703fcce6c30357380d4cbf0fcbffce21782c864ebe9703e49a46c029cea38",
+      "size_bytes": 33753
+    },
+    {
+      "path": "breeze/results/milling_berkeley_v2_binary_formal_2026-07-08/berkeley_v2_binary_formal_wilcoxon_holm.csv",
+      "sha256": "281c2eed1297797d2e3596797650a8f4de95009f1f4665e68caf4d3ae3ed6fdc",
+      "size_bytes": 1686
+    },
+    {
+      "path": "breeze/results/milling_berkeley_v2_binary_formal_2026-07-08/downstream_40seed_nsyn20/berkeley_v2_binary_llm_nsyn20.csv",
+      "sha256": "1df9c0fe9355c11f55794167f9bdd6d9101efb748d6893e577fb8b4a7bb24525",
+      "size_bytes": 28124
+    },
+    {
+      "path": "breeze/results/milling_berkeley_v2_binary_formal_2026-07-08/downstream_40seed_nsyn20/berkeley_v2_binary_noise_aug_nsyn20.csv",
+      "sha256": "16a67e492f3a33189e19c003a33fcd226e1280b85a58a5fedb5fa835f13f44c0",
+      "size_bytes": 27965
+    },
+    {
+      "path": "breeze/results/milling_berkeley_v2_binary_formal_2026-07-08/downstream_40seed_nsyn20/berkeley_v2_binary_rule_nsyn20.csv",
+      "sha256": "4c17321f65d7a9fdaa15b84c7ccebe7b55d39baf3644c73f327a1f7889b6f3dd",
+      "size_bytes": 28044
+    },
+    {
+      "path": "breeze/results/phaseA_v2_frozen_2026-07-06/breeze/results/phaseA_v2_downstream_cnn.csv",
+      "sha256": "133513198fdaa31c9995b17155e6bfdbd3046a23f42dc30d80eca40ef893bb01",
+      "size_bytes": 32247
+    },
+    {
+      "path": "breeze/results/phaseA_v2_frozen_2026-07-06/breeze/results/phaseA_v2_wilcoxon.csv",
+      "sha256": "61ff36947cbefefed977dab50c930e9c950266b012dfcd5828f6cbf7fead798a",
+      "size_bytes": 4844
+    }
+  ],
+  "filters": {
+    "protocols": "PU file split; CWRU within load0; Berkeley preregistered held-out case split",
+    "shots": {
+      "PU": [
+        5,
+        10,
+        25
+      ],
+      "CWRU": [
+        5,
+        10,
+        25
+      ],
+      "Berkeley": [
+        2,
+        5,
+        10
+      ]
+    },
+    "comparisons": "row 1 LLM-rule; row 2 PU LLM-random, CWRU/Berkeley LLM-noise",
+    "bootstrap": "paired percentile, 20000 resamples, seed 20260716"
+  },
+  "sample_counts": {
+    "summary_cells": 36,
+    "paired_seed_rows": 1200
+  },
+  "outputs": [
+    {
+      "path": "breeze/paper/figs/revision_preview/fig3_downstream_effects/source_data.csv",
+      "sha256": "60316333f164049840ae07b9c3e3a5a0c4b8005f25566c557abf7993a667299b",
+      "size_bytes": 4152
+    },
+    {
+      "path": "breeze/paper/figs/revision_preview/fig3_downstream_effects/paired_seed_deltas.csv",
+      "sha256": "046e3be78642f44242c981ac612bbe8b027ca28ef798edbcf2f8d0cf28163417",
+      "size_bytes": 68284
+    },
+    {
+      "path": "breeze/paper/figs/revision_preview/fig3_downstream_effects/axis_limits.csv",
+      "sha256": "e05b84eeda81d7c15cce97f51bb6f7e17e931c32b24901801c6090066143812b",
+      "size_bytes": 205
+    },
+    {
+      "path": "breeze/paper/figs/revision_preview/fig3_downstream_effects/fig3_downstream_effects.pdf",
+      "sha256": "b338e988487d1e02d60b499f45d9b71d5ef07ad4f005b41560e6e8b0c907ea2d",
+      "size_bytes": 42846
+    },
+    {
+      "path": "breeze/paper/figs/revision_preview/fig3_downstream_effects/fig3_downstream_effects.svg",
+      "sha256": "e0ac736c8dfbe7c89b73767406070f6cf64e38751fdd0b2f151411c31613bc93",
+      "size_bytes": 63846
+    },
+    {
+      "path": "breeze/paper/figs/revision_preview/fig3_downstream_effects/fig3_downstream_effects.png",
+      "sha256": "85d24d54cc36822d6303c4b04fdd8696851dfa35951a69f23fe1f418a21cd795",
+      "size_bytes": 140211
+    },
+    {
+      "path": "breeze/paper/figs/revision_preview/fig3_downstream_effects/fig3_downstream_effects.tiff",
+      "sha256": "0dfc87656c8bb652cf6c3984410c4a555165132316876170118c02718b2e84f8",
+      "size_bytes": 864748
+    }
+  ],
+  "notes": [
+    "Seeds repeat few-shot subset selection/CNN initialization around a fixed synthetic pool."
+  ]
+}

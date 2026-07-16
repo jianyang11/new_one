@@ -1,0 +1,16 @@
+{
+  "status": "blocked",
+  "reason": "The frozen 450-slot summary stores final admission and candidate count, but not the first passing feedback round. n_candidates is not a round label.",
+  "frozen_slot_rows": 450,
+  "final_admitted_slots": 286,
+  "candidate_count_distribution": {
+    "1": 253,
+    "2": 42,
+    "3": 35,
+    "4": 120
+  },
+  "local_unfrozen_round_records": 450,
+  "required_action": "Create a separate audited round-level freeze whose aggregate reproduces 450 slots and 286 final admissions before drawing cumulative K=0..3.",
+  "source": "breeze/results/phaseA_v2_frozen_2026-07-06/breeze/runs/rescreen_v2_full/slot_summary.csv",
+  "source_sha256": "4df45eb7ca29dbd052dce537c6f269fad8572e6c06c4537898bf9114e0ed0a6a"
+}
