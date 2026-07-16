@@ -1,20 +1,21 @@
-Scarce labelled faults make it costly to train and select a signal generator
-for every machine and operating regime. We introduce \breeze, a training-free
-workflow that separates LLM recipe proposal, seeded deterministic rendering,
-and physical admission calibrated exclusively on the real training split. The
-verifier records each gate decision, rejects failed candidates unchanged, and
-uses structured failure reports for bounded resampling. On file-disjoint PU,
-LLM recipes outperform matched rule and random open-loop recipes for Accuracy
-and Macro-F1 at 5, 10, and 25 real windows per class; all
-\BreezePUPassedTests{} registered comparisons pass Holm correction
-($q<\BreezePUHolmBound$, 20 seeds), as do all \BreezeCWRUPassedTests{}
-provenance-valid CWRU comparisons across within-load0 and held-out loads 1--3
-(40 seeds). On case/run-disjoint Berkeley milling,
+Scarce labelled faults make target-specific generator training and selection
+compete with the same few examples needed for diagnosis. Trained generators
+store physical knowledge in weights learned from data that few-shot regimes
+cannot supply. We introduce \breeze, which externalizes class and machine
+knowledge as an LLM-authored JSON recipe and converts it to a waveform through
+a fixed seeded renderer without optimizing a target-data generator. A verifier
+calibrated exclusively on the real outer-training split moves physical control
+from a training objective to deterministic admission, bounded failure
+feedback, and per-sample audit records. On file-disjoint PU, LLM recipes
+outperform matched rule and random open-loop recipes for Accuracy and Macro-F1
+at 5, 10, and 25 real windows per class; all \BreezePUPassedTests{} registered
+comparisons pass Holm correction ($q<\BreezePUHolmBound$, 20 seeds), as do all
+\BreezeCWRUPassedTests{} provenance-valid CWRU comparisons across within-load0
+and held-out loads 1--3 (40 seeds). On case/run-disjoint Berkeley milling,
 \BreezeBerkeleyPassedTests/\BreezeBerkeleyRegisteredTests{} comparisons pass,
 including all \BreezeBerkeleyUnstructuredPassedTests{} against non-structured
-baselines; its lower-shot LLM--rule advantage, class-conditional diagnostics,
-and six failed PU cross-condition attempts delimit the evidence. A pass states
-train-calibrated admissibility; these results establish auditable,
-physics-verified LLM-guided admission for the stated few-shot protocols,
-outside claims of formal physical validity, zero-data diagnosis, or universal
-generator superiority.
+baselines and the qualified lower-shot LLM--rule advantage;
+class-conditional diagnostics and six failed PU cross-condition attempts locate
+the supported operating range. A pass states train-calibrated admissibility,
+and the combined evidence supports auditable LLM recipe generation with
+physics-verified admission for the stated few-shot protocols.

@@ -1689,3 +1689,51 @@ repair enters Layer 3; a certificate cleanly distinguishes `pass`, `fail`, and
 - [x] Recount the abstract (six sentences, 166 words, zero counted negative limitations) and full prose (67 to 8 negative-qualifier sentences, 88.1% reduction); audit terminology, numerical values/macros, citations, equations, tables, figures, generated files, and claim terms.
 - [x] Run a clean final compile with zero errors, LaTeX warnings, or undefined references and no new box diagnostics; render all 17 pages with Poppler and inspect every page for clipping, overlap, missing content, or illegibility.
 - [x] Review the scoped diff, stage only writing artifacts, commit as `2009ccf` with `docs: writing-only revision of BREEZE manuscript`, push `origin/main`, and verify the remote advanced from `1f06c84` to `2009ccf`.
+
+## 16. Solid-story narrative revision (started 2026-07-16; zero API)
+
+### 16.1 Freeze and scope controls
+
+- [x] Read `breeze_solid_story_prompt.md`, `AGENTS.md`, the active evidence ledger, claim-to-evidence map, prior writing log, and the current CAS manuscript before editing.
+- [x] Fetch `origin/main`; verify local `main` and `origin/main` both equal `bfb6f8facfcc7ad79b864caed6eefc5f5016cf26` and preserve all unrelated untracked experiment artifacts.
+- [x] Activate the local `awesome-ai-research-writing` and `pdf` instructions. Treat `nature-figure` as an immutable-figure audit constraint because this task explicitly prohibits figure redraws.
+- [x] Freeze source hashes, section/table/figure/equation structure, generated-macro usage, experimental-number tokens, citation keys, PDF page count, and baseline compile diagnostics in `analysis/solid_story_revision_log.md`.
+- [x] Confirm the execution interpreter is `breeze/.venv-breeze/bin/python` (Python 3.12.13) and record its version; make no LLM API calls.
+
+### 16.2 Literature verification
+
+- [x] Verify the primary publisher/preprint records for the prompt's studies #1--8; record exact title, authors, venue, year, DOI/URL, mechanism failure, knowledge-residence category, and suitability for citation.
+- [x] Require at least six independently verified studies from #1--8 in Introduction/Related Work; all eight verified studies are cited, and HAWAN-PIR remains uncited without a stable primary record.
+- [x] Add or correct only verified BibTeX records in `breeze/paper/references.bib`; six missing records were added without unsupported performance summaries or protocol-incompatible accuracy comparisons.
+- [x] Map each cited study to the knowledge-residence spectrum: learned weights, physics-informed objective/architecture, description-conditioned learned generator, or explicit recipe plus fixed renderer and calibrated admission.
+
+### 16.3 Narrative reconstruction
+
+- [x] Rewrite the Abstract as S1 -> root cause b -> components c -> frozen S4/S5 evidence -> boundary -> significance; final abstract is 189 words and retains every result macro and claim boundary.
+- [x] Rewrite Introduction paragraph 2 with literature-specific trained-generator failure mechanisms; paragraph 3 is the explicit shared-root-cause paragraph.
+- [x] Tie the three solution components in Introduction paragraph 4 directly to the root cause: explicit LLM recipe knowledge, fixed deterministic rendering, and train-calibrated closed-loop admission/audit.
+- [x] Rewrite the three evaluation questions and four contributions so each maps to component 1, component 2, the complete system, or its registered boundary; retain the final scope paragraph and trained-baseline blocker.
+- [x] Reorganize Related Work as a knowledge-residence spectrum and close each subsection with BREEZE's precise position without claiming trained-baseline superiority.
+- [x] Add `Where physical knowledge resides` to Table 1 while preserving its methods, evidence meaning, and all other table/figure environments; left-aligned fixed-width columns introduce no new box diagnostic.
+- [x] Add root-cause-motivated opening sentences to every Method subsection; identify the renderer as component 1 and the verifier/feedback loop as component 2 without changing equations, parameters, algorithms, or responsibilities.
+- [x] Reframe Results subsection titles, first sentences, and closing synthesis around component ablations and frozen evidence; keep all numerical macros and qualified Berkeley/CWRU/PU wording within the ledger.
+- [x] Open the boundary section with the framework-predicted morphology--condition limit, then preserve the complete six-stage PU failure chain and milling protocol stops.
+- [x] Answer the three evaluation questions at the start of Discussion and add an evidence-bounded operating guide for choosing BREEZE versus a trained generator.
+- [x] Rewrite Conclusion into two positive paragraphs plus one boundary sentence, without adding SOTA, universal superiority, zero-data, or formal-validity claims.
+
+### 16.4 Incremental verification
+
+- [x] Compile after Abstract/Introduction/Related Work and inspect errors, unresolved citations, page count, and new box diagnostics: 18 pages, zero unresolved citations, and no positioning-table box diagnostic.
+- [x] Compile after Method and confirm equation, algorithm, figure, and cross-reference identities are unchanged.
+- [x] Compile after Results/Boundaries/Discussion/Conclusion and confirm generated tables/macros remain untouched and all claim-sensitive terms match the ledger.
+- [x] Run a narrative trace audit showing that Abstract, Introduction, Method, Results, Boundaries, Discussion, and Conclusion reconstruct the same a -> b -> c -> ablation -> boundary chain.
+- [x] Compare baseline/final experimental-number tokens, generated macro uses, equations, algorithms, labels, figure includes, and non-positioning table bodies; explain every allowed citation/table-positioning difference.
+- [x] Verify the trained TimeGAN/DDPM comparison remains explicitly marked as unavailable/blocking evidence rather than converted into a result.
+
+### 16.5 PDF and delivery
+
+- [x] Run a clean final LaTeX/BibTeX compile with zero fatal, undefined-reference, and undefined-citation warnings and no new layout diagnostic beyond the frozen baseline.
+- [x] Render every final PDF page with Poppler and inspect for clipping, overlap, missing glyphs, unreadable references, and positioning-table overflow.
+- [x] Record final hashes, page count, bibliography audit, zero-API status, claim audit, and visual-QA outcome in `analysis/solid_story_revision_log.md`.
+- [x] Review the scoped diff; stage only the manuscript, verified bibliography, log, and this checklist; preserve all unrelated untracked artifacts.
+- [x] Commit with a writing-only solid-story message, push `main` to `origin/main`, and verify the pushed commit is the remote head before reporting completion.

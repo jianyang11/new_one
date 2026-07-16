@@ -37,26 +37,27 @@ Few-Shot Condition Monitoring}
   country={Country}}
 
 \begin{abstract}
-Scarce labelled faults make it costly to train and select a signal generator
-for every machine and operating regime. We introduce \breeze, a training-free
-workflow that separates LLM recipe proposal, seeded deterministic rendering,
-and physical admission calibrated exclusively on the real training split. The
-verifier records each gate decision, rejects failed candidates unchanged, and
-uses structured failure reports for bounded resampling. On file-disjoint PU,
-LLM recipes outperform matched rule and random open-loop recipes for Accuracy
-and Macro-F1 at 5, 10, and 25 real windows per class; all
-\BreezePUPassedTests{} registered comparisons pass Holm correction
-($q<\BreezePUHolmBound$, 20 seeds), as do all \BreezeCWRUPassedTests{}
-provenance-valid CWRU comparisons across within-load0 and held-out loads 1--3
-(40 seeds). On case/run-disjoint Berkeley milling,
+Scarce labelled faults make target-specific generator training and selection
+compete with the same few examples needed for diagnosis. Trained generators
+store physical knowledge in weights learned from data that few-shot regimes
+cannot supply. We introduce \breeze, which externalizes class and machine
+knowledge as an LLM-authored JSON recipe and converts it to a waveform through
+a fixed seeded renderer without optimizing a target-data generator. A verifier
+calibrated exclusively on the real outer-training split moves physical control
+from a training objective to deterministic admission, bounded failure
+feedback, and per-sample audit records. On file-disjoint PU, LLM recipes
+outperform matched rule and random open-loop recipes for Accuracy and Macro-F1
+at 5, 10, and 25 real windows per class; all \BreezePUPassedTests{} registered
+comparisons pass Holm correction ($q<\BreezePUHolmBound$, 20 seeds), as do all
+\BreezeCWRUPassedTests{} provenance-valid CWRU comparisons across within-load0
+and held-out loads 1--3 (40 seeds). On case/run-disjoint Berkeley milling,
 \BreezeBerkeleyPassedTests/\BreezeBerkeleyRegisteredTests{} comparisons pass,
 including all \BreezeBerkeleyUnstructuredPassedTests{} against non-structured
-baselines; its lower-shot LLM--rule advantage, class-conditional diagnostics,
-and six failed PU cross-condition attempts delimit the evidence. A pass states
-train-calibrated admissibility; these results establish auditable,
-physics-verified LLM-guided admission for the stated few-shot protocols,
-outside claims of formal physical validity, zero-data diagnosis, or universal
-generator superiority.
+baselines and the qualified lower-shot LLM--rule advantage;
+class-conditional diagnostics and six failed PU cross-condition attempts locate
+the supported operating range. A pass states train-calibrated admissibility,
+and the combined evidence supports auditable LLM recipe generation with
+physics-verified admission for the stated few-shot protocols.
 \end{abstract}
 
 \begin{keywords}
@@ -75,33 +76,38 @@ and rarely observed under every load and speed. New machines, sensor layouts,
 and operating regimes therefore offer only a few examples of the events that a
 diagnostic model must recognize.
 
-Existing augmentation routes trade modelling capacity for target-data cost.
-Conventional transformations are inexpensive, while VAEs, GANs, and diffusion
-models can learn richer signal distributions through target-data training and
-model selection~\citep{li2020augmentation,zhao2020vae,zhang2021semivae,
-goodfellow2014gan,kingma2014vae,ho2020ddpm}. This investment is practical for a
-large stable corpus, but becomes costly when each new deployment supplies only
-a few labelled faults.
+Target-trained augmentation exposes concrete failure mechanisms under scarce
+or imbalanced faults. DFE-GAN addresses adversarial instability, mode collapse,
+and weak sample filtering through a modified objective, attention, and an
+automatic filter~\citep{liu2022dfegan}. Diffusion removes the adversarial game
+but retains target distribution fitting: TSDM redesigns the original DDPM
+denoiser for one-dimensional vibration structure, ReF-DDPM strengthens
+intra- and inter-level features, a TII study adds a comprehensive evaluation
+framework, and FaultDiffusion attributes few-shot failure to the normal--fault
+domain gap and high intra-class variation
+\citep{yi2024tsdm,yu2024refddpm,yang2024ddpmaugmentation,
+xu2025faultdiffusion}. ACS-DM and MR-DDIM further modify trained denoisers and
+objectives to balance temporal diversity with spectral fidelity
+\citep{tong2026acsdm,xu2026mrddim}.
 
-LLM-authored recipes create an inference-time alternative to target-specific
-generator training. An LLM can express machine metadata, fault class, and
-signal structure as a compact recipe, which a numerical renderer executes as a
-waveform. This separation turns the language model into a proposal source and
-keeps signal construction explicit.
+We argue that these failures share one root cause. Trained generators store
+physical knowledge in weights learned from data that few-shot regimes cannot
+supply. Even when impact priors or spectral constraints enter the objective,
+they influence generated signals through target-data optimization and model
+selection~\citep{gao2025physicsgan,liu2026physicsdiffusion}. The same small
+corpus must therefore support distribution fitting, design choices, and
+checkpoint selection. The mismatch lies in how knowledge enters generation,
+not only in whether the network is adversarial or diffusion-based.
 
-The recipe interface also creates a reliability gap between valid syntax and
-supported signal evidence. A well-formed recipe can still yield unsupported
-amplitudes, implausible spectral allocation, missing fault-frequency evidence,
-or repeated samples. Prompt instructions provide no deterministic basis for
-deciding which candidates should enter a diagnostic training pool.
-
-\breeze\ closes this gap through train-calibrated admission. The LLM proposes a
-JSON recipe, a fixed renderer maps the recipe and seed to a waveform, and a
-deterministic verifier evaluates gates calibrated from the corresponding outer
-training split. Each rejection report identifies measured violations and
-conditions a bounded resampling round, while the held-out test split remains
-isolated from recipe construction and admission. Figure~\ref{fig:framework}
-summarizes this closed loop.
+\breeze\ changes where generative knowledge resides. First, the LLM expresses
+kinematics, impacts, modulation, and spectral allocation in a structured JSON
+recipe, and a fixed seeded renderer executes those fields as explicit signal
+equations. This path bypasses target-generator optimization while keeping
+waveform construction inspectable. Second, a verifier moves physical control
+from a learned objective to gates calibrated on the corresponding outer
+training split, and measured failures condition bounded resampling. Third,
+recipe, seed, waveform hash, and gate report records make every admitted sample
+traceable. Figure~\ref{fig:framework} summarizes these components.
 
 \begin{figure*}
   \centering
@@ -114,98 +120,111 @@ summarizes this closed loop.
   \label{fig:framework}
 \end{figure*}
 
-Three evaluation questions organize the evidence. First, does the LLM
-contribute beyond random or engineer-written recipes under a matched renderer?
-Second, do admitted signals exhibit train-supported time-domain, spectral,
-envelope, and diversity evidence? Third, does the resulting pool provide stable
-diagnostic utility under file-, load-, or experiment-disjoint few-shot
-protocols? Paired source ablations, class-conditional diagnostics,
-leakage-resistant splits, and corrected statistical tests answer these
-questions together.
+Three evaluation questions test this causal chain. First, can random legal
+values or a fixed engineer-written rule replace the LLM's recipe knowledge when
+renderer and verifier are held constant? Second, how does train-calibrated
+closed-loop admission shape feasible pools and their physical evidence? Third,
+do the resulting pools improve file-, load-, or experiment-disjoint few-shot
+diagnosis, and where does explicit recipe knowledge stop transferring? Paired
+source ablations, admission records, class-conditional diagnostics,
+leakage-resistant splits, and corrected tests answer the questions together.
 
 The paper makes four contributions:
 \begin{enumerate}
-  \item \textbf{Separate} LLM time-series generation into a
-  recipe--renderer--verifier system, enabling independent auditing of language
-  proposals, numerical signal construction, and train-calibrated admission.
-  \item \textbf{Integrate} mixed physical gates---format legality, robust signal
-  statistics, Welch-PSD shape, envelope-spectrum evidence, reliability-gated
-  current evidence, and diversity---into a bounded rejection/resampling loop
-  without training a target-data generator.
-  \item \textbf{Establish} the contribution of LLM recipes under matched few-shot
-  protocols on three public datasets: PU, CWRU, and Berkeley milling. The
+  \item \textbf{Externalize} fault-signal knowledge as an LLM recipe executed by
+  a fixed seeded renderer, separating semantic proposal from waveform
+  construction without optimizing a target-data generator.
+  \item \textbf{Convert} physical control from a generator-training objective to
+  train-calibrated admission over robust statistics, Welch-PSD shape,
+  envelope-spectrum evidence, reliability-gated current evidence, and
+  diversity, with bounded feedback and per-sample audit records.
+  \item \textbf{Isolate} the LLM recipe contribution through matched random and
+  rule sources on three public datasets: PU, CWRU, and Berkeley milling. The
   registered evidence comprises 20 PU seeds and 40 seeds for CWRU and Berkeley,
   with family-wise Holm correction.
-  \item \textbf{Report} negative evidence as part of the method boundary: the full
-  six-stage PU leave-one-condition-out (LOCO) failure chain, process-metadata
-  confounding in UMich milling, and a stopped MU-TCM inner-validation line.
+  \item \textbf{Delineate} the operating boundary through the complete six-stage
+  PU leave-one-condition-out (LOCO) failure chain, process-metadata confounding
+  in UMich milling, and a stopped MU-TCM inner-validation line.
 \end{enumerate}
 
-The evidence supports a deliberately bounded admission claim. \breeze\ shows
-that accepted candidates satisfy declared train-supported gates and improve
-the stated few-shot tasks under their frozen protocols. It does not establish
+The evidence supports a deliberately bounded recipe-generation and admission
+claim: admitted candidates satisfy declared train-supported gates and improve
+the stated few-shot tasks under their frozen protocols. The manuscript excludes
 zero-real-data operation, universal cross-condition morphology transfer,
-formal physical correctness, or superiority to every learned generator.
+formal physical correctness, and superiority to trained generators because a
+matched formal TimeGAN/DDPM study remains unavailable.
 
-\section{Related work and positioning}
+\section{Related work: where generative knowledge resides}
 \label{sec:related}
 
-\subsection{Time-series generation for diagnosis}
+\subsection{Knowledge learned from target signals}
 
-Trainable models dominate general time-series generation. Their architectures
-include recurrent conditional GANs, TimeGAN, transformer GANs, variational
-models, and diffusion models~\citep{esteban2017rcgan,yoon2019timegan,
-li2022ttsgan,li2022ttscgan,liao2020sigcwgan,desai2021timevae,
-nichol2021improved,kong2021diffwave,tashiro2021csdi,alcaraz2022sssd,
-rasul2021timegrad}. Machinery-specific variants address scarce or imbalanced
-signals through sparsity constraints, deep feature-enhanced filtering,
-frequency learning, spectrum-guided sampling, and FillingGAN
+General time-series generators place distributional knowledge in learned
+weights. Recurrent conditional GANs, TimeGAN, transformer GANs, variational
+models, and diffusion models all fit a target sequence corpus
+\citep{esteban2017rcgan,yoon2019timegan,li2022ttsgan,li2022ttscgan,
+liao2020sigcwgan,desai2021timevae,nichol2021improved,tashiro2021csdi,
+alcaraz2022sssd,rasul2021timegrad}. Machinery-specific GANs
+improve this fitting through sparsity, feature enhancement, frequency learning,
+spectrum-guided sampling, and limited-data architectures
 \citep{ma2021scgan,liu2022dfegan,ko2023flgn,kim2024sgan,lin2025fillinggan}.
-\breeze\ differs by evaluating structured recipe generation at an operating
-point without target-generator optimization.
+Recent diffusion studies replace adversarial learning with trained denoising
+while redesigning feature paths or sampling for vibration data
+\citep{yi2024tsdm,yu2024refddpm,yang2024ddpmaugmentation,
+xu2025faultdiffusion,tong2026acsdm}. These methods retain knowledge in fitted
+generator weights; \breeze\ instead evaluates an operating point without
+target-generator optimization.
 
-\subsection{Physics-informed generation}
+\subsection{Physical knowledge learned through objectives and architecture}
 
-Physics-informed generation embeds equations, mechanisms, or physical penalties
-in a trainable model~\citep{raissi2019pinn}. Recent rotating-machinery GAN and
-diffusion systems encode impact response, speed modulation, multimodal
-features, or condition embeddings~\citep{gao2025physicsgan,
-liu2026physicsdiffusion,guo2025diffucd}. These models can learn their physical
-objectives through target-data optimization, followed by generator selection.
+Physics-informed generation adds domain knowledge to the learning process.
+Equations, mechanisms, or physical penalties constrain a trainable model
+\citep{raissi2019pinn}; rotating-machinery systems encode impact response,
+speed modulation, multimodal structure, condition embeddings, or spectral
+consistency~\citep{gao2025physicsgan,liu2026physicsdiffusion,guo2025diffucd,
+xu2026mrddim}. The prior resides in an objective or architecture, but its effect
+on generated signals still passes through optimized weights. \breeze\ places
+the signal equations in a fixed renderer and evaluates physical evidence after
+rendering through train-calibrated admission.
 
-Generated-data filtering provides a complementary control mechanism. DFE-GAN
-and SGAN-DDS show that selection and diversity control affect the final
-pool~\citep{liu2022dfegan,kim2024sgan}. \breeze\ differs by placing mixed
-bearing-diagnostic gates, train-only calibration, structured feedback, and
-per-sample audit records inside deterministic inference-time admission.
+\subsection{Description-conditioned learned generation}
 
-\subsection{LLMs and machinery signals}
+Language descriptions provide another route for conditioning a learned model.
+LLMs have been used as numerical time-series forecasters and supplied with
+machinery priors for bearing health management
+\citep{gruver2023llmtime,peng2025bearllm}. BearGen is the closest
+signal-generation study: an LLM produces a signal description that conditions
+a diffusion generator trained across multiple bearing datasets
+\citep{lee2026beargen}. Its description enters generation through learned
+denoising weights; \breeze\ asks for an executable numerical recipe and uses a
+fixed renderer whose target-data path contains no learned generator weights.
 
-LLMs provide emerging interfaces to time-series and machinery knowledge. They
-have been reprogrammed for forecasting without task-specific training, used as
-numerical forecasters, and supplied with machinery priors for bearing health
-management~\citep{jin2024timellm,gruver2023llmtime,peng2025bearllm}. BearGen is
-the closest signal-generation study: an LLM produces signal descriptions that
-condition a diffusion generator trained across multiple bearing datasets
-\citep{lee2026beargen}. \breeze\ differs by asking the LLM for a structured
-numerical recipe and executing it with a fixed renderer whose target-data path
-has no learned weights.
+\subsection{Explicit knowledge with calibrated admission}
+
+Generated-data filtering controls which fitted samples reach a classifier.
+DFE-GAN and SGAN-DDS show that filtering, spectrum guidance, and diversity
+sampling affect the retained pool~\citep{liu2022dfegan,kim2024sgan}. \breeze\
+combines an explicit recipe, fixed equations, train-only gate calibration,
+structured feedback, and per-sample records. Physical knowledge therefore
+resides in the recipe and renderer, while training data determine the supported
+admission region rather than generator weights.
 
 \begin{table*}[t]
 \centering
-\caption{Positioning against representative synthetic-signal systems. ``Target
-training'' denotes optimization of a generator on the target signal corpus.}
+\caption{Positioning by where generative and physical knowledge resides.
+``Target training'' denotes optimization of a generator on the target signal
+corpus.}
 \label{tab:positioning}
-\small
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}p{2.2cm}p{3.0cm}p{1.8cm}p{2.3cm}p{4.0cm}@{}}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{3.3cm}@{}}
 \toprule
-Method family & Generative mechanism & Target training & Physical control & Primary evidence pattern \\
+Method family & Generative mechanism & Target training & Where physical knowledge resides & Physical control & Primary evidence pattern \\
 \midrule
-DFE-GAN / SGAN-DDS & Learned adversarial generator plus filtering or sampling & Yes & Learned features and spectrum guidance & Fidelity, diversity, and diagnosis \\
-Physics-informed GAN / diffusion & Learned generator with physical priors or condition embedding & Yes & Training loss or architecture & Mechanism, multidomain fidelity, diagnosis \\
-BearGen & LLM descriptions condition a learned diffusion model & Yes & Description guidance and learned denoising & Eight bearing datasets, quality, few-shot, cost \\
-\breeze & LLM JSON recipe plus fixed seeded renderer & No & Train-calibrated admission and rejection & Source ablation, gate reports, physical distances, paired diagnosis \\
+DFE-GAN / SGAN-DDS & Learned adversarial generator plus filtering or sampling & Yes & Generator and discriminator weights & Learned features, filtering, and spectrum guidance & Fidelity, diversity, and diagnosis \\
+Physics-informed GAN / diffusion & Learned generator with physical priors or condition embedding & Yes & Physical objective, architecture, and optimized weights & Training loss or architecture & Mechanism, multidomain fidelity, diagnosis \\
+BearGen & LLM descriptions condition a learned diffusion model & Yes & Description prompt and learned denoising weights & Description-conditioned denoising & Eight bearing datasets, quality, few-shot, cost \\
+\breeze & LLM JSON recipe plus fixed seeded renderer & No & Recipe, renderer equations, and calibrated gate thresholds & Train-calibrated admission and rejection & Source ablation, gate reports, physical distances, paired diagnosis \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -226,8 +245,8 @@ observables into explicit, train-calibrated admission gates.
 
 \subsection{Train-calibrated admission}
 
-Reliable admission requires a decision rule calibrated entirely within the
-outer training split. Let
+The second component moves physical control out of generator training and into
+a decision rule calibrated entirely within the outer training split. Let
 $\mathcal{D}_{\mathrm{tr}}=\{(x_i,y_i,m_i)\}_{i=1}^{n}$ denote its real
 windows, class labels, and available machine metadata. For requested class $y$
 and condition $m$, the LLM proposes recipe $r_t$ at feedback round $t$. The
@@ -268,8 +287,9 @@ training calibration.
 
 \subsection{Responsibility boundaries}
 
-Attributing an observed gain requires explicit boundaries between proposal,
-waveform construction, admission, and diagnosis. Figure~\ref{fig:boundary}
+A component claim is meaningful only when proposal knowledge, waveform
+construction, admission, and diagnosis have explicit responsibility
+boundaries. Figure~\ref{fig:boundary}
 assigns one component to each responsibility. The LLM selects recipe fields,
 the renderer enforces the signal equations, the verifier measures compatibility
 with train-supported evidence, and the downstream classifier measures utility.
@@ -300,8 +320,9 @@ builders and schemas are preserved in \texttt{src/llm.py}.
 
 \subsection{Seeded renderer}
 
-A fixed renderer is needed to compare recipe sources under identical waveform
-construction. For PU vibration, the renderer combines deterministic background
+The first component can bypass learned generator weights only when every recipe
+field enters the waveform through fixed equations. For PU vibration, the
+renderer combines deterministic background
 harmonics, Poisson machine transients, a jittered train of resonant impacts,
 and band-shaped noise. The equations expose the source terms and the link
 between impact interval and requested fault frequency:
@@ -341,8 +362,9 @@ Eqs.~\eqref{eq:vibration}--\eqref{eq:current} define the bearing-channel model.
 
 \subsection{Verifier gates}
 
-Reliable pool construction requires evidence beyond recipe legality, so the
-verifier evaluates six complementary gate families:
+The second component moves physical constraints from a generator-training loss
+to calibrated gates, so the verifier evaluates six complementary evidence
+families:
 \begin{enumerate}
   \item \textbf{Legality:} exact shape, finite samples, non-degenerate
   channels, and absence of long repeated runs.
@@ -365,9 +387,10 @@ is therefore reported only for pools whose training split activates that gate.
 
 \subsection{Closed-loop construction and audit records}
 
-Closed-loop admission must bound proposal cost while preserving every decision
-needed for audit and replay. Algorithm~\ref{alg:loop} states this contract for
-one proposal slot.
+Measured failures shape the pool only when admission closes the loop around the
+proposal source. This loop must bound proposal cost while preserving every
+decision needed for audit and replay. Algorithm~\ref{alg:loop} states the
+contract for one proposal slot.
 
 \begin{algorithm}[t]
 \caption{\breeze\ recipe admission for one proposal slot}
@@ -460,9 +483,10 @@ healthy/degraded threshold and split before the one-time 40-seed formal run.
 
 \subsection{Recipe-source and augmentation controls}
 
-Testing the LLM contribution requires changing the proposal source while
-holding every downstream factor fixed. The central ablation therefore retains
-the applicable renderer, data split, synthetic budget, CNN, and paired seeds:
+Testing whether explicit recipe knowledge replaces target-generator learning
+requires changing the proposal source while holding every downstream factor
+fixed. The central ablation therefore retains the applicable renderer, data
+split, synthetic budget, CNN, and paired seeds:
 \begin{itemize}
   \item \textbf{LLM + verifier:} class- and condition-aware JSON recipe,
   physical admission, and bounded feedback.
@@ -482,13 +506,12 @@ loads 1--3. Berkeley adds random open-loop, while PU Phase-A focuses on LLM
 versus rule and random open-loop.
 
 The available baseline archive fixes the quantitative comparison boundary.
-Checkpointed TimeGAN and 1-D DDPM implementations reached smoke/development
+Checkpointed TimeGAN and 1D DDPM implementations reached smoke/development
 output before a completed predeclared formal run, which excludes them from the
 quantitative claims. Superiority to trained GAN or diffusion methods therefore
 awaits a matched formal run. FID/KID-style learned distances also remain
 unreported because the protocol lacks a fixed, validated domain feature
-extractor; their general role is described by
-\citet{heusel2017fid,binkowski2018mmdgan}.
+extractor; their general role is described by \citet{heusel2017fid}.
 
 \subsection{Few-shot classifier and statistical protocol}
 
@@ -531,27 +554,33 @@ distance. Wasserstein distance follows the optimal-transport interpretation of
 kernel and median pairwise-distance bandwidth~\citep{gretton2012mmd}, while the
 main figure reports directly interpretable distances. The core evidence uses
 these direct diagnostics; t-SNE, UMAP, and Mixup remain outside the frozen
-formal comparison~\citep{zhang2018mixup}.
+formal comparison.
 
 \section{Results}
 \label{sec:results}
 
-\subsection{LLM recipes outperform rule and random sources on PU}
+The results follow the component chain established in the Introduction. PU
+isolates the recipe source, CWRU and Berkeley test complete generated pools,
+and the physical and admission audits examine how the verifier shapes those
+pools.
 
-LLM recipes outperform rule and random open-loop recipes at every registered
-PU shot count for both diagnostic metrics. All \BreezePUPassedTests{}
-pairwise tests pass Holm correction ($q<\BreezePUHolmBound$), and
-Table~\ref{tab:pu-phasea} reports the paired protocol means and standard
-deviations.
+\subsection{LLM recipe knowledge is not replaceable by rule or random sources
+on PU}
+
+The PU component ablation shows that LLM recipes outperform rule and random
+open-loop recipes at every registered shot count for both diagnostic metrics.
+All \BreezePUPassedTests{} pairwise tests pass Holm correction
+($q<\BreezePUHolmBound$), and Table~\ref{tab:pu-phasea} reports the paired
+protocol means and standard deviations.
 
 \input{generated/pu_phasea.tex}
 
 Seed-level deltas confirm that the PU LLM advantage is positive across every
 registered source comparison for Accuracy and Macro-F1.
 Figure~\ref{fig:downstream} shows these paired deltas alongside their
-distributions. The matched design attributes this contribution to recipe
-selection within the complete \breeze\ pipeline; the renderer and verifier
-retain responsibility for waveform construction and admission.
+distributions. Because the renderer and verifier remain fixed, the comparison
+attributes the supported PU contribution to explicit LLM recipe selection
+within the complete \breeze\ pipeline.
 
 \begin{figure*}
   \centering
@@ -564,13 +593,13 @@ retain responsibility for waveform construction and admission.
   \label{fig:downstream}
 \end{figure*}
 
-\subsection{Load0-derived LLM recipes outperform comparators within load0 and
-on held-out loads 1--3}
+\subsection{Generated LLM pools improve few-shot diagnosis within load0 and on
+held-out loads 1--3}
 
-Load0-derived LLM recipes outperform every registered comparator within load0
-and on provenance-valid held-out loads 1--3. The within-load0 means exceed rule
-and noise augmentation at each shown shot count (Table~\ref{tab:cwru}), while
-the combined protocol yields
+The complete load0-derived LLM pools outperform every registered comparator
+within load0 and on provenance-valid held-out loads 1--3. The within-load0
+means exceed rule and noise augmentation at each shown shot count
+(Table~\ref{tab:cwru}), while the combined protocol yields
 \BreezeCWRUPassedTests/\BreezeCWRURegisteredTests{} positive Holm-corrected
 LLM--comparator decisions. Figure~\ref{fig:cross} reports the source-load0
 LLM--rule transfer deltas: Accuracy improves by \BreezeCWRUAccDeltaMin{} to
@@ -581,14 +610,15 @@ held-out loads 1--3.
 \input{generated/cwru.tex}
 
 This result establishes source-load0 cross-load diagnostic utility for the
-tested held-out loads 1--3. A strict four-fold LOLO and cross-bearing scope
+tested held-out loads 1--3 and shows where explicit recipe knowledge remains
+useful beyond its source load. A strict four-fold LOLO and cross-bearing scope
 remain outside this result because the reused synthetic pool gives the archived
 held-out-load0 fold target-load provenance.
 
-\subsection{LLM recipes beat non-structured Berkeley controls and provide a
-qualified lower-shot advantage over rules}
+\subsection{Generated LLM pools beat non-structured Berkeley controls and
+converge with rules at ten shots}
 
-LLM recipes beat the non-structured Berkeley controls in all
+The complete LLM pools beat the non-structured Berkeley controls in all
 \BreezeBerkeleyUnstructuredPassedTests{} registered comparisons. Against the
 strong structured rule reference, Accuracy passes at
 $n_{\mathrm{real}}=2$, while the two-shot Macro-F1 comparison remains outside
@@ -600,18 +630,18 @@ means reported in Table~\ref{tab:berkeley}.
 
 \input{generated/berkeley.tex}
 
-The Berkeley pattern localizes the additional LLM contribution to lower-shot
-settings. The rule recipe supplies a demanding structured reference, and its
-convergence with the LLM at ten shots shows that the additional LLM advantage
-narrows as the real sample count increases. The registered table supports this
-qualified source comparison within the binary Berkeley protocol, outside a
-generic milling state-of-the-art scope.
+The Berkeley pattern localizes the additional LLM recipe contribution to
+lower-shot settings. The rule recipe supplies a demanding structured reference,
+and its convergence with the LLM at ten shots shows that the additional LLM
+advantage narrows as the real sample count increases. This result supports the
+qualified binary protocol and leaves a generic milling state-of-the-art claim
+outside the evidence.
 
-\subsection{PU diagnostics show complementary physical agreement and non-copy
-behaviour}
+\subsection{Admitted PU pools preserve complementary physical evidence without
+copying training windows}
 
-PU diagnostics show that admitted LLM pools combine class-relevant waveform
-evidence with non-duplicate nearest-neighbour distances. Under the same fixed
+The verifier admits PU LLM pools that combine class-relevant waveform evidence
+with non-duplicate nearest-neighbour distances. Under the same fixed
 demodulation procedure, Fig.~\ref{fig:waves} compares real, LLM, rule, and
 random windows. Admitted LLM and rule recipes preserve impulsive and envelope
 structure more consistently than the random control while retaining visible
@@ -663,20 +693,21 @@ unrealistic samples.
 
 \input{generated/physics.tex}
 
-External downstream tests, matched source controls, train/test separation, and
-failed cross-condition experiments provide evidence beyond the shared physical
-features. The prompt, renderer, and verifier encode some of the same bearing
-quantities, which makes gate compliance necessary but insufficient evidence of
-real-world physics.
+These diagnostics test the admission component rather than rank generators in
+isolation. External downstream tests, matched source controls, train/test
+separation, and failed cross-condition experiments add evidence beyond shared
+physical features, while gate compliance remains insufficient for physical
+truth.
 
-\subsection{Closed-loop admission exposes proposal yield and class-specific
-failure mechanisms}
+\subsection{Closed-loop admission shapes feasible pools and exposes failure
+mechanisms}
 
-Closed-loop accounting separates proposal cost from the downstream
-augmentation budget. PU requests \BreezeProposalSlotsPerClass{} proposal slots
-per class; Fig.~\ref{fig:acceptance}(a) reports archived round candidates,
-panel (b) separates proposal slots, admitted slots, and kept rendered windows,
-and panel (c) compares recipe sources. At $K=3$, the LLM process admits
+The closed-loop component separates proposal cost from the downstream
+augmentation budget while determining which recipes can form a feasible pool.
+PU requests \BreezeProposalSlotsPerClass{} proposal slots per class;
+Fig.~\ref{fig:acceptance}(a) reports archived round candidates, panel (b)
+separates proposal slots, admitted slots, and kept rendered windows, and panel
+(c) compares recipe sources. At $K=3$, the LLM process admits
 \BreezeHealthyAdmissionRate\%, \BreezeORAdmissionRate\%, and
 \BreezeIRAdmissionRate\% of healthy/OR/IR slots.
 
@@ -704,7 +735,8 @@ Healthy LLM candidates are rejected most often for unsupported envelope
 evidence, whereas fault candidates more often violate the robust statistical
 domain. A slot may fail several gates, so the percentages are non-additive.
 The same report supplies the next feedback round with each measured violation
-and its bound.
+and its bound. Closed-loop admission therefore turns calibrated evidence into
+an auditable pool-construction decision rather than a post hoc quality score.
 
 \begin{figure*}
   \centering
@@ -719,11 +751,14 @@ and its bound.
 \section{Cross-condition evidence and negative results}
 \label{sec:boundaries}
 
-These failures define the method's applicability, and their protocol value is
-to prevent unsupported extrapolation from positive within-condition results.
+The root-cause framework also predicts where \breeze\ should fail. Explicit
+recipes remove target distribution fitting from generator weights, but they do
+not identify an unknown mapping from operating condition to fault morphology.
+The following stress tests probe that missing knowledge, and their protocol
+value is to prevent extrapolation from positive within-condition results.
 
-\subsection{CWRU load transfer succeeds while PU LOCO remains a failed stress
-test}
+\subsection{CWRU source-load transfer succeeds while PU morphology does not
+transfer}
 
 CWRU source-load0 recipes transfer to the tested loads 1--3, whereas the PU
 LOCO protocol remains unsuccessful. Figure~\ref{fig:cross} places these outcomes
@@ -745,8 +780,9 @@ morphology.
   \label{fig:cross}
 \end{figure*}
 
-The six-stage PU audit localizes this boundary from kinematics through
-source-only evidence (Fig.~\ref{fig:failurechain}). v1 exposed a kinematic
+The six-stage PU audit localizes the missing morphology--condition map from
+kinematics through source-only evidence (Fig.~\ref{fig:failurechain}). v1
+exposed a kinematic
 mismatch, and v2 corrected frequency handling while downstream performance
 remained unsuccessful. v3 stopped when train-condition morphology mapping
 could not form an admissible balanced pool. v4 stopped after both train-only
@@ -766,7 +802,7 @@ development or admission stops.
   \label{fig:failurechain}
 \end{figure*}
 
-\subsection{Milling boundaries}
+\subsection{Incomplete protocol metadata stops broader milling claims}
 
 The core milling evidence is limited to datasets with complete, auditable
 protocol metadata. The private machine-tool dataset used in earlier drafts
@@ -787,20 +823,20 @@ Both datasets remain boundary evidence.
 \section{Discussion}
 \label{sec:discussion}
 
-\subsection{The three evaluation questions define a bounded LLM contribution}
+\subsection{Component tests answer the three evaluation questions}
 
-The source ablations answer the first evaluation question by establishing an
-LLM recipe contribution within the matched \breeze\ pipeline. On PU, the
+The source ablations answer the first question by establishing an LLM recipe
+contribution within the matched \breeze\ pipeline. On PU, the
 random-recipe-plus-verifier control produces 0 admitted slots and fails to form
 a balanced pool, while random open-loop augmentation is substantially weaker
 downstream. LLM recipes also exceed the fixed rule source in every registered
 PU cell and every provenance-valid CWRU family.
 
-The class-conditional diagnostics answer the second question with complementary
-train-supported physical evidence. Admitted pools exhibit waveform, envelope,
-PSD, band-energy, statistical-distance, and non-copy behaviour under the frozen
-metrics. These measurements support admission under the declared gates while
-leaving full physical truth outside their observational scope.
+The admission records answer the second question by showing how the verifier
+shapes feasible pools. Random recipes subjected to the verifier form no
+balanced pool, whereas accepted LLM pools exhibit waveform, envelope, PSD,
+band-energy, statistical-distance, and non-copy behaviour under the frozen
+metrics. Measured violations also drive the next bounded feedback round.
 
 The downstream protocols answer the third question by locating both stable
 utility and its transfer boundary. LLM recipes improve the registered PU and
@@ -808,10 +844,26 @@ provenance-valid CWRU comparisons and provide a qualified lower-shot Berkeley
 advantage. Their extra value converges with the rule recipe at ten Berkeley
 shots, while PU LOCO remains unsuccessful across six predeclared stages.
 
-Together, these answers position \breeze\ as a train-calibrated control layer
-around a structured black-box proposal source. This operating point supports
-deployments that require inspectable admission records and bounded resampling
-without training a new target generator.
+Together, these answers support the proposed knowledge-residence change:
+structured recipes and fixed equations propose signals, while calibrated
+evidence controls admission. The supported operating point requires few-shot
+real calibration and provides inspectable records without training a new target
+generator.
+
+\subsection{Knowledge residence guides the choice of generator}
+
+The available target evidence determines when the \breeze\ operating point is
+appropriate. It fits deployments with few labelled target faults, no dedicated
+accelerator budget for generator optimization, and a requirement for
+sample-level audit records. The real outer-training split remains necessary for
+gate calibration, and the downstream diagnostic model still requires training.
+
+A trained generator becomes a reasonable alternative when a representative
+target corpus and compute budget support distribution fitting, hyperparameter
+selection, and checkpoint selection, especially when important morphology
+cannot be expressed by the fixed renderer. The present evidence neither locates
+this crossover nor compares completed matched TimeGAN/DDPM runs; the guidance
+follows the two paradigms' requirements rather than a benchmark ranking.
 
 \subsection{Physical admission evidence versus physical truth}
 
@@ -853,14 +905,21 @@ held-out outcomes.
 \section{Conclusion}
 \label{sec:conclusion}
 
-\breeze\ separates LLM recipe proposal, fixed seeded rendering,
-train-calibrated physical admission, and downstream diagnosis. Across the
-frozen public protocols, LLM recipes outperform matched controls on PU and
-CWRU, provide a qualified lower-shot Berkeley benefit, and produce inspectable
-physical diagnostics and gate records. The supported scope is training-free,
-physics-verified admission for the stated few-shot tasks; zero-data diagnosis,
-formal guarantees, PU cross-condition generalization, and universal generator
-superiority remain outside it.
+\breeze\ changes where fault-signal knowledge and physical control reside. An
+LLM externalizes class and machine knowledge in an executable recipe, fixed
+equations render the waveform, and train-calibrated gates control admission
+through bounded feedback and traceable records.
+
+Across the frozen public protocols, this design isolates an LLM recipe
+contribution on PU, improves the registered CWRU comparisons, and provides a
+qualified lower-shot Berkeley benefit. The admitted pools also expose
+class-conditional physical diagnostics, proposal yield, and terminal failure
+mechanisms.
+
+The supported scope is LLM recipe generation with physics-verified admission
+for the stated few-shot tasks; zero-data diagnosis, formal guarantees, PU
+cross-condition generalization, and universal generator superiority remain
+outside it.
 
 \section*{Data and code availability}
 
