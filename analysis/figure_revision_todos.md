@@ -1,6 +1,6 @@
 # BREEZE Figure Revision Todos
 
-Status: preview package complete except the documented Figure 6 freeze blocker
+Status: preview branch published; Figure 6 remains blocked by the documented freeze gap
 Baseline: `origin/main@621dfe7`
 Backend: Python/matplotlib only
 Formal integration gate: blocked until explicit author approval of previews
@@ -173,7 +173,7 @@ Formal integration gate: blocked until explicit author approval of previews
 - [x] Confirm formal `paper/figs/*`, `main_cas.tex`, and `main_cas.pdf` are
   byte-unchanged from the synchronized baseline.
 - [x] Review all prompt requirements line by line and record pass/block status.
-- [ ] After author review, commit only preview code/data/figures, tests, manifests, benchmarks,
+- [x] After author review, commit only preview code/data/figures, tests, manifests, benchmarks,
   reports, and this checklist.
-- [ ] After author review, push the preview-stage commit and verify remote HEAD if requested.
+- [x] After author review, push the preview-stage commit and verify remote HEAD if requested.
 - [x] Stop before formal integration and request author review of previews.
