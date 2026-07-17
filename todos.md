@@ -8,6 +8,21 @@ Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命
 
 > 2026-07-17 控制范围变更：用户明确要求把项目继续推进到一区水平并完成全部科研任务。2026-07-14 的“L1/L2 投稿后 deferred”决定仅保留为历史记录，已被下述 `Q1-*` 控制段取代。原 L1/L2 条目中的 `[x] Deferred` 不表示实现完成，也不得描述为已实现结果。
 
+## NS. 终稿叙事强化：免训练生成、物理可控与诊断效用（2026-07-17）
+
+> 本轮范围：只重排已冻结证据的论文叙事；0 新实验、0 API、不改冻结数字。BREEZE 始终是合成故障数据生成框架，verifier 是生成闭环中的质量控制组件，不是最终产品。
+
+- [x] NS.1 读取用户提示词、`awesome-ai-research-writing` 和 `pdf` skill，核对工作树与既有未提交改动。
+- [x] NS.2 对照 `analysis/evidence_ledger.md` 与 `generated/*.tex` 核对 PU/CWRU/Berkeley、物理指标和训练式基线的 claim 边界。
+- [x] NS.3 将摘要改为 219 词六句式，同时呈现免目标生成器拟合、关键物理证据、下游效用和 LOCO 边界。
+- [x] NS.4 重排 Introduction 前段和四条贡献，明确 synthetic fault-data generation 主身份与 prompt-supported LLM-mediated knowledge source。
+- [x] NS.5 核对 Method 责任边界与现有有界反馈实现，明确 verifier 通过准入、拒绝和有界 recipe revision 闭合生成流程。
+- [x] NS.6 重写物理结果解释：先报 LLM 在 PU class-averaged RMS/PSD/band-energy 上相对 rule/random 的完整优势，再保留 noise/rule 占优汇总和单元。
+- [x] NS.7 重排 Discussion 开头与 Conclusion，以合成故障波形生成能力开头，将训练式生成器缺席集中为一处 limitation。
+- [x] NS.8 运行摘要词数/句数、claim 禁词、冻结表生成和 LaTeX 引用一致性审计；`generated/*.tex` 重生无 diff，gate semantics 14/14 通过。
+- [x] NS.9 用 `pdf` skill 编译 21 页 PDF，渲染 21/21 页并检查全稿联系表及 Page 1/13/14/17/18/19/20 原尺寸图；无未解析引用或可见裁切/重叠。
+- [ ] NS.10 核对 scoped diff，只提交可安全归属于本任务的改动，推送并核对远端 SHA。
+
 ## Q1. 一区科研提升主线（2026-07-17 起，当前最高优先级）
 
 控制文档：`Q1_research_plan_2026-07-17.md`

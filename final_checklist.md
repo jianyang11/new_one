@@ -2,6 +2,31 @@
 
 Last verified: 2026-07-17 Asia/Shanghai
 
+## Narrative strengthening: generation, control, and utility
+
+- [x] Abstract is a six-sentence, 219-word account of the engineering problem,
+  training-free generation mechanism, physical evidence, paired downstream
+  utility, transfer boundary, and operating-point significance.
+- [x] Abstract, Introduction, contributions, Discussion, and Conclusion identify
+  BREEZE as a synthetic fault-data generation framework; none reduces the
+  method to a stand-alone admission or audit tool.
+- [x] The verifier is described as generation-loop quality control that admits,
+  rejects, and returns bounded recipe feedback; the admitted synthetic pool is
+  the evaluated framework output.
+- [x] Training-free is limited to removal of target-specific generator fitting
+  and LLM fine-tuning from augmentation. Real training-fold calibration and
+  downstream classifier training remain explicit.
+- [x] The LLM claim is prompt-supported, LLM-mediated recipe selection from
+  supplied kinematics, training statistics, and exemplar descriptions; no
+  autonomous pretrained-physics claim is made.
+- [x] Physical controllability, sample-level auditability, and empirical
+  physical-fidelity diagnostics remain distinct concepts.
+- [x] PU physical evidence leads with lower class-averaged RMS-W1, PSD-W1, and
+  band-energy error than rule and random open-loop sources, while all
+  comparator-favouring kurtosis, alignment, and per-class cells remain visible.
+- [x] Matched TimeGAN/DDPM absence appears once as a limitation and supports no
+  trained-generator performance or cost ranking.
+
 ## Hard-error and claim audit
 
 - [x] H1: the manuscript defines separate interval, upper, and lower predicates;

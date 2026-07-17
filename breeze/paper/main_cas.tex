@@ -37,28 +37,30 @@ Augmentation with Physics-Guided Admission}
   country={Country}}
 
 \begin{abstract}
-Training a target-specific waveform generator is often impractical when only a
-few labelled faults are available. We present \breeze, a training-free
-augmentation framework in which an LLM selects structured recipes from supplied
-kinematics, training-fold statistics, and exemplar descriptions, and a fixed
-seeded renderer constructs the waveforms. A physical verifier calibrated only
-on the outer-training split admits candidates, returns bounded feedback, and
-archives recipes, seeds, hashes, and gate evidence without generator
-optimization or LLM fine-tuning. Across frozen, leakage-resistant few-shot
-protocols on three public datasets, the resulting fixed pools yield stable
-paired improvements over repeated subset draws and CNN initializations: PU LLM
-recipes exceed rule and random open-loop sources at 5, 10, and 25 shots, while
-CWRU improvements over rule, noise augmentation, and real-only hold within
-load0 and from source load0 to held-out loads 1--3 under family-wise Holm
-correction. On case/run-disjoint Berkeley milling, LLM recipes exceed both
-non-structured baselines at every shot; their significant advantage over the
-structured rule is confined to lower-shot cells, is only
-\BreezeBerkeleyLowShotRuleEffectRange{} percentage
-points, and converges at ten shots. A global Benjamini--Hochberg sensitivity
-analysis preserves every registered decision, whereas six predeclared PU
-cross-condition attempts delimit the current morphology-transfer boundary.
-These results identify auditable, training-free admission as a practical
-augmentation operating point for the stated few-shot protocols.
+When labelled target faults are scarce, fitting, selecting, and maintaining a
+target-specific waveform generator adds a separate optimization pipeline to
+few-shot diagnosis. We present \breeze, a training-free, physics-guided
+synthetic fault-data generation framework in which an LLM selects structured
+recipes from supplied kinematics, training-fold statistics, and exemplar
+descriptions, and a fixed seeded renderer constructs the waveforms. A verifier
+calibrated only on the outer-training split admits candidates, returns bounded
+feedback for recipe revision, and archives recipe, seed, waveform-hash, and
+gate evidence, requiring neither target-specific generator optimization nor
+LLM fine-tuning. Class-conditional RMS, kurtosis, PSD, band-energy, and
+envelope-frequency diagnostics expose both fidelity gains and failures: on PU,
+the LLM pool reduces RMS, PSD, and band-energy errors relative to rule and
+random open-loop sources, while no source dominates every diagnostic. Across
+frozen, leakage-resistant protocols on PU, CWRU, and Berkeley, the admitted
+pools yield paired gains over repeated few-shot subset draws and
+CNN initializations: LLM recipes exceed rule and random open-loop sources on
+PU, rule, noise augmentation, and real-only in provenance-valid CWRU
+comparisons, and both non-structured Berkeley baselines at every shot, with
+only a
+\BreezeBerkeleyLowShotRuleEffectRange{}-point advantage over rule in
+significant lower-shot cells and convergence at ten shots. Six predeclared PU
+cross-condition attempts delimit the current morphology-transfer boundary;
+together, the results position explicit, auditable, training-free generation
+as a practical few-shot augmentation operating point.
 \end{abstract}
 
 \begin{keywords}
@@ -77,39 +79,45 @@ and rarely observed under every load and speed. New machines, sensor layouts,
 and operating regimes therefore offer only a few examples of the events that a
 diagnostic model must recognize.
 
-Target-trained augmentation exposes concrete failure mechanisms under scarce
-or imbalanced faults. DFE-GAN addresses adversarial instability, mode collapse,
-and weak sample filtering through a modified objective, attention, and an
-automatic filter~\citep{liu2022dfegan}. Diffusion removes the adversarial game
-but retains target distribution fitting: TSDM redesigns the original DDPM
-denoiser for one-dimensional vibration structure, ReF-DDPM strengthens
-intra- and inter-level features, a TII study adds a comprehensive evaluation
-framework, and FaultDiffusion attributes few-shot failure to the normal--fault
-domain gap and high intra-class variation
+Generator-based augmentation can alleviate this scarcity, but fitting a model
+for each target machine or condition introduces a separate optimization and
+model-selection problem. Under scarce or imbalanced faults, DFE-GAN addresses
+adversarial instability, mode collapse, and weak sample filtering through a
+modified objective, attention, and an automatic filter~\citep{liu2022dfegan}.
+Diffusion removes the adversarial game but still fits a target distribution:
+TSDM redesigns the original DDPM denoiser for one-dimensional vibration
+structure, ReF-DDPM strengthens intra- and inter-level features, a TII study
+adds a comprehensive evaluation framework, and FaultDiffusion attributes
+few-shot failure to the normal--fault domain gap and high intra-class variation
 \citep{yi2024tsdm,yu2024refddpm,yang2024ddpmaugmentation,
 xu2025faultdiffusion}. ACS-DM and MR-DDIM further modify trained denoisers and
 objectives to balance temporal diversity with spectral fidelity
 \citep{tong2026acsdm,xu2026mrddim}.
 
-These methods share an operational requirement: the same limited target corpus
-must support distribution fitting, design choices, and checkpoint selection.
-Even when impact priors or spectral constraints enter the objective, they
-influence generated signals through target-data optimization and model
+These approaches can be effective when a representative target corpus supports
+distribution fitting, design choices, and checkpoint selection. In the
+few-shot regime, however, the same limited target evidence must serve all three
+roles. Even when impact priors or spectral constraints enter the objective,
+they influence generated signals through target-data optimization and model
 selection~\citep{gao2025physicsgan,liu2026physicsdiffusion}. We study a
-different operating point in which target-specific generator fitting is
-removed and the controllable signal description remains explicit.
+different engineering operating point: remove target-specific generator
+fitting from augmentation and keep the controllable signal description
+explicit.
 
-\breeze\ changes where controllable generation choices reside. First, the LLM
-selects kinematics, impacts, modulation, and spectral allocation in a
-structured JSON recipe using prompt-supplied machine information,
-training-fold statistics, and exemplar descriptions; a fixed seeded renderer
-executes those fields as explicit signal equations. The evidence therefore
-tests LLM-mediated recipe selection, rather than whether pretraining alone
-contains fault physics. Second, a verifier moves physical control from a
-learned objective to gates calibrated on the corresponding outer-training
-split, and measured failures condition bounded resampling. Third, recipe,
-seed, waveform hash, and gate report records make every admitted sample
-traceable. Figure~\ref{fig:framework} summarizes these components.
+\breeze\ is a synthetic fault-data generation framework that changes where
+controllable generation choices reside. First, the LLM selects kinematics,
+impacts, modulation, and spectral allocation in a structured JSON recipe using
+prompt-supplied machine information, training-fold statistics, and exemplar
+descriptions; a fixed seeded renderer executes those fields as explicit signal
+equations. The evidence therefore tests prompt-supported, LLM-mediated recipe
+selection rather than whether pretraining alone contains fault physics.
+Second, a verifier moves physical control from a learned objective to gates
+calibrated on the corresponding outer-training split, and measured failures
+condition bounded recipe revision. Third, recipe, seed, waveform hash, and gate
+report records make every admitted sample traceable. The verifier is not a
+stand-alone post hoc audit: it closes the generation loop by determining which
+rendered candidates enter the augmentation pool and which recipes receive
+bounded revision. Figure~\ref{fig:framework} summarizes these components.
 
 \begin{figure*}
   \centering
@@ -133,29 +141,31 @@ leakage-resistant splits, and corrected tests answer the questions together.
 
 The paper makes four contributions:
 \begin{enumerate}
-  \item \textbf{Externalize} prompt-supported generation choices through
-  LLM-mediated recipe selection and a fixed seeded renderer, separating
-  semantic proposal from waveform construction without optimizing a
-  target-data generator.
-  \item \textbf{Convert} physical control from a generator-training objective to
-  train-calibrated admission over robust statistics, Welch-PSD shape,
-  envelope-spectrum evidence, reliability-gated current evidence, and
-  diversity, with bounded feedback and per-sample audit records.
-  \item \textbf{Isolate} the LLM-mediated recipe contribution through a
-  verifier-matched rule source and a distinct random open-loop control on three
-  public datasets: PU, CWRU, and Berkeley milling. The registered evidence
-  comprises 20 PU seeds and 40 seeds for CWRU and Berkeley, with family-wise
-  Holm correction and a global BH sensitivity audit.
+  \item \textbf{Introduce} a training-free synthetic fault-data generation
+  framework that combines prompt-supported LLM recipe generation,
+  deterministic waveform rendering, and verifier-guided refinement without
+  optimizing a target-data generator.
+  \item \textbf{Provide} explicit physical control and sample-level
+  auditability through train-calibrated admission over robust statistics,
+  Welch-PSD shape, envelope-spectrum evidence, reliability-gated current
+  evidence, and diversity, with bounded feedback and archived evidence.
+  \item \textbf{Establish} complementary physical-fidelity and downstream-
+  utility evidence while isolating the LLM-mediated recipe contribution through
+  a verifier-matched rule source and a distinct random open-loop control on PU,
+  CWRU, and Berkeley. The registered evidence comprises 20 PU seeds and 40
+  seeds for CWRU and Berkeley, with family-wise Holm correction and a global BH
+  sensitivity audit.
   \item \textbf{Delineate} the operating boundary through the complete six-stage
   PU leave-one-condition-out (LOCO) failure chain, process-metadata confounding
   in UMich milling, and a stopped MU-TCM inner-validation line.
 \end{enumerate}
 
-The evidence supports a deliberately bounded recipe-generation and admission
-claim: admitted candidates satisfy declared train-supported gates and the fixed
-pools improve the stated few-shot tasks under their frozen protocols. The
-scope is training-free augmentation, not training-free diagnosis; few-shot
-real calibration and a trained downstream classifier remain necessary.
+The evidence supports a bounded generation claim: \breeze\ produces physically
+structured synthetic fault signals that satisfy declared train-supported gates,
+and the resulting fixed pools improve the stated few-shot tasks under their
+frozen protocols. The scope is training-free augmentation, not training-free
+diagnosis; few-shot real calibration and a trained downstream classifier remain
+necessary.
 
 \section{Related work: where generative knowledge resides}
 \label{sec:related}
@@ -748,20 +758,24 @@ distributions in Figs.~\ref{fig:boxplots}--\ref{fig:distances}.
   \label{fig:distances}
 \end{figure*}
 
-The physical diagnostics do not rank LLM best on every metric. Its PU advantage
-relative to the two recipe-source controls is concentrated in RMS, PSD, and
-band-energy fidelity: Table~\ref{tab:physics} reports lower LLM band-energy
-error than rule and random open-loop, lower RMS distance than both, and lower
-PSD distance than random open-loop. Rule is closer for some PSD and
-fault-frequency-alignment cells, while noise augmentation has the lowest
-kurtosis-W1 and often the lowest RMS distance because it directly perturbs real
-windows. Table~\ref{tab:physics-kurtosis-alignment} retains every bearing
-kurtosis/alignment cell, including those in which rule or noise is better. The LLM
-nearest-neighbour value measures spacing among synthetic samples after scaling
-by real-reference feature variability. It is not a synthetic-to-real distance
-and therefore does not establish absence of training-window copying. This
-diversity value requires joint interpretation with fidelity because arbitrarily
-large distances can indicate unrealistic samples.
+The PU fidelity advantage of the LLM pool is concentrated in three key
+observables. The class-averaged RMS-W1, PSD-W1, and band-energy error in
+Table~\ref{tab:physics} are all lower for LLM than for both rule and random
+open-loop sources, indicating closer amplitude, spectral-distribution, and
+energy-allocation agreement under the frozen diagnostics. This advantage is
+not universal across physical evidence: noise augmentation has the lowest
+class-averaged RMS, kurtosis, and band-energy distances, consistent with its
+direct perturbation of real windows, and rule has the lower class-averaged
+fault-frequency alignment error. Per-class cells also include
+comparator-favouring PSD,
+kurtosis, and alignment results. Table~\ref{tab:physics-kurtosis-alignment}
+therefore retains every bearing kurtosis/alignment cell rather than reducing
+the audit to a single realism ranking. The LLM nearest-neighbour value measures
+spacing among synthetic samples after scaling by real-reference feature
+variability. It is not a synthetic-to-real distance and therefore does not
+establish absence of training-window copying. This diversity value requires
+joint interpretation with fidelity because arbitrarily large distances can
+indicate unrealistic samples.
 
 \input{generated/physics.tex}
 
@@ -948,7 +962,15 @@ Both datasets remain boundary evidence.
 \section{Discussion}
 \label{sec:discussion}
 
-\subsection{Component tests answer the three evaluation questions}
+\subsection{Generation, admission, and diagnosis provide complementary evidence}
+
+\breeze\ generates synthetic fault waveforms without fitting a target-specific
+generator. Prompt-supported LLM recipes externalize the controllable signal
+description, the fixed seeded renderer makes waveform construction
+reproducible, and the verifier closes the generation loop through
+train-calibrated admission, rejection, and bounded revision. The resulting
+admitted pools, rather than the verifier alone, are the framework output tested
+for physical fidelity and downstream diagnostic utility.
 
 The source ablations answer the first question by establishing an LLM recipe
 contribution within the controlled \breeze\ pipeline. On PU, random recipes
@@ -980,10 +1002,12 @@ generator.
 \subsection{Knowledge residence guides the choice of generator}
 
 The available target evidence determines when the \breeze\ operating point is
-appropriate. It fits deployments with few labelled target faults, no dedicated
-accelerator budget for generator optimization, and a requirement for
-sample-level audit records. The real outer-training split remains necessary for
-gate calibration, and the downstream diagnostic model still requires training.
+appropriate. By removing target-specific generator fitting and checkpoint
+selection from augmentation, it fits deployments with few labelled target
+faults, unavailable or undesirable dedicated generator-training infrastructure,
+and a requirement for sample-level traceability. The real outer-training split
+remains necessary for gate calibration, and the downstream diagnostic model
+still requires training.
 
 A trained generator becomes a reasonable alternative when a representative
 target corpus and compute budget support distribution fitting, hyperparameter
@@ -1025,36 +1049,40 @@ generate every reported number, and NA explicitly marks an unavailable pool.
 
 Two provenance and baseline blockers remain. The original PU archive omits the
 provider version and provider-side sampling seed, so exact replay begins from
-the archived recipes instead of the original LLM response. Completed formal
-TimeGAN/DDPM and additional diagnostic-backbone comparisons are also
-unavailable, which keeps state-of-the-art and universal classifier claims
-outside the supported scope. Future work should complete those matched
-baselines, repeat generation to support independent-pool inference, test at
-least one non-CNN diagnostic backbone, evaluate cross-specimen and
-cross-machine splits, and preregister a new PU cross-condition representation
-before accessing held-out outcomes. The present seed-level tests quantify
-repeated few-shot/CNN variability around one shared fixed pool per method and
-do not estimate between-pool generation variability.
+the archived recipes instead of the original LLM response. The present study
+does not establish a performance or cost ranking against fully trained
+generative models because matched formal TimeGAN/DDPM comparisons are
+unavailable. Additional diagnostic-backbone comparisons are also unavailable,
+which keeps universal classifier claims outside the supported scope. Future
+work should complete those matched baselines, repeat generation to support
+independent-pool inference, test at least one non-CNN diagnostic backbone,
+evaluate cross-specimen and cross-machine splits, and preregister a new PU
+cross-condition representation before accessing held-out outcomes. The present
+seed-level tests quantify repeated few-shot/CNN variability around one shared
+fixed pool per method and do not estimate between-pool generation variability.
 
 \section{Conclusion}
 \label{sec:conclusion}
 
-\breeze\ provides training-free, auditable augmentation by using an LLM to
-select an executable recipe from supplied machine context, a fixed renderer to
-construct the waveform, and train-calibrated physical gates to control
-admission through bounded feedback and traceable records.
+\breeze\ demonstrates that physically structured and diagnostically useful
+synthetic fault waveforms can be generated without fitting a target-specific
+generator. Prompt-supported LLM recipes, a deterministic seeded renderer, and
+a train-calibrated verifier convert augmentation into an explicit and auditable
+generation process with bounded revision and traceable records.
 
-Across the frozen public protocols, this design isolates an LLM recipe
-contribution on PU, improves the registered CWRU comparisons, and provides a
-qualified lower-shot Berkeley benefit. The admitted pools also expose
-class-conditional physical diagnostics, proposal yield, and terminal failure
-mechanisms.
+Across three frozen public few-shot protocols, this design isolates an LLM
+recipe contribution on PU, improves the registered provenance-valid CWRU
+comparisons, and provides a qualified lower-shot Berkeley benefit. The physical
+audit further shows that the PU LLM pool improves RMS, PSD, and band-energy
+fidelity relative to rule and random recipe sources while retaining
+comparator-favouring kurtosis and alignment evidence. Six predeclared PU
+cross-condition attempts delimit the current morphology-transfer boundary.
 
-The supported scope is LLM-mediated recipe generation with physics-guided
-admission for three public frozen few-shot protocols. It does not establish
-state-of-the-art performance, superiority to trained generators, zero-real-data
-diagnosis, formal physical correctness, or cross-specimen and cross-machine
-generalization.
+The resulting contribution is a practical operating point for training-free
+augmentation in which physical controls, generation decisions, and diagnostic
+utility remain inspectable. Future work should complete matched trained-
+generator comparisons, repeat independent pool generation, and evaluate
+additional diagnostic backbones and cross-machine protocols.
 
 \section*{Data and code availability}
 
