@@ -1,20 +1,20 @@
 {
   "figure_directory": "breeze/paper/figs/revision_preview/fig3_downstream_effects",
   "status": "complete",
-  "generated_at_utc": "2026-07-16T10:46:42.904438+00:00",
-  "git_head": "621dfe73e8193aa69b88f356e8e73736b2ae2e26",
+  "generated_at_utc": "2026-07-17T02:58:28.089030+00:00",
+  "git_head": "c28a8512b9f37e4783adcc7ad76b2df6dd1466df",
   "generator": "breeze/src/figure_revision_data.py",
-  "generator_sha256": "30d186cfb6320c927fcfbb1b264e71df96b91819f57353fb9551ef8dde069493",
+  "generator_sha256": "91bb3a946cdcd20635ec051bbcc08299beac5270d12b89b98de033ab050aa5c4",
   "code": [
     {
       "path": "breeze/src/figure_revision_data.py",
-      "sha256": "30d186cfb6320c927fcfbb1b264e71df96b91819f57353fb9551ef8dde069493",
-      "size_bytes": 34524
+      "sha256": "91bb3a946cdcd20635ec051bbcc08299beac5270d12b89b98de033ab050aa5c4",
+      "size_bytes": 38300
     },
     {
       "path": "breeze/src/figures_revision_preview.py",
-      "sha256": "41ca1d9d62a0fc8309aceeda5b904432e9af2d1d47574d8af5a5da4d6932878f",
-      "size_bytes": 30247
+      "sha256": "0795c4f0c49fcc9495f80ded2898998a9c0fa242d2d1c970bc31eec96e2f4a5c",
+      "size_bytes": 34932
     }
   ],
   "sources": [
@@ -113,13 +113,13 @@
     },
     {
       "path": "breeze/paper/figs/revision_preview/fig3_downstream_effects/fig3_downstream_effects.pdf",
-      "sha256": "b338e988487d1e02d60b499f45d9b71d5ef07ad4f005b41560e6e8b0c907ea2d",
-      "size_bytes": 42846
+      "sha256": "83530507179c9fd5cf78ca1f83f28a971f6eb12f00ce379d697f475936b4b5b9",
+      "size_bytes": 42786
     },
     {
       "path": "breeze/paper/figs/revision_preview/fig3_downstream_effects/fig3_downstream_effects.svg",
-      "sha256": "e0ac736c8dfbe7c89b73767406070f6cf64e38751fdd0b2f151411c31613bc93",
-      "size_bytes": 63846
+      "sha256": "8c7ab46f34cbd450155dc41ff5c91133b44bb8a3223e99307f8d859aaeba9160",
+      "size_bytes": 63562
     },
     {
       "path": "breeze/paper/figs/revision_preview/fig3_downstream_effects/fig3_downstream_effects.png",

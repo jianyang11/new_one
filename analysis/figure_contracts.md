@@ -72,21 +72,23 @@ parameter may change a numerical result.
 
 ## Figure 6: admission mechanism
 
-- **Scientific question:** How does feedback accumulate slot admission, how do
-  recipe sources differ in final capacity, and which non-exclusive gates reject
-  LLM versus random candidates?
-- **Archetype:** cumulative class curves, final source/class admission points,
-  and two shared-scale gate-by-class failure heatmaps.
-- **Statistics:** descriptive slot rates only; all denominators and candidate
-  counts in source data; heatmap reasons are non-exclusive.
-- **Capacity encoding:** random+verifier at zero is labelled capacity failure,
-  not treated as an equal-size downstream pool.
-- **Current status:** **BLOCKED**. Frozen slot summaries do not contain first
-  passing feedback round. No preview is permitted until round-level records are
-  independently frozen and their aggregate exactly reproduces 450 slots and
-  286 final LLM admissions.
-- **Reviewer risk:** treating `n_candidates` as a feedback round would convert
-  final archive depth into causal closed-loop evidence. This is prohibited.
+- **Scientific question:** How many proposal slots become feasible at each
+  bounded feedback round, and does the pattern differ by PU class?
+- **Conclusion to support:** 205/450 slots pass at $K=0$; rounds 1--3 add
+  36, 27, and 18 slots, reaching 286/450. Feedback adds feasible slots, but
+  164 remain unadmitted at $K=3$.
+- **Archetype:** cumulative class/pooled line plot plus a class-stacked marginal
+  admission bar plot.
+- **Statistics:** complete descriptive accounting of one frozen 450-slot run;
+  no confidence interval or independent-pool inference is implied.
+- **Source data:** a 2026-07-17 write-once freeze containing SHA-256 for all 450
+  round JSON records, one first-pass row per slot, a K=0--3 cumulative table,
+  and an exact validation against the prior frozen slot summary.
+- **Current status:** complete. The aggregate contains 150 slots per class and
+  exactly reproduces 286 final LLM admissions.
+- **Reviewer risk:** `n_candidates` remains archive depth and is never used as a
+  round proxy. First pass is reconstructed only as the minimum archived round
+  with `feasible=true`, and must equal the record's selected candidate.
 
 ## Figure 7: cross-condition evidence and boundary
 
@@ -106,4 +108,3 @@ parameter may change a numerical result.
 - **Reviewer risk:** the title must read `source load0 -> held-out load`; PU
   v3--v6 are moved to Supplementary Fig. S3 and remain stopped development
   stages, not hidden cross-condition results.
-

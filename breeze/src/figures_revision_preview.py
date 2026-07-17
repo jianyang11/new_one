@@ -71,6 +71,7 @@ def apply_style() -> None:
             "pdf.fonttype": 42,
             "ps.fonttype": 42,
             "svg.fonttype": "none",
+            "svg.hashsalt": "breeze-figure-revision-v1",
             "figure.facecolor": "white",
             "savefig.facecolor": "white",
         }
@@ -94,8 +95,17 @@ def panel_label(ax: plt.Axes, label: str, x: float = -0.14, y: float = 1.04) -> 
 def save_preview(fig: plt.Figure, directory: Path, stem: str) -> list[Path]:
     directory.mkdir(parents=True, exist_ok=True)
     paths = [directory / f"{stem}.{suffix}" for suffix in ("pdf", "svg", "png", "tiff")]
-    fig.savefig(paths[0])
-    fig.savefig(paths[1])
+    fig.savefig(
+        paths[0],
+        metadata={
+            "Creator": "BREEZE figure revision",
+            "CreationDate": None,
+            "ModDate": None,
+        },
+    )
+    fig.savefig(paths[1], metadata={"Date": None})
+    svg_lines = paths[1].read_text().splitlines()
+    paths[1].write_text("\n".join(line.rstrip() for line in svg_lines) + "\n")
     fig.savefig(paths[2], dpi=300)
     fig.savefig(paths[3], dpi=600, pil_kwargs={"compression": "tiff_lzw"})
     plt.close(fig)
@@ -495,31 +505,151 @@ def figure5() -> tuple[Path, list[Path]]:
     return manifest, outputs
 
 
-def figure6_blocker() -> tuple[Path, list[Path]]:
-    audit = data.audit_fig6_blocker()
-    out = data.PREVIEW / "fig6_admission_mechanism_BLOCKED"
+def figure6() -> tuple[Path, list[Path]]:
+    cumulative, slots, sources = data.build_fig6_data()
+    out = data.PREVIEW / "fig6_admission_mechanism"
     out.mkdir(parents=True, exist_ok=True)
-    audit_path = out / "blocker.json"
-    audit_path.write_text(json.dumps(audit, indent=2) + "\n")
-    note_path = out / "BLOCKED.md"
-    note_path.write_text(
-        "# Figure 6 is blocked\n\n"
-        + audit["reason"]
-        + "\n\nRequired action: "
-        + audit["required_action"]
-        + "\n\nNo placeholder or inferred cumulative curve was generated.\n"
+    source_path = out / "source_data.csv"
+    cumulative.to_csv(source_path, index=False, lineterminator="\n")
+
+    apply_style()
+    fig, axes = plt.subplots(
+        1,
+        2,
+        figsize=(WIDTH_IN, 76 / 25.4),
+        gridspec_kw={"width_ratios": [1.55, 1.0]},
+        constrained_layout=True,
     )
-    source = data.REPO / audit["source"]
+    class_styles = {
+        "healthy": (TEAL, "o", "-", "Healthy"),
+        "OR": (ORANGE, "s", (0, (4, 1.6)), "Outer race"),
+        "IR": (BLUE, "^", (0, (1.6, 1.2)), "Inner race"),
+        "all": (DARK, "D", "-", "All slots"),
+    }
+
+    ax = axes[0]
+    for class_name in ("healthy", "OR", "IR", "all"):
+        color, marker, linestyle, label = class_styles[class_name]
+        rows = cumulative[cumulative["class"].eq(class_name)].sort_values(
+            "feedback_round_k"
+        )
+        line_width = 1.7 if class_name == "all" else 1.05
+        marker_size = 4.5 if class_name == "all" else 4.0
+        ax.plot(
+            rows["feedback_round_k"],
+            rows["cumulative_rate"] * 100,
+            color=color,
+            marker=marker,
+            markersize=marker_size,
+            markerfacecolor="white" if class_name == "all" else color,
+            markeredgecolor=color,
+            markeredgewidth=0.8,
+            linestyle=linestyle,
+            linewidth=line_width,
+            label=label,
+            zorder=3 if class_name == "all" else 2,
+        )
+    all_rows = cumulative[cumulative["class"].eq("all")].sort_values(
+        "feedback_round_k"
+    )
+    label_offsets = {
+        0: (0, -17, "center", "top"),
+        1: (-18, -2, "right", "center"),
+        2: (0, 8, "center", "bottom"),
+        3: (0, 8, "center", "bottom"),
+    }
+    for row in all_rows.itertuples(index=False):
+        offset_x, offset_y, horizontal, vertical = label_offsets[
+            int(row.feedback_round_k)
+        ]
+        ax.annotate(
+            f"{int(row.cumulative_admitted)}/{int(row.total_slots)}",
+            (row.feedback_round_k, row.cumulative_rate * 100),
+            xytext=(offset_x, offset_y),
+            textcoords="offset points",
+            ha=horizontal,
+            va=vertical,
+            fontsize=5.2,
+            color=DARK,
+        )
+    ax.set_xticks(range(4), ["$K=0$", "$K=1$", "$K=2$", "$K=3$"])
+    ax.set_xlim(-0.12, 3.12)
+    ax.set_ylim(32, 76)
+    ax.set_ylabel("Cumulative admitted slots (%)")
+    ax.set_xlabel("Maximum feedback round")
+    ax.set_title("Feedback accumulates feasible proposal slots", fontweight="bold")
+    ax.grid(axis="y", color="#E5E5E5", lw=0.55)
+    ax.legend(ncol=2, loc="lower right", handlelength=2.4, columnspacing=1.2)
+    panel_label(ax, "a", x=-0.15)
+
+    ax = axes[1]
+    rounds = np.arange(4)
+    bottom = np.zeros(4, dtype=float)
+    for class_name in ("healthy", "OR", "IR"):
+        color, _, _, label = class_styles[class_name]
+        rows = cumulative[cumulative["class"].eq(class_name)].sort_values(
+            "feedback_round_k"
+        )
+        values = rows["newly_admitted"].to_numpy(dtype=float)
+        ax.bar(
+            rounds,
+            values,
+            bottom=bottom,
+            width=0.62,
+            color=color,
+            edgecolor="white",
+            linewidth=0.65,
+            label=label,
+        )
+        bottom += values
+    totals = all_rows["newly_admitted"].to_numpy(dtype=int)
+    for x, total in zip(rounds, totals):
+        ax.text(x, total + 5, f"+{total}", ha="center", va="bottom", fontsize=5.7, fontweight="bold")
+    ax.axhline(0, color=DARK, lw=0.8)
+    ax.set_xticks(rounds, ["$K=0$", "$K=1$", "$K=2$", "$K=3$"])
+    ax.set_ylim(0, 235)
+    ax.set_ylabel("Newly admitted slots")
+    ax.set_xlabel("First passing round")
+    ax.set_title("Most admissions occur before feedback", fontweight="bold")
+    ax.grid(axis="y", color="#E5E5E5", lw=0.55, zorder=-1)
+    final_admitted = int(slots["final_admitted"].sum())
+    total_slots = len(slots)
+    ax.text(
+        0.98,
+        0.94,
+        f"{total_slots - final_admitted}/{total_slots} remain unadmitted at $K=3$",
+        transform=ax.transAxes,
+        ha="right",
+        va="top",
+        fontsize=5.6,
+        color=GRAY,
+    )
+    panel_label(ax, "b", x=-0.19)
+
+    figure_paths = save_preview(fig, out, "fig6_admission_mechanism")
+    outputs = [source_path, *figure_paths]
     manifest = data.write_source_manifest(
         out,
-        [source],
-        {"required_panel": "cumulative K=0,1,2,3 admission by class"},
-        {"frozen_slots": audit["frozen_slot_rows"], "final_admitted": audit["final_admitted_slots"]},
-        [audit_path, note_path],
-        status="blocked",
-        notes=[audit["reason"], audit["required_action"]],
+        sources,
+        {
+            "unit": "proposal slot",
+            "first_pass_round": "minimum archived round with feasible=true",
+            "curve": "cumulative first-pass count divided by all class or pooled slots",
+            "uncertainty": "none; complete accounting of one frozen 450-slot run",
+        },
+        {
+            "slots": len(slots),
+            "final_admitted": int(slots["final_admitted"].sum()),
+            "classes": int(slots["class"].nunique()),
+            "feedback_rounds": 4,
+        },
+        outputs,
+        notes=[
+            "The plotted round is reconstructed from the first feasible candidate, not from archive depth.",
+            "Counts do not quantify uncertainty over independent LLM pool generations.",
+        ],
     )
-    return manifest, [audit_path, note_path]
+    return manifest, outputs
 
 
 def _cwru_matrix(frame: pd.DataFrame, metric: str) -> np.ndarray:
@@ -673,7 +803,7 @@ def main() -> None:
     manifests.append(str(supplementary_s1()[0]))
     manifests.append(str(supplementary_s2()[0]))
     manifests.append(str(figure5()[0]))
-    manifests.append(str(figure6_blocker()[0]))
+    manifests.append(str(figure6()[0]))
     fig7_manifest, _, chain = figure7()
     manifests.append(str(fig7_manifest))
     manifests.append(str(supplementary_s3(chain)[0]))

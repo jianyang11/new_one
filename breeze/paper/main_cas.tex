@@ -793,11 +793,19 @@ mechanisms}
 The closed-loop component separates proposal cost from the downstream
 augmentation budget while determining which recipes can form a feasible pool.
 PU requests \BreezeProposalSlotsPerClass{} proposal slots per class;
-Fig.~\ref{fig:acceptance}(a) reports archived round candidates, panel (b)
-separates proposal slots, admitted slots, and kept rendered windows, and panel
-(c) compares recipe sources. At $K=3$, the LLM process admits
+the round-level audit hashes all \BreezeTotalProposalSlots{} archived slot
+records and assigns each
+admitted slot to its first candidate with \texttt{feasible=true}. It reproduces
+the frozen slot summary exactly. Figure~\ref{fig:acceptance}(a) shows that
+\BreezeAdmissionKZeroCumulative{} slots pass without feedback; rounds 1--3 add
+\BreezeAdmissionKOneIncrement{}, \BreezeAdmissionKTwoIncrement{}, and
+\BreezeAdmissionKThreeIncrement{} slots, respectively, reaching
+\BreezeAdmissionKThreeCumulative{}/\BreezeTotalProposalSlots{} by $K=3$. At that point, the LLM process admits
 \BreezeHealthyAdmissionRate\%, \BreezeORAdmissionRate\%, and
-\BreezeIRAdmissionRate\% of healthy/OR/IR slots.
+\BreezeIRAdmissionRate\% of healthy/OR/IR slots, while
+\BreezeAdmissionKThreeUnadmitted{} slots remain unadmitted. These are complete
+slot counts for one frozen pool-generation run, not uncertainty estimates over
+independent LLM pools.
 
 Recipe source determines whether the verifier can construct a balanced pool.
 The random-recipe audit admits no slot, whereas rule admission varies by class.
@@ -807,12 +815,19 @@ LLM proposal under the PU verifier.
 \begin{figure*}
   \centering
   \includegraphics[width=\textwidth]{figs/acceptance_k.pdf}
-  \caption{PU proposal accounting. (a) Number of archived candidates per
-  proposal slot. (b) One-to-many mapping from
-  \BreezeProposalSlotsPerClass{} class slots to admitted slots
-  and diversity-kept windows. (c) Verifier slot-admission rates for LLM, rule,
-  and random recipes. Random open-loop remains a downstream control; random
-  recipes subjected to the verifier produce no balanced admitted pool.}
+  \caption{PU closed-loop admission across feedback rounds. (a) Cumulative
+  percentage of proposal slots admitted by or before each round, shown for
+  healthy, outer-race, and inner-race classes
+  ($n=\BreezeProposalSlotsPerClass{}$ slots each) and for all slots
+  ($n=\BreezeTotalProposalSlots{}$); labels give pooled cumulative counts. (b) Newly admitted
+  slots assigned to their first passing round and stacked by class. A passing
+  round is the earliest archived candidate with \texttt{feasible=true}; the
+  aggregate exactly reproduces the frozen
+  \BreezeAdmissionKThreeCumulative{} admitted slots, leaving
+  \BreezeAdmissionKThreeUnadmitted{} unadmitted at $K=3$. Counts describe one
+  frozen pool-generation run and have
+  no independent-pool sampling interval. Source data are provided with the
+  figure artifacts.}
   \label{fig:acceptance}
 \end{figure*}
 

@@ -28,6 +28,9 @@ PHASE = REPO / "breeze" / "results" / "phaseA_v2_frozen_2026-07-06" / "breeze"
 CWRU = REPO / "breeze" / "results" / "cwru_patch_v2_2026-07-07_frozen"
 BERKELEY = REPO / "breeze" / "results" / "milling_berkeley_v2_binary_formal_2026-07-08"
 PHYSICS = REPO / "breeze" / "results" / "ablation_2026-07-14"
+ADMISSION_FREEZE = (
+    REPO / "breeze" / "results" / "admission_round_freeze_2026-07-17"
+)
 PU_LOCO_V1 = REPO / "breeze" / "results" / "pu_loco_2026-07-07_v1_frozen"
 PU_LOCO_V2 = REPO / "breeze" / "results" / "pu_loco_v2_2026-07-08"
 PU_LOCO_V3 = REPO / "breeze" / "results" / "pu_loco_v3_2026-07-08"
@@ -700,37 +703,121 @@ def build_fig5_data() -> tuple[pd.DataFrame, pd.DataFrame, list[Path]]:
     return pd.DataFrame(ratio_rows), pd.DataFrame(diversity_rows), sources
 
 
-def audit_fig6_blocker() -> dict:
-    llm_path = PHASE / "runs" / "rescreen_v2_full" / "slot_summary.csv"
-    slots = pd.read_csv(llm_path)
-    if len(slots) != 450 or int(slots["accepted_before_diversity"].sum()) != 286:
-        raise RuntimeError("frozen LLM slot total changed")
-    required_round_fields = {"first_passing_round", "feedback_round", "round"}
-    present = required_round_fields.intersection(slots.columns)
-    if present:
-        raise RuntimeError(f"unexpected round field appeared; re-audit required: {present}")
-    return {
-        "status": "blocked",
-        "reason": (
-            "The frozen 450-slot summary stores final admission and candidate count, "
-            "but not the first passing feedback round. n_candidates is not a round label."
-        ),
-        "frozen_slot_rows": len(slots),
-        "final_admitted_slots": int(slots["accepted_before_diversity"].sum()),
-        "candidate_count_distribution": {
-            str(key): int(value)
-            for key, value in slots["n_candidates"].value_counts().sort_index().items()
-        },
-        "local_unfrozen_round_records": len(
-            list((REPO / "breeze" / "runs" / "rescreen_v2_full" / "records").glob("*.json"))
-        ),
-        "required_action": (
-            "Create a separate audited round-level freeze whose aggregate reproduces "
-            "450 slots and 286 final admissions before drawing cumulative K=0..3."
-        ),
-        "source": _relative(llm_path),
-        "source_sha256": sha256(llm_path),
+def build_fig6_data() -> tuple[pd.DataFrame, pd.DataFrame, list[Path]]:
+    cumulative_path = ADMISSION_FREEZE / "cumulative_admission_by_class.csv"
+    slots_path = ADMISSION_FREEZE / "slot_first_pass_round.csv"
+    manifest_path = ADMISSION_FREEZE / "round_records_manifest.csv"
+    validation_path = ADMISSION_FREEZE / "validation_report.json"
+    canonical_summary = PHASE / "runs" / "rescreen_v2_full" / "slot_summary.csv"
+    sources = [
+        cumulative_path,
+        slots_path,
+        manifest_path,
+        validation_path,
+        canonical_summary,
+    ]
+    assert_allowed_sources(sources)
+
+    cumulative = pd.read_csv(cumulative_path)
+    slots = pd.read_csv(slots_path)
+    manifest = pd.read_csv(manifest_path)
+    validation = json.loads(validation_path.read_text())
+    summary = pd.read_csv(canonical_summary)
+
+    if validation.get("status") != "passed":
+        raise RuntimeError("round-level admission freeze did not pass validation")
+    assertions = validation.get("assertions", {})
+    if assertions.get("record_json_count") != 450:
+        raise RuntimeError("round-record count changed")
+    if assertions.get("final_admitted_slots") != 286:
+        raise RuntimeError("round-record admitted total changed")
+    if not assertions.get("selected_equals_first_feasible_candidate"):
+        raise RuntimeError("selected/first-feasible validation is not true")
+    if not assertions.get("slot_summary_rows_match_exactly"):
+        raise RuntimeError("round records no longer match the frozen slot summary")
+
+    if len(manifest) != 450 or manifest[["class", "slot"]].duplicated().any():
+        raise RuntimeError("round-record manifest is incomplete or duplicated")
+    if not manifest["sha256"].str.fullmatch(r"[0-9a-f]{64}").all():
+        raise RuntimeError("round-record manifest contains an invalid SHA-256")
+    if len(slots) != 450 or slots[["class", "slot"]].duplicated().any():
+        raise RuntimeError("round-level slot aggregate is incomplete or duplicated")
+    expected_classes = {"healthy", "OR", "IR"}
+    if set(slots["class"]) != expected_classes:
+        raise RuntimeError("round-level slot classes changed")
+    if slots.groupby("class").size().to_dict() != {
+        "IR": 150,
+        "OR": 150,
+        "healthy": 150,
+    }:
+        raise RuntimeError("round-level class slot counts changed")
+    admitted = slots["first_pass_round"].notna()
+    if int(admitted.sum()) != 286 or not slots["final_admitted"].eq(admitted).all():
+        raise RuntimeError("round-level admitted flags do not match first-pass rounds")
+    if not slots.loc[admitted, "first_pass_round"].isin([0, 1, 2, 3]).all():
+        raise RuntimeError("first-pass round outside K=0..3")
+
+    slot_join = slots.merge(
+        summary,
+        on=["class", "slot"],
+        how="outer",
+        validate="one_to_one",
+        indicator=True,
+    )
+    if not slot_join["_merge"].eq("both").all():
+        raise RuntimeError("round-level slots do not cover the frozen slot summary")
+    if not slot_join["final_admitted"].eq(
+        slot_join["accepted_before_diversity"]
+    ).all():
+        raise RuntimeError("round-level admission differs from frozen slot summary")
+    if not slot_join["n_candidates_x"].eq(slot_join["n_candidates_y"]).all():
+        raise RuntimeError("round-level candidate counts differ from frozen summary")
+    if not slot_join["n_feasible_expansions_x"].eq(
+        slot_join["n_feasible_expansions_y"]
+    ).all():
+        raise RuntimeError("round-level feasible expansions differ from frozen summary")
+
+    expected_columns = {
+        "feedback_round_k",
+        "class",
+        "newly_admitted",
+        "cumulative_admitted",
+        "total_slots",
+        "cumulative_rate",
     }
+    if set(cumulative.columns) != expected_columns or len(cumulative) != 16:
+        raise RuntimeError("unexpected cumulative-admission table schema")
+    for class_name, total in {
+        "healthy": 150,
+        "OR": 150,
+        "IR": 150,
+        "all": 450,
+    }.items():
+        rows = cumulative[cumulative["class"].eq(class_name)].sort_values(
+            "feedback_round_k"
+        )
+        if rows["feedback_round_k"].tolist() != [0, 1, 2, 3]:
+            raise RuntimeError(f"missing feedback round for {class_name}")
+        if set(rows["total_slots"]) != {total}:
+            raise RuntimeError(f"denominator changed for {class_name}")
+        if not rows["cumulative_admitted"].is_monotonic_increasing:
+            raise RuntimeError(f"non-monotone cumulative admission for {class_name}")
+        expected_cumulative = rows["newly_admitted"].cumsum().to_numpy()
+        np.testing.assert_array_equal(
+            expected_cumulative, rows["cumulative_admitted"].to_numpy()
+        )
+        np.testing.assert_allclose(
+            rows["cumulative_rate"].to_numpy(),
+            rows["cumulative_admitted"].to_numpy() / total,
+            atol=5e-13,
+            rtol=0,
+        )
+    final_all = cumulative[
+        cumulative["class"].eq("all") & cumulative["feedback_round_k"].eq(3)
+    ].iloc[0]
+    if int(final_all["cumulative_admitted"]) != 286:
+        raise RuntimeError("K=3 cumulative admission changed")
+    return cumulative, slots, sources
 
 
 def build_fig7_data() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, list[Path]]:

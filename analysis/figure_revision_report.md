@@ -1,12 +1,12 @@
 # BREEZE Fig. 3+ Revision Preview Report
 
-Date: 2026-07-16
+Date: 2026-07-17
 
 Baseline: `origin/main@621dfe7`
 
 Phase: preview only; formal integration has not started
 
-Status: seven figures complete, Figure 6 blocked by missing frozen round records
+Status: all eight revision figures complete; formal integration and CAS QA passed
 
 ## Scope and method
 
@@ -92,20 +92,23 @@ styles.
 **Boundary.** These are empirical diagnostic distances from one frozen pool
 per source, so no inferential physical-validity test is invented.
 
-## Figure 6: admission mechanism blocker
+## Figure 6 revision contract: closed-loop admission mechanism
 
-Figure 6 was not generated. The dated freeze contains 450 final slot rows and
-286 admitted LLM slots, but it does not contain each slot's first passing round.
-`n_candidates` is archive depth rather than a K=0/1/2/3 round label. The local
-round JSON files are outside the dated SHA-256 freeze and therefore cannot be
-silently promoted into formal evidence.
+The 450 local round JSON records were promoted through a separate write-once
+freeze at `breeze/results/admission_round_freeze_2026-07-17/`. The freeze stores
+one SHA-256 per record, one first-pass row per proposal slot, the cumulative
+K=0--3 table, and a validation report. The validator asserts 150 slots/class,
+450 unique slots, exact equality between each record's selected candidate and
+its first candidate with `feasible=true`, and exact row-level agreement with
+the prior frozen slot summary. It reproduces 286 final admitted slots.
 
-The blocker artifact is in
-`breeze/paper/figs/revision_preview/fig6_admission_mechanism_BLOCKED/`.
-Unblocking requires a separate audited round-level freeze whose aggregation
-reproduces exactly 450 slots and 286 final admissions. Only then can the
-cumulative panel and the traceable final-rate/failure panels be drawn. No
-partial figure, empty panel, or inferred curve was emitted.
+The cumulative pooled count is 205 at K=0, 241 at K=1, 268 at K=2, and 286 at
+K=3; the marginal additions are 205, 36, 27, and 18. Class-final counts are
+90 healthy, 90 outer-race, and 106 inner-race slots. The figure reports these
+as complete accounting for one frozen run, without a confidence interval or an
+independent-pool inference. Revision-contract Figure 6 maps to Figure 7 in the
+compiled manuscript because the formal paper retains the separate physical-
+distance figure before it.
 
 ## Figure 7 and Supplementary Figure S3: transfer and boundary
 
@@ -131,12 +134,13 @@ development stops are not converted into downstream effects.
 - Every complete figure directory contains independent CSV snapshots and a
   `source-manifest.json` with source/code/output SHA-256 values, filters,
   sample counts, UTC generation time, and Git baseline.
-- Manifest audit verified 16 code, 90 source, and 45 output entries: all 151
+- Manifest audit verified 16 code, 94 source, and 48 output entries: all 158
   files exist and every hash matches.
 - `breeze/tests/test_figure_revision_preview.py` passes 9/9 tests. Coverage
   includes protocol/shot/metric completeness, exact paired counts,
   deterministic bootstrap, train-only medoids, fixed demodulation, raw
-  amplitude preservation, NA propagation, ratio recomputation, Fig. 6 stop,
+  amplitude preservation, NA propagation, ratio recomputation, the 450-slot
+  Fig. 6 freeze and monotone K=0--3 curve,
   CWRU load0 exclusion, discrete PU states, export dimensions, and manifest
   integrity.
 - The source-to-figure mapping is in `analysis/figure_source_map.md`; scientific
@@ -145,7 +149,7 @@ development stops are not converted into downstream effects.
 
 ## Export and visual QA
 
-All seven complete figures export editable PDF/SVG, 300 dpi review PNG, and
+All eight complete figures export editable PDF/SVG, 300 dpi review PNG, and
 600 dpi LZW TIFF. Audit results in `qa/export_audit.csv` show a PDF width of
 182.9999 mm, PNG width 2161 px, TIFF width 4322 px, embedded PDF fonts, and SVG
 `<text>` elements for every figure.
@@ -162,16 +166,17 @@ show no overlap, clipping, illegible axis label, or displaced legend. The only
 LaTeX warning is the CAS template's empty first-page hyperlink anchor.
 
 The old/new contact sheet is
-`revision_preview/qa/old_new/old_new_contact_sheet.png`. The Figure 6 entry is
-clearly labelled as a QA blocker and is not a manuscript figure.
+`revision_preview/qa/old_new/old_new_contact_sheet.png`. The Figure 6 entry now
+compares the former proposal-accounting panels with the audited cumulative and
+marginal admission view.
 
-## Formal-integration gate
+## Formal integration
 
-The formal manuscript has not been edited. SHA-256 comparison confirms all 42
-baseline `main_cas.tex`, `main_cas.pdf`, and formal `paper/figs/*` files are
-byte-unchanged. Formal replacement, captions, numbering, and manuscript
-compilation must wait for author approval and a decision on the Figure 6
-round-level freeze.
+The author-approved PR #2 formally integrated the completed Figure 3--5, 7,
+and 9 revisions. The audited admission figure now replaces
+`paper/figs/acceptance_k.pdf`; its text and caption identify the slot unit,
+first-pass definition, full denominators, and fixed-run inference boundary.
+The CAS manuscript compiles to 21 pages with resolved citations and references.
 
 ## Requirement audit
 
@@ -184,12 +189,11 @@ round-level freeze.
 | Figure 3 paired forest plot | Pass |
 | Figure 4 medoids plus population spectra | Pass |
 | Figure 5 error matrices plus separate diversity | Pass |
-| Figure 6 cumulative frozen-round mechanism | **Blocked** |
+| Figure 6 cumulative frozen-round mechanism | Pass: 450 hashes, 286 admissions |
 | Figure 7 mixed cross-condition/boundary evidence | Pass |
 | S1/S2/S3 supporting figures | Pass |
-| CSV snapshots and manifests | Pass for complete figures; blocker manifest for Fig. 6 |
+| CSV snapshots and manifests | Pass for all eight figures |
 | Statistical/source tests | Pass: 9 tests |
-| PDF/SVG/TIFF/PNG export | Pass for complete figures |
+| PDF/SVG/TIFF/PNG export | Pass for all eight figures |
 | CVD, grayscale, final-size, CAS QA | Pass |
-| Formal manuscript remains unchanged | Pass |
-
+| Formal manuscript integration and CAS compile | Pass: 21 pages |

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.28)  16 JUL 2026 18:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.28)  17 JUL 2026 10:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -872,44 +872,54 @@ Package pdftex.def Info: ../../fig5_physical_error/fig5_physical_error.pdf  use
 d on input line 25.
 (pdftex.def)             Requested size: 494.50888pt x 399.94708pt.
  [4 <../../fig5_physical_error/fig5_physical_error.pdf>]
-<../../fig7_cross_condition/fig7_cross_condition.pdf, id=89, 520.68546pt x 352.
-81418pt>
+<../../fig6_admission_mechanism/fig6_admission_mechanism.pdf, id=89, 520.68546p
+t x 216.24095pt>
+File: ../../fig6_admission_mechanism/fig6_admission_mechanism.pdf Graphic file
+(type pdf)
+<use ../../fig6_admission_mechanism/fig6_admission_mechanism.pdf>
+Package pdftex.def Info: ../../fig6_admission_mechanism/fig6_admission_mechanis
+m.pdf  used on input line 31.
+(pdftex.def)             Requested size: 494.50888pt x 205.37822pt.
+ [5 <../../fig6_admission_mechanism/fig6_admission_mechanism.pdf>]
+<../../fig7_cross_condition/fig7_cross_condition.pdf, id=128, 520.68546pt x 352
+.81418pt>
 File: ../../fig7_cross_condition/fig7_cross_condition.pdf Graphic file (type pd
 f)
 <use ../../fig7_cross_condition/fig7_cross_condition.pdf>
 Package pdftex.def Info: ../../fig7_cross_condition/fig7_cross_condition.pdf  u
-sed on input line 31.
+sed on input line 37.
 (pdftex.def)             Requested size: 494.50888pt x 335.0908pt.
- [5 <../../fig7_cross_condition/fig7_cross_condition.pdf>]
-<../../figS1_pu_distributions/figS1_pu_distributions.pdf, id=120, 520.68546pt x
+
+[6 <../../fig7_cross_condition/fig7_cross_condition.pdf>]
+<../../figS1_pu_distributions/figS1_pu_distributions.pdf, id=159, 520.68546pt x
  258.92007pt>
 File: ../../figS1_pu_distributions/figS1_pu_distributions.pdf Graphic file (typ
 e pdf)
 <use ../../figS1_pu_distributions/figS1_pu_distributions.pdf>
 Package pdftex.def Info: ../../figS1_pu_distributions/figS1_pu_distributions.pd
-f  used on input line 37.
+f  used on input line 43.
 (pdftex.def)             Requested size: 494.50888pt x 245.9134pt.
- [6 <../../figS1_pu_distributions/figS1_pu_distributions.pdf>]
+ [7 <../../figS1_pu_distributions/figS1_pu_distributions.pdf>]
 <../../figS2_healthy_waveform_envelope/figS2_healthy_waveform_envelope.pdf, id=
-141, 520.68546pt x 221.93149pt>
+181, 520.68546pt x 221.93149pt>
 File: ../../figS2_healthy_waveform_envelope/figS2_healthy_waveform_envelope.pdf
  Graphic file (type pdf)
 <use ../../figS2_healthy_waveform_envelope/figS2_healthy_waveform_envelope.pdf>
 
 Package pdftex.def Info: ../../figS2_healthy_waveform_envelope/figS2_healthy_wa
-veform_envelope.pdf  used on input line 43.
+veform_envelope.pdf  used on input line 49.
 (pdftex.def)             Requested size: 494.50888pt x 210.7829pt.
- [7 <../../figS2_healthy_waveform_envelope/figS2_healthy_waveform_envelope.pdf>
+ [8 <../../figS2_healthy_waveform_envelope/figS2_healthy_waveform_envelope.pdf>
 ]
-<../../figS3_pu_failure_chain/figS3_pu_failure_chain.pdf, id=163, 520.68546pt x
+<../../figS3_pu_failure_chain/figS3_pu_failure_chain.pdf, id=203, 520.68546pt x
  170.71654pt>
 File: ../../figS3_pu_failure_chain/figS3_pu_failure_chain.pdf Graphic file (typ
 e pdf)
 <use ../../figS3_pu_failure_chain/figS3_pu_failure_chain.pdf>
 Package pdftex.def Info: ../../figS3_pu_failure_chain/figS3_pu_failure_chain.pd
-f  used on input line 49.
+f  used on input line 55.
 (pdftex.def)             Requested size: 494.50888pt x 162.1407pt.
- [8 <../../figS3_pu_failure_chain/figS3_pu_failure_chain.pdf>] (./cas_figure_qa
+ [9 <../../figS3_pu_failure_chain/figS3_pu_failure_chain.pdf>] (./cas_figure_qa
 .aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
@@ -919,10 +929,10 @@ Package rerunfilecheck Info: File `cas_figure_qa.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 16386 strings out of 473190
- 249657 string characters out of 5715800
- 628557 words of memory out of 5000000
- 39354 multiletter control sequences out of 15000+600000
+ 16395 strings out of 473190
+ 250156 string characters out of 5715800
+ 628558 words of memory out of 5000000
+ 39361 multiletter control sequences out of 15000+600000
  635392 words of font info for 136 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  90i,8n,93p,301b,466s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -931,10 +941,9 @@ c.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/stix/STIXGeneral-R
 egular.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfss
 0900.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfsx09
 00.pfb>
-Output written on cas_figure_qa.pdf (8 pages, 489934 bytes).
+Output written on cas_figure_qa.pdf (9 pages, 540533 bytes).
 PDF statistics:
- 211 PDF objects out of 1000 (max. 8388607)
- 128 compressed objects within 2 object streams
- 16 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+ 250 PDF objects out of 1000 (max. 8388607)
+ 149 compressed objects within 2 object streams
+ 18 named destinations out of 1000 (max. 500000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)

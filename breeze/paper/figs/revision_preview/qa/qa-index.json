@@ -10,6 +10,8 @@
     "breeze/paper/figs/revision_preview/qa/grayscale/fig4_waveform_envelope_grayscale.png",
     "breeze/paper/figs/revision_preview/qa/cvd/fig5_physical_error_cvd.png",
     "breeze/paper/figs/revision_preview/qa/grayscale/fig5_physical_error_grayscale.png",
+    "breeze/paper/figs/revision_preview/qa/cvd/fig6_admission_mechanism_cvd.png",
+    "breeze/paper/figs/revision_preview/qa/grayscale/fig6_admission_mechanism_grayscale.png",
     "breeze/paper/figs/revision_preview/qa/cvd/fig7_cross_condition_cvd.png",
     "breeze/paper/figs/revision_preview/qa/grayscale/fig7_cross_condition_grayscale.png",
     "breeze/paper/figs/revision_preview/qa/cvd/figS1_pu_distributions_cvd.png",
@@ -36,6 +38,7 @@
     "breeze/paper/figs/revision_preview/qa/cas_reading_size/cas_figure_qa_page-5.png",
     "breeze/paper/figs/revision_preview/qa/cas_reading_size/cas_figure_qa_page-6.png",
     "breeze/paper/figs/revision_preview/qa/cas_reading_size/cas_figure_qa_page-7.png",
-    "breeze/paper/figs/revision_preview/qa/cas_reading_size/cas_figure_qa_page-8.png"
+    "breeze/paper/figs/revision_preview/qa/cas_reading_size/cas_figure_qa_page-8.png",
+    "breeze/paper/figs/revision_preview/qa/cas_reading_size/cas_figure_qa_page-9.png"
   ]
 }

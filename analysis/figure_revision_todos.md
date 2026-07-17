@@ -1,9 +1,9 @@
 # BREEZE Figure Revision Todos
 
-Status: preview branch published; Figure 6 remains blocked by the documented freeze gap
+Status: formal integration complete for Figs. 3--5 and 7; Figure 6 round freeze and integration in progress
 Baseline: `origin/main@621dfe7`
 Backend: Python/matplotlib only
-Formal integration gate: blocked until explicit author approval of previews
+Formal integration gate: author approved PR #2; Figure 6 requires final QA before merge
 
 ## A. Freeze scope and runtime
 
@@ -91,8 +91,8 @@ Formal integration gate: blocked until explicit author approval of previews
   `log2(method distance / rule distance)` without averaging away unavailable
   or unfavourable cells.
 - [x] Build Fig. 5 NN-diversity snapshot separately in raw units.
-- [ ] **BLOCKED:** Build Fig. 6 cumulative-round admission, final source admission, and
-  gate-by-class non-exclusive failure snapshots.
+- [x] Build Fig. 6 cumulative-round and marginal admission snapshots from the
+  independently hashed 450-record freeze.
 - [x] Build Fig. 7 CWRU continuous effect/Holm snapshot and PU v1/v2 discrete
   pass-count snapshot.
 - [x] Build Supplementary Fig. S3 v1--v6 failure-chain snapshot from frozen
@@ -114,8 +114,8 @@ Formal integration gate: blocked until explicit author approval of previews
   absolute-amplitude evidence.
 - [x] Test Fig. 5 ratio signs and NA propagation; reject zero/negative distances.
 - [x] Test NN diversity never enters the fidelity-error colormap.
-- [x] Test Fig. 6 stops when cumulative rates lack frozen round records.
-- [ ] **BLOCKED:** Test Fig. 6 non-exclusive failure snapshots after the round freeze exists.
+- [x] Test Fig. 6 has 450 unique slots, 150/class, monotone K=0--3 curves,
+  exact 286 final admissions, and exact prior-summary agreement.
 - [x] Test Fig. 7 excludes the provenance-invalid CWRU held-out-load0 fold.
 - [x] Test no private, smoke, partial, trained-baseline, or new-backbone source is
   present in any manifest.
@@ -131,8 +131,8 @@ Formal integration gate: blocked until explicit author approval of previews
   separate neutral NN-diversity point panel.
 - [x] Implement Supplementary Fig. S1 as ECDF distributions with grayscale-safe line styles.
 - [x] Implement Supplementary Fig. S2 as the healthy counterpart to Fig. 4.
-- [ ] **BLOCKED:** Implement Fig. 6 as cumulative admission, final admission, and two shared-
-  scale non-exclusive gate-failure heatmaps.
+- [x] Implement Fig. 6 as cumulative class/pooled admission and class-stacked
+  marginal admissions, without inventing uncertainty over independent pools.
 - [x] Implement Fig. 7 as a 2x2 mixed continuous/discrete heatmap grid.
 - [x] Implement Supplementary Fig. S3 as the complete PU v1--v6 failure chain.
 - [x] Export editable PDF/SVG, 600 dpi TIFF, and preview PNG for every complete figure.

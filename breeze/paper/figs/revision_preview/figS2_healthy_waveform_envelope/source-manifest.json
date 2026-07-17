@@ -1,20 +1,20 @@
 {
   "figure_directory": "breeze/paper/figs/revision_preview/figS2_healthy_waveform_envelope",
   "status": "complete",
-  "generated_at_utc": "2026-07-16T10:46:52.360881+00:00",
-  "git_head": "621dfe73e8193aa69b88f356e8e73736b2ae2e26",
+  "generated_at_utc": "2026-07-17T02:58:38.172040+00:00",
+  "git_head": "c28a8512b9f37e4783adcc7ad76b2df6dd1466df",
   "generator": "breeze/src/figure_revision_data.py",
-  "generator_sha256": "30d186cfb6320c927fcfbb1b264e71df96b91819f57353fb9551ef8dde069493",
+  "generator_sha256": "91bb3a946cdcd20635ec051bbcc08299beac5270d12b89b98de033ab050aa5c4",
   "code": [
     {
       "path": "breeze/src/figure_revision_data.py",
-      "sha256": "30d186cfb6320c927fcfbb1b264e71df96b91819f57353fb9551ef8dde069493",
-      "size_bytes": 34524
+      "sha256": "91bb3a946cdcd20635ec051bbcc08299beac5270d12b89b98de033ab050aa5c4",
+      "size_bytes": 38300
     },
     {
       "path": "breeze/src/figures_revision_preview.py",
-      "sha256": "41ca1d9d62a0fc8309aceeda5b904432e9af2d1d47574d8af5a5da4d6932878f",
-      "size_bytes": 30247
+      "sha256": "0795c4f0c49fcc9495f80ded2898998a9c0fa242d2d1c970bc31eec96e2f4a5c",
+      "size_bytes": 34932
     }
   ],
   "sources": [
@@ -151,13 +151,13 @@
     },
     {
       "path": "breeze/paper/figs/revision_preview/figS2_healthy_waveform_envelope/figS2_healthy_waveform_envelope.pdf",
-      "sha256": "68c18a11b0fef62753809e0ca9fe875e8753f69d4231557145f2ed571c25750e",
-      "size_bytes": 56852
+      "sha256": "c4a68ddad5ab025c576b909ba59c1539a870a41501d59d7536035f9ec776a542",
+      "size_bytes": 56792
     },
     {
       "path": "breeze/paper/figs/revision_preview/figS2_healthy_waveform_envelope/figS2_healthy_waveform_envelope.svg",
-      "sha256": "6480a08d3d75d468034ab63cc7015bb5f7e9d9e6e6907a489f809720943ac640",
-      "size_bytes": 96845
+      "sha256": "e790572bb7bfeb0e0fe6f11633ba16818cfc89ae88d116e86fb1c464ab0209c2",
+      "size_bytes": 94553
     },
     {
       "path": "breeze/paper/figs/revision_preview/figS2_healthy_waveform_envelope/figS2_healthy_waveform_envelope.png",

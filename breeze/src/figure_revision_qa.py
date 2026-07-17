@@ -19,6 +19,7 @@ FIGURES = {
     "Fig. 3": ("fig3_downstream_effects", "fig3_downstream_effects"),
     "Fig. 4": ("fig4_waveform_envelope", "fig4_waveform_envelope"),
     "Fig. 5": ("fig5_physical_error", "fig5_physical_error"),
+    "Fig. 6": ("fig6_admission_mechanism", "fig6_admission_mechanism"),
     "Fig. 7": ("fig7_cross_condition", "fig7_cross_condition"),
     "Fig. S1": ("figS1_pu_distributions", "figS1_pu_distributions"),
     "Fig. S2": ("figS2_healthy_waveform_envelope", "figS2_healthy_waveform_envelope"),
@@ -28,7 +29,7 @@ OLD_NEW = {
     "Fig. 3": (["downstream_bars.png"], "Fig. 3: seed bars -> paired-effect forest"),
     "Fig. 4": (["waveforms.png"], "Fig. 4: ordered examples -> medoids and population spectra"),
     "Fig. 5": (["metric_distances.png", "boxplots.png"], "Fig. 5: raw heatmap/boxplots -> rule-relative errors"),
-    "Fig. 6": (["acceptance_k.png", "failure_reasons.png"], "Fig. 6: blocked pending frozen round records"),
+    "Fig. 6": (["acceptance_k.png", "failure_reasons.png"], "Fig. 6: proposal accounting -> audited cumulative admission"),
     "Fig. 7": (["cross_condition_heatmap.png"], "Fig. 7: mixed continuous/discrete generalization evidence"),
     "Fig. S1": (["boxplots.png"], "Fig. S1: boxplots -> distribution-complete ECDF"),
     "Fig. S2": (["waveforms.png"], "Fig. S2: healthy evidence moved to the supplement"),
@@ -147,20 +148,12 @@ def create_old_new_sheets() -> list[Path]:
     for label, (old_names, description) in OLD_NEW.items():
         old_images = [Image.open(formal / name).convert("RGB") for name in old_names]
         old_column = _stack(old_images, 1300, 950)
-        if label == "Fig. 6":
-            new_column = Image.new("RGB", (1300, 950), "white")
-            draw = ImageDraw.Draw(new_column)
-            draw.rectangle((30, 30, 1270, 920), outline="#A33A3A", width=4)
-            draw.multiline_text(
-                (90, 300),
-                "BLOCKED\n\nFrozen slot summary lacks the first\npassing round for K=0,1,2,3.\nNo inferred curve was generated.",
-                fill="#7A2020",
-                font=_font(40, bold=True),
-                spacing=20,
-            )
-        else:
-            directory, stem = FIGURES[label]
-            new_column = _fit(Image.open(data.PREVIEW / directory / f"{stem}.png").convert("RGB"), 1300, 950)
+        directory, stem = FIGURES[label]
+        new_column = _fit(
+            Image.open(data.PREVIEW / directory / f"{stem}.png").convert("RGB"),
+            1300,
+            950,
+        )
         sheet = _panel_grid([("Current formal", old_column), ("Revision preview", new_column)])
         title_h = 100
         titled = Image.new("RGB", (sheet.width, sheet.height + title_h), "white")

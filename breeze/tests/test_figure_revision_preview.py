@@ -116,12 +116,39 @@ def test_fig5_na_and_ratio_contract() -> None:
     assert all(path.exists() for path in sources)
 
 
-def test_fig6_round_curve_is_blocked_without_frozen_round_records() -> None:
-    audit = frd.audit_fig6_blocker()
-    assert audit["status"] == "blocked"
-    assert audit["frozen_slot_rows"] == 450
-    assert audit["final_admitted_slots"] == 286
-    assert "n_candidates is not a round label" in audit["reason"]
+def test_fig6_round_freeze_is_complete_and_monotone() -> None:
+    cumulative, slots, sources = frd.build_fig6_data()
+    assert len(slots) == 450
+    assert slots.groupby("class").size().to_dict() == {
+        "IR": 150,
+        "OR": 150,
+        "healthy": 150,
+    }
+    assert int(slots["final_admitted"].sum()) == 286
+    assert set(slots.loc[slots["final_admitted"], "first_pass_round"]) == {
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+    }
+    expected = {
+        0: (205, 205),
+        1: (36, 241),
+        2: (27, 268),
+        3: (18, 286),
+    }
+    pooled = cumulative[cumulative["class"].eq("all")]
+    assert {
+        int(row.feedback_round_k): (
+            int(row.newly_admitted),
+            int(row.cumulative_admitted),
+        )
+        for row in pooled.itertuples(index=False)
+    } == expected
+    for _, rows in cumulative.groupby("class"):
+        rows = rows.sort_values("feedback_round_k")
+        assert rows["cumulative_admitted"].is_monotonic_increasing
+    assert all(path.exists() for path in sources)
 
 
 def test_fig7_excludes_load0_and_preserves_discrete_states() -> None:
@@ -144,6 +171,7 @@ def test_preview_exports_and_manifests_are_complete() -> None:
         "fig3_downstream_effects": "fig3_downstream_effects",
         "fig4_waveform_envelope": "fig4_waveform_envelope",
         "fig5_physical_error": "fig5_physical_error",
+        "fig6_admission_mechanism": "fig6_admission_mechanism",
         "fig7_cross_condition": "fig7_cross_condition",
         "figS1_pu_distributions": "figS1_pu_distributions",
         "figS2_healthy_waveform_envelope": "figS2_healthy_waveform_envelope",
@@ -175,7 +203,7 @@ def test_preview_exports_and_manifests_are_complete() -> None:
                 assert frd.sha256(path) == item["sha256"]
 
 
-def test_fig3_axis_contract_and_fig6_has_no_placeholder() -> None:
+def test_fig3_axis_contract_and_fig6_has_no_blocker() -> None:
     axes = np.genfromtxt(
         frd.PREVIEW / "fig3_downstream_effects" / "axis_limits.csv",
         delimiter=",",
@@ -187,5 +215,7 @@ def test_fig3_axis_contract_and_fig6_has_no_placeholder() -> None:
     assert len(set(first_row["x_min_pp"])) == 1
     assert len(set(first_row["x_max_pp"])) == 1
     blocker = frd.PREVIEW / "fig6_admission_mechanism_BLOCKED"
-    assert not any(blocker.glob("*.png"))
-    assert not any(blocker.glob("*.pdf"))
+    assert not any(blocker.glob("*"))
+    figure = frd.PREVIEW / "fig6_admission_mechanism"
+    assert (figure / "fig6_admission_mechanism.pdf").exists()
+    assert (figure / "source_data.csv").exists()

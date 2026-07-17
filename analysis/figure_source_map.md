@@ -67,23 +67,24 @@ windows.
 
 ## Figure 6: admission mechanism
 
-Traceable panels:
+The local `breeze/runs/rescreen_v2_full/records/*.json` archive was promoted to
+an independently audited, write-once evidence freeze at
+`breeze/results/admission_round_freeze_2026-07-17/`. The committed artifacts
+are:
 
-- final LLM/rule/random slot rates:
-  `breeze/results/phaseA_v2_frozen_2026-07-06/breeze/runs/{rescreen_v2_full,recipe_ablation_rule_v2_full,recipe_ablation_random_v2_full}/slot_summary.csv`;
-- non-exclusive gate failures:
-  `breeze/results/phaseA_v2_frozen_2026-07-06/breeze/results/phaseA_v2_failure_gate_summary.csv`;
-- generation code: `breeze/src/rescreen_v2.py` and
-  `breeze/scripts/recipe_ablation.py`.
+- `round_records_manifest.csv`: path, class, slot, file size, and SHA-256 for
+  all 450 JSON files;
+- `slot_first_pass_round.csv`: candidate-round trace and the first candidate
+  with `feasible=true` for every slot;
+- `cumulative_admission_by_class.csv`: K=0--3 marginal and cumulative counts
+  for healthy, OR, IR, and all slots;
+- `validation_report.json`: exact assertions for 450 unique slots, 150/class,
+  286 admitted, selected-candidate equality, and row-level agreement with the
+  2026-07-06 frozen `slot_summary.csv`.
 
-**Blocker for panel a:** the dated freeze contains only final slot summaries.
-`n_candidates` is the number of archived candidates, not the first passing
-feedback round. The 450 local `breeze/runs/rescreen_v2_full/records/*.json`
-files contain round detail but are absent from the 2026-07-06 SHA-256 freeze.
-Therefore cumulative K=0/1/2/3 admission cannot be reconstructed from the
-frozen slot record without promoting and auditing a new round-level freeze.
-No Fig. 6 preview will be emitted with an inferred panel a or an empty
-placeholder.
+The generating and validation code is
+`breeze/scripts/freeze_admission_round_records.py`. Figure 6 reads only the
+committed aggregate freeze. It never infers a round from `n_candidates`.
 
 ## Figure 7: cross-condition effects and boundary
 
@@ -98,4 +99,3 @@ Supplementary Fig. S3 uses the same v1/v2 files and the explicit stop reports:
 `pu_loco_v5_failure_analysis.md`, and
 `pu_loco_v6_cscoh_2026-07-14/source_separability_summary.csv`. Stages v3--v6
 remain development/admission stops and are never converted to held-out scores.
-
