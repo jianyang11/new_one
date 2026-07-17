@@ -6,7 +6,229 @@
 
 Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命令必须使用该解释器。
 
-> 收口决定（2026-07-14）：L1.1--L1.9 与 L2.1--L2.9 全部 **deferred（投稿后工作）**。理由：投稿前不开启新的框架重构工程；这些计划不得被描述为本稿已实现的方法或结果。
+> 2026-07-17 控制范围变更：用户明确要求把项目继续推进到一区水平并完成全部科研任务。2026-07-14 的“L1/L2 投稿后 deferred”决定仅保留为历史记录，已被下述 `Q1-*` 控制段取代。原 L1/L2 条目中的 `[x] Deferred` 不表示实现完成，也不得描述为已实现结果。
+
+## Q1. 一区科研提升主线（2026-07-17 起，当前最高优先级）
+
+控制文档：`Q1_research_plan_2026-07-17.md`
+
+文献前沿：`analysis/q1_literature_frontier_2026-07-17.md`
+完成定义：方案 G0--G8 全部通过；未通过前不得报告“达到一区水平”或“投稿就绪”。
+
+### Q1.0 启动、现场和证据冻结
+
+- [x] Q1.0.1 读取根目录与仓库 `AGENTS.md`；冻结“不使用 fallback/hack/局部后处理修补、不得编造数据”的算法约束。
+- [x] Q1.0.2 使用 `awesome-ai-research-writing` 的逻辑审查、实验分析和 reviewer 协议约束方案；所有主张必须回到代码/冻结结果/一手文献。
+- [x] Q1.0.3 `git fetch origin main` 并核对 `HEAD=origin/main=1457ef1`；本轮开始时无远端落后/领先。
+- [x] Q1.0.4 清点工作树：36 个已修改文件、25 组未跟踪产物主要属于 Fig. 6/图表修订和 7 月 14--16 日实验；全部视为用户/既有工作，不覆盖、不清理、不混入本阶段提交。
+- [x] Q1.0.5 建立磁盘基线：项目约 51 GB，`data/` 38 GB、`proc/` 8.4 GB、`breeze/runs/` 2.8 GB；系统盘可用约 13 GB；新下载/全量训练暂缓到存储 gate 通过。
+- [x] Q1.0.6 审计当前论文与证据台账：现稿为 21 页 Q2-ready 约束稿；正式 TimeGAN/DDPM、独立 pool、跨分类器和 CWRU/Berkeley release 仍未闭合。
+- [x] Q1.0.7 审计 `formal_pu_v2`：仅完成 TimeGAN/full-train/n_real=5 的 seeds 0--2；runner.log 为空，最后结果时间 2026-07-16 14:24；目录定性为不完整开发证据，不进入论文。
+- [x] Q1.0.8 用 PDF skill 将当前 `main_cas.pdf` 21 页渲染到临时 PNG，并用 `view_image` 检查 Page 1/5/8/10/13/16 与新旧/灰度联系表。
+- [x] Q1.0.9 记录视觉结论：Fig. 3--7 修订方向有效；Page 1 仍有作者占位；Page 13 完整物理表在单栏页字号偏小；这些问题分别进入 metadata blocker 和最终版式 gate。
+- [x] Q1.0.10 完成 2026-07-17 最新文献前沿报告，核验 BearGen、SDForger、SCOPE-Gen、CAP、physics-informed diffusion、DDPM-LFR、CFGDMHD、DiffUCD、PI-SSDG、PFA-Net 和 bearing conformal RUL 一手来源。
+- [x] Q1.0.11 编写 `Q1_research_plan_2026-07-17.md`，冻结 RQ、可证伪假设、方法、强基线、层级统计、存储、日志、可视化和 G0--G8 验收门。
+- [x] Q1.0.12 在本文件置顶细粒度动态任务；旧 deferred 与历史重复任务保留供审计，但不再控制执行顺序。
+- [x] Q1.0.13 对本轮仅新增的方案/文献/todos 做 diff、链接、checkbox、路径和 Markdown 审计；176 条 Q1 任务、路径和标题结构已核对；不得把现有图表 dirty diff 带入提交。
+- [ ] Q1.0.14 仅提交 `Q1_research_plan_2026-07-17.md`、`analysis/q1_literature_frontier_2026-07-17.md` 和 `todos.md`，推送 `origin/main` 并再次核对远端 SHA。
+
+### Q1.1 G0：50 GB 存储预算与可恢复性
+
+- [ ] Q1.1.1 生成 `analysis/q1_storage_inventory_2026-07-17.csv`：所有 ≥50 MB 文件记录 path、bytes、mtime、类别（raw/archive/extracted/proc/pool/checkpoint/cache）、git/ignore 状态。
+- [ ] Q1.1.2 为 `data/MU-TCM face-milling dataset/full_dataset.7z` 计算 SHA-256，核对已有 67/67 synced MAT manifest、文件名、size 和抽取报告。
+- [ ] Q1.1.3 确认 MU-TCM 约 23 GB 解压目录是否能从 4.4 GB 原始归档按 manifest 无损重建；随机抽 3 个大 MAT 做 archive CRC/解压 hash 对照。
+- [ ] Q1.1.4 审计 MU-TCM `small_subset` 与 `full_dataset` 同名文件，按 size+SHA-256 生成重复清单；只列候选，不删除。
+- [ ] Q1.1.5 审计 `data/xjtu/` 4.2 GB 分卷是否完整、是否被任何当前 protocol/result manifest 引用；结合历史“跳过 XJTU”决定候选状态。
+- [ ] Q1.1.6 审计 `data/ims/raw/IMS.7z`、`4_Bearings.zip`、三个 test RAR 的内容关系与唯一性；生成可恢复性说明。
+- [ ] Q1.1.7 审计 `proc/dirg_variable_all.npz` 与 LOCO train/test 4.5 GB 是否可从 1.6 GB raw zip 和脚本确定性重建；核对 preprocessing hash。
+- [ ] Q1.1.8 审计 `breeze/runs/` 2.8 GB：区分 formal primary pool、API raw record、可重建 smoke、重复 compact/formal copy；不得删除唯一 ignored release 资产。
+- [ ] Q1.1.9 审计 `.venv`、`__pycache__`、`.pytest_cache`、LaTeX 中间文件和 `/private/tmp` 渲染缓存；缓存候选与科研数据分开列示。
+- [ ] Q1.1.10 写 `analysis/q1_storage_reclamation_plan_2026-07-17.md`，逐项给出预计释放量、保留依据、重建命令、hash、风险和是否需用户授权。
+- [ ] Q1.1.11 在执行任何删除前请求明确授权；删除目标使用完整路径，不使用宽泛 glob/环境变量，不碰用户 dirty 图表和唯一实验产物。
+- [ ] Q1.1.12 获授权后分批处理，每批后核对剩余空间、重建性和 Git 状态；将实际释放量写入 `analysis/q1_storage_ledger.csv`。
+- [ ] Q1.1.13 G0 验收：项目工作水位 ≤47 GB、系统盘余量足够首个 formal cell；未达标不启动训练/API。
+
+### Q1.2 长任务运行合同、heartbeat 与任务分片
+
+- [ ] Q1.2.1 为 `run_trained_baselines.py` 写失败复现测试：旧 runner 一个完整 generator stage 内无 stdout/heartbeat，`runner.log` 可长期为 0 bytes。
+- [ ] Q1.2.2 定义通用 `ProgressEvent` schema：run/cell/stage/epoch/batch、completed/total、elapsed、ETA、pid、host、device、RSS、output bytes、timestamp。
+- [ ] Q1.2.3 在 TimeGAN embedding/supervisor/joint 和 DDPM epoch/batch 循环发进度事件；最长静默间隔 ≤60 秒，不能只在一个 seed 结束后打印。
+- [ ] Q1.2.4 heartbeat 写入 append-only JSONL 和人类可读 log；每次 flush+fsync；进度写失败必须终止任务而不是静默继续。
+- [ ] Q1.2.5 增加 SIGINT/SIGTERM 安全检查点和 `interrupted` 状态；恢复后验证 stage/epoch、optimizer、normalization 和 RNG 状态一致。
+- [ ] Q1.2.6 写 checkpoint corruption/partial-write 测试；继续使用同目录原子 replace，损坏文件不能被当作完成。
+- [ ] Q1.2.7 将全 root 单锁改为 manifest 级 coordinator + cell/shard 独立锁；同一 key 并发必须拒绝，不同 pool/seed 可安全并行。
+- [ ] Q1.2.8 实现严格 merge validator：唯一 key、预期 cell coverage、manifest/code/data hash 相同、failure ledger 完整、重复/缺行即失败。
+- [ ] Q1.2.9 增加 `--dry-run`/`--list-cells`，运行前打印精确 cell 数、已有完成数、预计输出目录和断点命中情况。
+- [ ] Q1.2.10 增加独立 monitor：每 1--5 分钟检查 heartbeat 新鲜度、checkpoint mtime、CPU time、磁盘增长；连续两个周期无进度时输出诊断。
+- [ ] Q1.2.11 用 1 个 class、8 windows、1 epoch 的 deterministic fixture 测试 uninterrupted vs interrupted+resume 的参数/样本/结果一致性。
+- [ ] Q1.2.12 用 1/2/4 workers smoke 测 throughput、RSS、PyTorch thread oversubscription；按实测选择并行度并写报告，不凭经验乱设。
+- [ ] Q1.2.13 检查 `torch.backends.mps.is_available()`；若可用，做 CPU/MPS smoke 数值、checkpoint 恢复和速度对照；设备改变必须使用新 formal root。
+- [ ] Q1.2.14 将 `formal_pu_v2` 冻结为 incomplete，不删除 seeds 0--2；生成 forensic manifest/hash，不继续追加到该目录。
+- [ ] Q1.2.15 G0/G4 通过后从新 `formal_pu_v3` clean root 启动强基线；定期用 monitor 读取而不设置短 timeout 或无故中断。
+
+### Q1.3 G1：数据合同、分组 split 与测试隔离
+
+- [ ] Q1.3.1 新建 `specs/q1/dataset_protocol.schema.json`，字段覆盖 source/entity/regime/time/sensor/physics/split/hash。
+- [ ] Q1.3.2 实现 immutable `DatasetProtocol`、`SensorSchema`、`PhysicsMetadata`、`SplitManifest`；未知 metadata 显式 unknown，禁止默认物理值。
+- [ ] Q1.3.3 为 PU 写 data card：文件、bearing ID、工况、6203 几何、通道、采样率、单位、标签机制、raw source 和许可/引用。
+- [ ] Q1.3.4 为 CWRU 写 data card：MAT source、load/RPM、fault location/size、6205 几何、DE 12 kHz 通道和已知 protocol 限制。
+- [ ] Q1.3.5 为 Berkeley 写 data card：case/run、六通道、采样率、VB 阈值、工况、exemplar-background renderer 边界。
+- [ ] Q1.3.6 机械核对 source/entity 不跨 outer split；输出 overlap CSV，任何一行 overlap 都阻断后续。
+- [ ] Q1.3.7 在 outer-train 内按 source 拆 reference/calibration；class/regime source count 表先于 coverage 选择生成。
+- [ ] Q1.3.8 根据目标 coverage/confidence 计算每 cell 最少独立 source 数；不足 cell 明确 non-vacuous=false，不得用窗口数补足。
+- [ ] Q1.3.9 实现 outer-test loader guard：calibration/generation/hyperparameter modes 读取 test path/source ID 必须 hard error 并记录 stack。
+- [ ] Q1.3.10 单测 scaler、reference feature、threshold、generator fitting 和超参搜索不接受 test handle。
+- [ ] Q1.3.11 生成 split 可视化：source×split 矩阵、entity×regime 分布、time order、窗口 overlap；保存 PNG/PDF 和 source CSV。
+- [ ] Q1.3.12 调用 `view_image` 检查每个 split 图；核对标签、颜色、计数和不可读小字，将目视结论写入 QA 报告。
+- [ ] Q1.3.13 冻结 Stage-A split manifest/hash；后续修改必须新版本，不覆盖。
+
+### Q1.4 G2：source-group joint calibration 与 generic layer
+
+- [ ] Q1.4.1 定义 deterministic generic feature schema：robust time statistics、normalized PSD-CDF、ACF/temporal dependence、声明通道的 cross-channel structure。
+- [ ] Q1.4.2 每个 feature 写单位、方向、归一化、source aggregation、缺失 channel 行为和数值稳定性测试。
+- [ ] Q1.4.3 reference 估计按 source 等权，禁止窗口多的文件主导 reference。
+- [ ] Q1.4.4 实现 leave-one-source-out real-real diversity；同 source overlap window 不参与阈值估计。
+- [ ] Q1.4.5 将各 block distance 转成 reference empirical rank；在查看 calibration/test 前冻结 joint function。
+- [ ] Q1.4.6 用 exact source-level order statistic 校准 joint threshold；输出 order index、target coverage、confidence、group count 和是否 non-vacuous。
+- [ ] Q1.4.7 明确 ties、empty set、first admitted candidate、单 source、缺 class/regime 的数学与代码语义。
+- [ ] Q1.4.8 实现 artifact serializer：schema/split/feature/code/data hash、reference/calibration IDs、threshold、coverage 和适用域。
+- [ ] Q1.4.9 单测修改 outer-test 数组/标签不会改变 artifact hash 或任何 threshold。
+- [ ] Q1.4.10 单测 channel permutation、采样率错误、NaN/Inf、常量、重复 hash、单位不匹配全部失败。
+- [ ] Q1.4.11 用 PU/CWRU 少量 real sources smoke；保存 source-level ECDF、joint score、threshold、pass/fail 和负控图。
+- [ ] Q1.4.12 调用 `view_image` 检查 ECDF/负控图是否存在隐藏 source imbalance、坐标截断和异常离群。
+- [ ] Q1.4.13 与 frozen legacy generic features 做 regression；差异逐项解释，不以“接近”替代数值审计。
+- [ ] Q1.4.14 G2 gate：API 为 0、test access 为 0、全部单测通过、artifact 可重复生成同 hash。
+
+### Q1.5 G2/G3：metadata-gated physics plugins
+
+- [ ] Q1.5.1 实现 typed `PhysicsPlugin`、requirements、artifact、report 和 `pass/fail/unavailable`；unavailable 不能满足 composite physics pass。
+- [ ] Q1.5.2 从 PU/CWRU 几何和 RPM/uncertainty 推导 BPFO/BPFI/BSF/FTF；公式和单位与独立计算 fixture 对照。
+- [ ] Q1.5.3 频率容差由 DFT resolution、RPM 和几何不确定度组成；禁止未记录的固定百分比。
+- [ ] Q1.5.4 定义完整 resonance-band family 和聚合方式；不保留事后选 Top-K band 的隐式选择偏差。
+- [ ] Q1.5.5 fault class 检查 fundamental/harmonic/modulation；healthy 使用自己的 absence evidence，不能借 fault lower bound。
+- [ ] Q1.5.6 PU MCSA 只有在 current topology、同步和 train-source 分离性满足时启用；否则 unavailable；CWRU 永不生成/填充 current channel。
+- [ ] Q1.5.7 physics threshold 同样按 reference/calibration source 联合校准；记录 non-vacuous group count。
+- [ ] Q1.5.8 负控：错误几何、错误 RPM、wrong class real、white noise、constant、missing current topology、schema mismatch。
+- [ ] Q1.5.9 在 untouched real sources 上报告 per-class/per-regime coverage；系统性 real failure 阻断 synthetic generation，不能放宽 threshold。
+- [ ] Q1.5.10 预注册 gate 外物理诊断，确保至少一族未参与 admission。
+- [ ] Q1.5.11 输出 waveform/PSD/envelope/order spectrum 与 population band 图；每类同时展示 real、LLM、rule、optimizer、trained baseline。
+- [ ] Q1.5.12 逐图调用 `view_image`，检查故障频率线、单位、legend、population n、共享轴和选择样本来源。
+- [ ] Q1.5.13 G3 gate：real-source coverage 达预注册界、负控有效、plugin availability 诚实、无 test/synthetic 调参。
+
+### Q1.6 Stage-A pilot、参数依据与 preregistration
+
+- [ ] Q1.6.1 在每类 5 candidates、1 pool、1 seed 下贯通 random/rule/estimator/optimizer/LLM replay；只验证接口。
+- [ ] Q1.6.2 为 train-stat estimator 明确每个 recipe field 的估计量、约束和 train-only 依据；禁止从 verifier rejected sample 事后修值。
+- [ ] Q1.6.3 选择同 recipe space 的 Bayesian/TPE optimizer；目标为 train-only frozen joint score，查询预算与 LLM proposals 相同。
+- [ ] Q1.6.4 单测 optimizer 不访问 downstream classifier/outer-test，且所有 proposal 完整留档。
+- [ ] Q1.6.5 回放现有 archived LLM recipes，在同 candidates 上比较 legacy gates 与 BREEZE-RC；renderer seed/hash 不变。
+- [ ] Q1.6.6 pilot 使用 2 independent development pools、每类 20 accepted、2 classifier seeds；估计 acceptance、runtime、pool variance，不作正式 p 值。
+- [ ] Q1.6.7 从 pilot 估计 Monte Carlo noise、real-only repeatability 和可检测效应；提出 SESOI 依据并写 reviewer-style 风险审查。
+- [ ] Q1.6.8 参数表逐项注明来源：论文/官方实现/train-only pilot/物理 metadata；没有依据的参数不能进入 formal。
+- [ ] Q1.6.9 写 `specs/q1/preregistration_v1.md`：datasets、splits、pools、seeds、backbones、primary/secondary metrics、families、SESOI、stop rules。
+- [ ] Q1.6.10 生成 preregistration SHA-256 并提交；之后 outer-test 解封规则由 loader 验证。
+- [ ] Q1.6.11 精确计算 LLM request/token/人民币预算和预计 accepted pool 容量；读取 API ledger，确认当前审计值仍为 1231/3000。
+- [ ] Q1.6.12 在任何新 API 请求前向用户请求明确预算授权；未授权保持 API=0，不用单池替代独立 pool 目标。
+
+### Q1.7 G4：忠实强生成基线
+
+- [ ] Q1.7.1 审计当前 `ConvTimeGAN` 与原 TimeGAN 的模块、loss、normalization、训练 stage 和条件方式；决定准确报告名。
+- [ ] Q1.7.2 审计当前 1-D DDPM 的 schedule、denoiser、conditioning、EMA、sampling steps 和 loss；与 DDPM/故障信号文献逐项对照。
+- [ ] Q1.7.3 优先查找作者官方代码/补充材料；记录 commit/license；不能取得时按论文公式实现并写差异表。
+- [ ] Q1.7.4 冻结 TimeGAN/conditional GAN 和 1-D DDPM 的 literature-supported defaults；超参搜索范围在 inner train/val 预注册。
+- [ ] Q1.7.5 每个 generator 分别支持 full outer-train 与 few-shot-only，训练边界进入 key，禁止 pool 复用混淆。
+- [ ] Q1.7.6 smoke 检查 loss 有限、sample shape/scale、class support、checkpoint resume、pool hash 和失败 ledger。
+- [ ] Q1.7.7 先完成一个全 epoch/full class cell；保存逐 epoch dynamics，用 `view_image` 检查收敛/崩塌/异常震荡。
+- [ ] Q1.7.8 根据实测 cell wall time/bytes 更新全矩阵预算；只调整并行/算力，不减少 formal epoch 或数据。
+- [ ] Q1.7.9 新 `formal_pu_v3` 从空目录开始；任何重复 key、配置漂移、nonfinite 或 incomplete seed 使 merge 失败。
+- [ ] Q1.7.10 对 trained pools 做与 BREEZE 相同的物理、two-sample、memorization、下游和成本评价，不只报 classifier accuracy。
+- [ ] Q1.7.11 报告模型参数量、训练样本、训练/采样时间、失败 seed、checkpoint 大小和峰值内存。
+- [ ] Q1.7.12 若加入 DDPM-LFR/ReF-DDPM，必须达到官方/论文忠实性 gate；否则只作为 Related Work，不用弱仿制数值。
+- [ ] Q1.7.13 G4 gate：至少一个忠实 GAN/TimeGAN 和一个忠实 diffusion 全部 formal cells 完整，配置/失败/成本可审计。
+
+### Q1.8 多分类器与非生成跨工况基线
+
+- [ ] Q1.8.1 统一 classifier interface、normalization、few-shot subset、class weights、epoch/early-stop、checkpoint 和 metric schema。
+- [ ] Q1.8.2 实现/核验 compact CNN、ResNet1D、TCN/InceptionTime 三种深度骨干；参数来自公开实现/论文并记录。
+- [ ] Q1.8.3 增加 MiniROCKET/ROCKET 或固定特征 SVM/RF；训练数据边界与 synthetic 使用方式明确。
+- [ ] Q1.8.4 每个 backbone 做 real-only 1-seed smoke；随机标签应接近 chance，重复 seed 可复现。
+- [ ] Q1.8.5 每个方法做 2-pool×2-seed pilot，检查 shape、capacity、class imbalance 和训练失败，不做正式选择。
+- [ ] Q1.8.6 冻结 10--20 个 paired classifier seeds；每 pool 内所有方法共享 subset/init seed。
+- [ ] Q1.8.7 跨工况增加一个有公开实现、协议兼容的非生成 domain-generalization/physics-feature baseline；不冒充无法复现的 PI-SSDG。
+- [ ] Q1.8.8 输出 backbone×dataset×shot effect heatmap 和 pool-level forest；不得只展示支持 BREEZE 的骨干。
+- [ ] Q1.8.9 调用 `view_image` 检查 heatmap 色标对称性、空 cell、显著/非显著编码和字号。
+
+### Q1.9 G5/G6：独立生成池、全量下游与层级统计
+
+- [ ] Q1.9.1 每个正式 recipe source 生成 ≥10 independent pools；provider/local seeds、requests、prompts、proposal/accept counts 分池隔离。
+- [ ] Q1.9.2 同时冻结 proposal-budget comparison 与 accepted-budget comparison；random+verifier 容量失败不能伪装为匹配下游 pool。
+- [ ] Q1.9.3 每 pool 每类目标 accepted count、最大 proposal、K 和失败条件在 preregistration 中固定。
+- [ ] Q1.9.4 生成中 monitor heartbeat；每完成一 pool 立即检查 class balance、hash 唯一性、非有限值、证书和 storage ledger。
+- [ ] Q1.9.5 每 pool 先做 1-seed downstream sanity；异常 pool 只能按预注册技术失败规则排除并保留 ledger。
+- [ ] Q1.9.6 全量运行 PU/CWRU/Berkeley 的冻结 shots×backbones×nested seeds；CSV append-only、cell key 唯一。
+- [ ] Q1.9.7 每完成一个 dataset 运行 completeness checker：预期/实际行、pools、seeds、classes、methods、failures、hash。
+- [ ] Q1.9.8 主分析先在 pool 内求 paired seed 差，再对 pool-level 差做 paired randomization/permutation test。
+- [ ] Q1.9.9 cluster bootstrap 以 pool 为 cluster 生成 95% CI；混合效应模型只作敏感性并检查假设。
+- [ ] Q1.9.10 按 preregistered family 做 Holm；global BH 只作跨表敏感性；输出 raw/adjusted 全表。
+- [ ] Q1.9.11 报告 Accuracy、Macro-F1、Balanced Accuracy、per-class F1、effect、CI、p/q、pool/seed n 和失败数。
+- [ ] Q1.9.12 评估 SESOI 与统计同时通过情况；微小显著结果不算 G6 通过。
+- [ ] Q1.9.13 检查方法排序是否跨 backbone/pool 稳定；只在单一 CNN/pool 有效则返回方法迭代。
+- [ ] Q1.9.14 G6 判定：至少两个公开协议相对最强控制通过预注册实质效应与多重校正，另一个协议无未解释灾难性退化。
+- [ ] Q1.9.15 未通过 G6 时冻结完整失败报告，返回 recipe/feedback/calibration 设计；不得改 test family、删 baseline 或增加同池 seed。
+
+### Q1.10 G7：gate 外物理、分布与记忆证据
+
+- [ ] Q1.10.1 冻结 gate-external metrics schema、单位、channel aggregation、source reference、NA 规则和方向。
+- [ ] Q1.10.2 计算 byte/hash exact match、NRMSE、最大 lag-normalized cross-correlation；exact-copy controls 必须被检测。
+- [ ] Q1.10.3 计算 synthetic-to-real 与 real-to-real nearest distances，source-group exclusion 防同文件邻窗偏置。
+- [ ] Q1.10.4 grouped real-vs-synthetic discriminator AUROC；cross-validation 以 source/pool 分组，禁止窗口随机 CV。
+- [ ] Q1.10.5 计算 class-wise RMS/kurtosis/skew/crest/peak、PSD-W1、MMD、envelope/order alignment 和 gate 外指标。
+- [ ] Q1.10.6 物理非劣 margin 由 real-real source variation 冻结；不按 synthetic 结果选 margin。
+- [ ] Q1.10.7 生成 population ECDF、source violin/box、two-sample ROC/PR、NN/correlation 和 Pareto 图；显示 independent pool 点。
+- [ ] Q1.10.8 每张图调用 `view_image`；检查 sample selection、n、CI、log axis、legend、NA 和不利 cell 是否完整。
+- [ ] Q1.10.9 保存逐 sample 和逐 source 结果，不只保存均值；sanity checker 验证聚合可重算。
+- [ ] Q1.10.10 G7 判定：留出诊断通过预注册优势/非劣条件，且复制/高相关风险不劣于最强控制。
+- [ ] Q1.10.11 G7 失败时回到 renderer/plugin 一般算法，使用新 development/formal version；不得把失败 metric 加入 gate 后复测同一 pool。
+
+### Q1.11 投稿级图表与 Nature-style QA
+
+- [ ] Q1.11.1 进入正式作图前完整读取并应用 `nature-figure` skill；记录它对配色、尺寸、统计和导出的约束。
+- [ ] Q1.11.2 为每张主图写 figure contract：claim、source files、统计单位、允许 annotation、禁止推断、单/双栏尺寸。
+- [ ] Q1.11.3 Fig. 1：BREEZE-RC responsibility/risk/evidence 三账本框架；不把 calibration 画成物理真值保证。
+- [ ] Q1.11.4 Fig. 2：source split、joint calibration、coverage 和负控；显示独立 group 而非窗口云。
+- [ ] Q1.11.5 Fig. 3：pool-level paired effects，CI 以 pool cluster 计算；不混用 seed-level CI。
+- [ ] Q1.11.6 Fig. 4：dataset×backbone×shot 稳定性与失败 cell；同色标、空值明确。
+- [ ] Q1.11.7 Fig. 5：gate 外 waveform/PSD/envelope/order population evidence；样本选择规则冻结。
+- [ ] Q1.11.8 Fig. 6：utility/physics/cost Pareto 与 accepted-per-proposal；每点为 independent pool。
+- [ ] Q1.11.9 Fig. 7：跨工况正/负结果和 PU LOCO stop-chain；失败不移出主/补充证据。
+- [ ] Q1.11.10 Supplement：训练 dynamics、memorization、two-sample、coverage sensitivity、完整表和 release graph。
+- [ ] Q1.11.11 所有图由 frozen structured sources 生成，导出 PDF/SVG/600-dpi TIFF/300-dpi PNG 和 source-manifest hash。
+- [ ] Q1.11.12 自动 QA：尺寸、字体嵌入、DPI、透明度、线宽、色盲、灰度、hash、正式/preview 一致性。
+- [ ] Q1.11.13 逐图 `view_image` 原始分辨率检查；再嵌入 CAS PDF 渲染单/双栏阅读尺寸检查。
+- [ ] Q1.11.14 Page 13 完整物理表改为可读主表 + 补充全表；不通过缩小字体硬塞。
+- [ ] Q1.11.15 生成全稿 contact sheet 并逐页检查裁切、重叠、空白图、标签、单位、表字号和引用位置。
+
+### Q1.12 G8：复现发布、论文重写与终审
+
+- [ ] Q1.12.1 实现 release-manifest builder：path、size、SHA-256、role、license、source protocol、公开/受限状态。
+- [ ] Q1.12.2 打包 CWRU/Berkeley 关键 pools、recipe JSON、renderer seeds、gate reports 和 checksums；不包含第三方禁止再分发 raw。
+- [ ] Q1.12.3 从 clean clone + release 包重放至少一个 PU/CWRU/Berkeley figure/table cell；记录命令、环境和 hash。
+- [ ] Q1.12.4 生成锁定环境：Python/依赖/OS/device；验证 CPU 可运行路径，不依赖作者机器绝对路径。
+- [ ] Q1.12.5 更新 claim-evidence map：每个摘要/贡献/结果数字链接 CSV/JSON、脚本、图/表和统计单位。
+- [ ] Q1.12.6 只在 G6/G7 通过后重写 title/abstract/introduction/contributions；不预写 SOTA/最高/显著提升。
+- [ ] Q1.12.7 Related Work 加入 LLM time-series、description-conditioned diffusion、physics diffusion、conformal generation、cross-condition DG taxonomy。
+- [ ] Q1.12.8 Method 准确定义 source-group risk、交换性、adaptive selection、plugin unavailable 和无修补边界。
+- [ ] Q1.12.9 Experiments 报告全部 baselines、hyperparameter source、pools/seeds hierarchy、失败 runs、成本和 multiple comparisons。
+- [ ] Q1.12.10 Results 保留不利物理 cell、PU LOCO 失败、Berkeley 收敛、trained baseline 失败率；不得选择性汇报。
+- [ ] Q1.12.11 Discussion 分开 verifier coverage、physical evidence、diagnostic utility 和真实工业有效性；不互相替代。
+- [ ] Q1.12.12 使用 `awesome-ai-research-writing` 做 logic/reviewer/AI-style 审查；只改真实问题，不强化超证据 claim。
+- [ ] Q1.12.13 作者提供 names、affiliations、emails、ORCIDs、funding、CRediT 和 approval；缺失时保持 blocker，不猜测。
+- [ ] Q1.12.14 运行全部 unit/integration/statistical/claim/table/figure tests；生成机器可读 final audit。
+- [ ] Q1.12.15 编译 canonical CAS PDF，检查 0 undefined cite/ref、字体嵌入、页数、over/underfull 与 PDF metadata。
+- [ ] Q1.12.16 使用 PDF skill 渲染每页 PNG，逐页 `view_image`；缺陷未清零不得交付。
+- [ ] Q1.12.17 对照 G0--G8 和用户要求逐项签署 evidence path；任何未通过项继续迭代，不标完成。
+- [ ] Q1.12.18 审查 scoped diff、提交、推送 `origin/main`、核对 remote SHA；raw/checkpoint/API secret 不进 git。
+- [ ] Q1.12.19 只有 Q1.12.1--Q1.12.18 与 G0--G8 全部完成，才标记“一区科研提升目标完成”。
 
 ## F6. Fig. 6 round-level 证据冻结、正式集成与 PR #2 合并（2026-07-17）
 
