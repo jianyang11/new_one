@@ -57,5 +57,5 @@ Last verified: 2026-07-17 Asia/Shanghai
   clipped figure, overlap, or unreadable caption was found.
 - [ ] Author order, affiliations, ORCIDs, corresponding-author email, funding,
   contributions, and approval metadata remain the sole author-supplied blocker.
-- [ ] Push the audited Fig. 6 commit to PR #2, merge the PR, and verify
-  `origin/main` at the merge commit.
+- [x] Push the audited Fig. 6 commit to PR #2 and verify the remote PR head.
+- [ ] Merge PR #2 and verify `origin/main` at the merge commit.
