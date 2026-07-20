@@ -22,7 +22,7 @@ import tempfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from time import perf_counter
-from typing import Literal
+from typing import Callable, Literal
 
 import numpy as np
 import torch
@@ -31,6 +31,7 @@ import torch.nn.functional as F
 
 
 DeviceName = Literal["cpu"]
+ProgressCallback = Callable[[dict[str, float | int | str]], None]
 
 
 @dataclass(frozen=True)
@@ -216,7 +217,12 @@ class TimeGANTrainer:
         """Return the complete checkpointed epoch-level optimization record."""
         return [dict(row) for row in self.history]
 
-    def fit(self, x: np.ndarray, checkpoint: Path) -> float:
+    def fit(
+        self,
+        x: np.ndarray,
+        checkpoint: Path,
+        progress_callback: ProgressCallback | None = None,
+    ) -> float:
         if x.ndim != 3:
             raise ValueError(f"expected (windows, channels, samples), got {x.shape}")
         if not np.isfinite(x).all():
@@ -330,6 +336,15 @@ class TimeGANTrainer:
                     record["generator_loss"] = float(np.mean(generator_losses))
                 self.history.append(record)
                 self._checkpoint(checkpoint, active_stage, epoch + 1, elapsed)
+                if progress_callback is not None:
+                    progress_callback(
+                        {
+                            **record,
+                            "completed": epoch + 1,
+                            "total": epoch_plan[active_stage],
+                            "elapsed_seconds": elapsed,
+                        }
+                    )
             completed_epoch = 0
             stage = active_stage
         self._checkpoint(checkpoint, "complete", 0, elapsed)
@@ -444,7 +459,12 @@ class DDPMTrainer:
         """Return the complete checkpointed epoch-level optimization record."""
         return [dict(row) for row in self.history]
 
-    def fit(self, x: np.ndarray, checkpoint: Path) -> float:
+    def fit(
+        self,
+        x: np.ndarray,
+        checkpoint: Path,
+        progress_callback: ProgressCallback | None = None,
+    ) -> float:
         if x.ndim != 3:
             raise ValueError(f"expected (windows, channels, samples), got {x.shape}")
         if not np.isfinite(x).all():
@@ -481,6 +501,15 @@ class DDPMTrainer:
             elapsed += perf_counter() - tic
             self.history.append({"stage": "ddpm", "epoch": epoch + 1, "noise_prediction_mse": float(np.mean(noise_losses))})
             self._checkpoint(checkpoint, epoch + 1, elapsed)
+            if progress_callback is not None:
+                progress_callback(
+                    {
+                        **self.history[-1],
+                        "completed": epoch + 1,
+                        "total": self.config.epochs,
+                        "elapsed_seconds": elapsed,
+                    }
+                )
         return elapsed
 
     def sample(self, n: int, sample_seed: int) -> np.ndarray:

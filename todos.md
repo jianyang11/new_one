@@ -1,12 +1,14 @@
 # BREEZE 执行 todos
 
-最后更新：2026-07-17 Asia/Shanghai
+最后更新：2026-07-20 Asia/Shanghai
 
 工作根目录：`/Users/jianyang/Desktop/学校相关课程/回所/论文/合成数据sci/breeze_full-2`
 
 Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命令必须使用该解释器。
 
 > 2026-07-17 控制范围变更：用户明确要求把项目继续推进到一区水平并完成全部科研任务。2026-07-14 的“L1/L2 投稿后 deferred”决定仅保留为历史记录，已被下述 `Q1-*` 控制段取代。原 L1/L2 条目中的 `[x] Deferred` 不表示实现完成，也不得描述为已实现结果。
+
+> 2026-07-20 实验授权变更：用户明确授权本轮启动训练并补正式实验。因此 Q1.1.13 中由旧“零新训练收口”范围导致的训练禁令已解除；存储仍须逐 cell 实测并保留安全余量。本授权不包含删除现有数据，也不包含新 LLM API 调用。
 
 ## NS. 终稿叙事强化：免训练生成、物理可控与诊断效用（2026-07-17）
 
@@ -48,8 +50,8 @@ Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命
 - [x] Q1.0.14 仅提交 `Q1_research_plan_2026-07-17.md`、`analysis/q1_literature_frontier_2026-07-17.md` 和 `todos.md`；提交 `0ca2421` 已推送 `origin/main`，未夹带现有图表 dirty diff。
 - [x] Q1.0.15 按用户 2026-07-17 新指令迁移发布远端：保留 `origin=jianyang11/breeze_full.git` 作为基线，新增 `publication=jianyang11/new_one.git`；目标无既有 refs，提交 `2a8a39d` 已首次非破坏性推送 `publication/main`，本地 `main` 现跟踪新远端。
 - [x] Q1.0.16 落实用户“记得第一性原理”要求：读取项目的第一性原理思维技能，取其渐近极限、五步算法和可逆快速迭代用于科研审查，同时显式排除其过度乐观时间线/不可逆删除等局限；方案新增 §1.1 控制条款。
-- [ ] Q1.0.17 建立 `analysis/q1_claim_evidence_ledger.md`：逐条列主张、理论/物理硬约束、经验未知量、独立实验单位、最小支持证据、最强反例、否证阈值和允许的原理性重构层级。
-- [ ] Q1.0.18 建立 `specs/q1/parameter_provenance.yaml`：所有正式参数逐项绑定公式/一手文献/pilot/fair-budget 依据、冻结时点和敏感性分析；无依据参数阻断 formal run。
+- [x] Q1.0.17 已建立 `analysis/q1_claim_evidence_ledger.md`：Q1-C1--C8 逐条冻结主张、理论/物理硬约束、经验未知量、独立实验单位、最小支持证据、最强反例、否证阈值和允许的原理性重构；明确将现有单 pool 证据与未完成的独立 pool 主张分开，并将广义跨工况主张标为 `FALSIFIED_CURRENT_FORM`。
+- [x] Q1.0.18 已建立 `specs/q1/parameter_provenance.yaml`（YAML 1.2 的无依赖 JSON 子集）：每项记录 value/status/basis/freeze gate/sensitivity/prohibition；coverage、confidence、pool/seed 数、SESOI、proposal/synthetic budget、LLM 采样参数、强生成基线参数在证据完成前保持 `null + BLOCKED`，不把历史 0.90/20/0.8/0.9/900 追认为 Q1 default；3 个机器校验测试通过。
 - [ ] Q1.0.19 每个 formal root 写入五步审查快照：需求提出者与主张、删除的冗余 cell、简化后的可识别设计、实测后选择的并行度、自动化前置条件；不得删除负结果和唯一复现资产。
 
 ### Q1.1 G0：50 GB 存储预算与可恢复性
@@ -66,7 +68,7 @@ Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命
 - [x] Q1.1.10 `q1_storage_reclamation_plan.py` 已生成非破坏性 plan 和 35 行精确 manifest：审计出 30 个 MU-TCM archive-member 副本（3.810511 GiB）和 5 个 IMS exact-nested 副本（1.990158 GiB），合计 5.800669 GiB；当前 50.811047 GiB，理论删后 45.010378 GiB。但后续依赖核查确认 `audit_mutcm_small_subset.py` 直读 `small_subset`、`ims_manifest.py` 直读三个 RAR/PDF，因此“字节可恢复”不等于“删后命令透明可运行”。plan/manifest 已动态改为 `PRESERVE_PENDING_TRANSPARENT_ARCHIVE_READER`，明确排除 runs、DIRG、XJTU、venv、`.bbl`、dirty `tmp/` 和 formal roots；未删除文件。
 - [x] Q1.1.11 已在 35 个 target 与 2 个 retained container 的全量实时 hash preflight PASS 后，仅对首批 30 个 MU-TCM exact archive-member 副本请求明确删除授权；用户拒绝了该破坏性操作。执行器未启动，35 个目标全部仍在，无 deletion ledger。依赖复核后执行器又增加 preservation lock：即使传入旧授权 token 也会拒绝当前 manifest，7 个回归测试通过。
 - [ ] Q1.1.12 **BLOCKED BY AUTHORIZATION**：首批删除授权被拒绝，故不得分批删除或产生虚假释放记录；若后续获得授权，使用 `q1_storage_reclaim.py` 的精确 manifest、二次 preflight、逐文件 ledger 和原子恢复继续。
-- [ ] Q1.1.13 **G0 NOT MET**：当前项目 50.811047 GiB，系统可用空间约 5.1 GiB；已证明的 5.800669 GiB 最小无损回收集未获删除授权。在实测 ≤47 GiB 且 formal cell 预算通过前，禁止启动训练/API，不以缩小数据或降低核心目标规避。
+- [ ] Q1.1.13 **G0 STORAGE BUDGET PENDING; TRAINING AUTHORIZED 2026-07-20**：历史审计为项目 50.811047 GiB/系统可用约 5.1 GiB；2026-07-20 重测可用空间约 13 GiB，旧 formal v2 仅 9.7 MiB。用户已明确授权启动训练，但未授权删除或 API。新 formal root 启动前必须完成单 cell 字节/时间实测，运行中监测可用空间，不以缩小数、epoch、shot 或数据量规避正式协议。
 
 ### Q1.2 长任务运行合同、heartbeat 与任务分片
 
