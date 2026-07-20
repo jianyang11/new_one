@@ -20,6 +20,7 @@ from __future__ import annotations
 import math
 import os
 import tempfile
+from copy import deepcopy
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from time import perf_counter
@@ -52,6 +53,10 @@ class DDPMConfig:
     epochs: int = 240
     diffusion_steps: int = 1000
     learning_rate: float = 2e-4
+    ema_decay: float = 0.9999
+    warmup_steps: int = 5000
+    gradient_clip_norm: float = 1.0
+    reverse_variance: str = "fixed_large"
 
 
 def _atomic_torch_save(payload: dict, path: Path) -> None:
@@ -419,12 +424,20 @@ class DDPMTrainer:
     def __init__(self, channels: int, length: int, config: DDPMConfig, seed: int):
         if length != 2048:
             raise ValueError(f"DDPM baseline is registered for 2048-sample PU windows, got {length}")
+        if not 0.0 <= config.ema_decay < 1.0:
+            raise ValueError("ema_decay must lie in [0, 1)")
+        if config.warmup_steps <= 0:
+            raise ValueError("warmup_steps must be positive")
+        if config.gradient_clip_norm <= 0:
+            raise ValueError("gradient_clip_norm must be positive")
         self.config = config
         self.seed = seed
         self.device = torch.device("cpu")
         torch.manual_seed(seed)
         self.model = DDPMDenoiser1D(channels, config.hidden_channels).to(self.device)
-        self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=config.learning_rate, weight_decay=1e-4)
+        self.ema_model = deepcopy(self.model).to(self.device).eval()
+        self.ema_model.requires_grad_(False)
+        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=config.learning_rate)
         beta = linear_beta_schedule(config.diffusion_steps, self.device)
         self.beta = beta
         self.alpha = 1.0 - beta
@@ -443,22 +456,39 @@ class DDPMTrainer:
             * torch.sqrt(self.alpha)
             / (1.0 - self.alpha_bar)
         )
+        if config.reverse_variance == "fixed_large":
+            self.reverse_variance = self.beta
+        elif config.reverse_variance == "fixed_small":
+            self.reverse_variance = self.posterior_variance
+        else:
+            raise ValueError(f"unknown DDPM reverse variance: {config.reverse_variance}")
         self.mean: torch.Tensor | None = None
         self.std: torch.Tensor | None = None
         self.history: list[dict[str, float | int | str]] = []
+        self.optimizer_step = 0
+
+    @torch.no_grad()
+    def _update_ema(self) -> None:
+        decay = 0.0 if self.optimizer_step == 0 else self.config.ema_decay
+        for ema_parameter, parameter in zip(self.ema_model.parameters(), self.model.parameters()):
+            ema_parameter.mul_(decay).add_(parameter, alpha=1.0 - decay)
+        for ema_buffer, buffer in zip(self.ema_model.buffers(), self.model.buffers()):
+            ema_buffer.copy_(buffer)
 
     def _checkpoint(self, path: Path, completed_epoch: int, elapsed_seconds: float) -> None:
         if self.mean is None or self.std is None:
             raise RuntimeError("normalization state is unavailable")
         _atomic_torch_save(
             {
-                "algorithm": "ddpm_1d",
+                "algorithm": "ddpm_1d_v4",
                 "config": asdict(self.config),
                 "seed": self.seed,
                 "completed_epoch": completed_epoch,
                 "elapsed_seconds": elapsed_seconds,
                 "model": self.model.state_dict(),
+                "ema_model": self.ema_model.state_dict(),
                 "optimizer": self.optimizer.state_dict(),
+                "optimizer_step": self.optimizer_step,
                 "mean": self.mean.cpu(),
                 "std": self.std.cpu(),
                 "history": self.history,
@@ -468,10 +498,12 @@ class DDPMTrainer:
 
     def _restore(self, path: Path) -> tuple[int, float]:
         state = torch.load(path, map_location=self.device, weights_only=False)
-        if state.get("algorithm") != "ddpm_1d" or state.get("config") != asdict(self.config):
+        if state.get("algorithm") != "ddpm_1d_v4" or state.get("config") != asdict(self.config):
             raise RuntimeError(f"checkpoint configuration mismatch: {path}")
         self.model.load_state_dict(state["model"])
+        self.ema_model.load_state_dict(state["ema_model"])
         self.optimizer.load_state_dict(state["optimizer"])
+        self.optimizer_step = int(state["optimizer_step"])
         self.mean = state["mean"].to(self.device)
         self.std = state["std"].to(self.device)
         self.history = list(state.get("history", []))
@@ -517,8 +549,17 @@ class DDPMTrainer:
                     raise FloatingPointError(f"non-finite DDPM noise-prediction loss at epoch {epoch}")
                 self.optimizer.zero_grad(set_to_none=True)
                 loss.backward()
-                torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
+                torch.nn.utils.clip_grad_norm_(
+                    self.model.parameters(), max_norm=self.config.gradient_clip_norm
+                )
+                learning_rate_scale = min(
+                    (self.optimizer_step + 1) / self.config.warmup_steps, 1.0
+                )
+                for group in self.optimizer.param_groups:
+                    group["lr"] = self.config.learning_rate * learning_rate_scale
                 self.optimizer.step()
+                self._update_ema()
+                self.optimizer_step += 1
                 noise_losses.append(float(loss.detach().cpu()))
             elapsed += perf_counter() - tic
             self.history.append({"stage": "ddpm", "epoch": epoch + 1, "noise_prediction_mse": float(np.mean(noise_losses))})
@@ -544,7 +585,7 @@ class DDPMTrainer:
             x = _seeded_randn((n, self.mean.shape[1], 2048), sample_seed, self.device)
             for step in range(self.config.diffusion_steps - 1, -1, -1):
                 t = torch.full((n,), step, dtype=torch.long, device=self.device)
-                predicted_noise = self.model(x, t)
+                predicted_noise = self.ema_model(x, t)
                 alpha_bar = self.alpha_bar[step]
                 predicted_x0 = (
                     x - torch.sqrt(1.0 - alpha_bar) * predicted_noise
@@ -554,7 +595,7 @@ class DDPMTrainer:
                     + self.posterior_mean_coefficient_xt[step] * x
                 )
                 if step > 0:
-                    x = mean + torch.sqrt(self.posterior_variance[step]) * _seeded_randn(
+                    x = mean + torch.sqrt(self.reverse_variance[step]) * _seeded_randn(
                         tuple(x.shape), sample_seed + step, self.device
                     )
                 else:

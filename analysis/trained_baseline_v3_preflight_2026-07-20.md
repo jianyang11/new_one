@@ -85,12 +85,16 @@ a new output root, the canonical 1000-step schedule (terminal `alpha_bar`
 ## Corrected DDPM v4 smoke
 
 The independent v4 implementation uses the canonical 1,000-step linear
-schedule and the closed-form posterior reverse transition. Seven focused
+schedule, the epsilon-parameterized reverse mean, and the authors' `fixedlarge`
+variance. It also uses Adam with `2e-4` learning rate, 5,000-step warmup,
+gradient clipping at 1.0, EMA decay 0.9999, and EMA sampling weights. Nine focused
 schedule, posterior, loss-summary, and checkpoint-resume tests pass. The
 formal runner refuses a non-1,000-step DDPM schedule; the same schedule is also
 required in smoke mode so the actual reverse path is exercised.
 
-`smoke_v6_ddpm_posterior` completed a deliberately tiny one-epoch wiring run
+`smoke_v6_ddpm_posterior` completed the schedule/mean wiring before the
+optimizer-fidelity audit; it is superseded by the new-source EMA smoke below.
+`smoke_v8_ddpm_official_defaults` completed a deliberately tiny one-epoch wiring run
 with two samples per class. The strict completeness audit reports one unique
 finite `(6, 3, 2048)` pool, one downstream row, three complete class
 checkpoints/cost rows, three finite dynamics rows, zero failure rows, exact

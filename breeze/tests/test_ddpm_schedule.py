@@ -64,3 +64,47 @@ def test_posterior_coefficients_reconstruct_closed_form_mean() -> None:
     torch.testing.assert_close(posterior_mean, closed_form)
     assert float(trainer.posterior_variance[0]) == pytest.approx(0.0, abs=1e-12)
     assert torch.all(trainer.posterior_variance[1:] > 0)
+    torch.testing.assert_close(trainer.reverse_variance, trainer.beta)
+
+
+def test_ema_uses_registered_decay_and_is_checkpointed(tmp_path: Path) -> None:
+    config = MODULE.DDPMConfig(
+        hidden_channels=8,
+        batch_size=4,
+        epochs=1,
+        diffusion_steps=4,
+        ema_decay=0.9999,
+    )
+    trainer = MODULE.DDPMTrainer(channels=3, length=2048, config=config, seed=12)
+    before = [parameter.detach().clone() for parameter in trainer.ema_model.parameters()]
+    windows = torch.randn(4, 3, 2048, generator=torch.Generator().manual_seed(13)).numpy()
+    checkpoint = tmp_path / "ddpm.pt"
+    trainer.fit(windows, checkpoint)
+
+    assert any(
+        not torch.equal(initial, updated)
+        for initial, updated in zip(before, trainer.ema_model.parameters())
+    )
+    state = torch.load(checkpoint, map_location="cpu", weights_only=False)
+    assert state["algorithm"] == "ddpm_1d_v4"
+    assert state["config"]["ema_decay"] == pytest.approx(0.9999)
+    assert set(state["ema_model"]) == set(trainer.ema_model.state_dict())
+    assert state["optimizer_step"] == 1
+    assert state["optimizer"]["param_groups"][0]["lr"] == pytest.approx(2e-4 / 5000)
+    for ema_parameter, parameter in zip(trainer.ema_model.parameters(), trainer.model.parameters()):
+        torch.testing.assert_close(ema_parameter, parameter)
+
+
+def test_fixed_small_variance_remains_explicitly_available() -> None:
+    trainer = MODULE.DDPMTrainer(
+        channels=3,
+        length=2048,
+        config=MODULE.DDPMConfig(
+            hidden_channels=8,
+            epochs=1,
+            diffusion_steps=4,
+            reverse_variance="fixed_small",
+        ),
+        seed=7,
+    )
+    torch.testing.assert_close(trainer.reverse_variance, trainer.posterior_variance)

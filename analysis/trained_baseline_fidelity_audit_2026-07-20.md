@@ -101,18 +101,23 @@ result. Consequently:
 2. Train with the canonical 1000-step linear beta schedule
    (`1e-4` to `2e-2`) so the terminal forward distribution is consistent with
    a Gaussian reverse-process start.
-3. Implement the registered DDPM posterior mean/variance reverse transition,
-   with no image-specific clipping of standardized vibration signals.
-4. If accelerated inference is later desired, specify and cite a distinct
+3. Implement the published epsilon-parameterized reverse mean and the authors'
+   CIFAR default `fixedlarge` variance, with no image-specific clipping of
+   standardized vibration signals.
+4. Use the authors' Adam defaults that transfer across modalities: learning
+   rate `2e-4`, 5,000-step warmup, gradient clipping at 1.0, EMA decay 0.9999,
+   and EMA weights for sampling. Batch size and 1-D model capacity remain
+   modality/hardware adaptations and require separate provenance.
+5. If accelerated inference is later desired, specify and cite a distinct
    sampler (for example, DDIM) before running it. Do not silently rescale the
    50-step beta schedule.
-5. Add numerical schedule, posterior, deterministic resume, shape, finite,
+6. Add numerical schedule, posterior, deterministic resume, shape, finite,
    source-hash, and pool-hash tests before a single-cell smoke.
-6. Measure one complete class cell before projecting the 40-seed wall time and
+7. Measure one complete class cell before projecting the 40-seed wall time and
    storage. Changing the number of training epochs or model capacity requires
    a separate evidence-based preregistration; it cannot be done to rescue cost
    or performance.
-7. Until a fidelity gate is passed, describe the model as a “DDPM-style 1-D
+8. Until a fidelity gate is passed, describe the model as a “DDPM-style 1-D
    adaptation,” not as an exact reproduction of an image-domain U-Net DDPM.
 
 ## Source links

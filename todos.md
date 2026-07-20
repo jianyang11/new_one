@@ -163,8 +163,9 @@ Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命
 - [x] Q1.7.1 审计当前 `ConvTimeGAN` 与原 TimeGAN 的模块、loss、normalization、训练 stage 和条件方式；对称 padding 的 embedder/recovery 不满足原文对替代时序结构的因果顺序要求，且 discriminator/对抗路径与原实现有差异；v3 准确名称冻结为 `ConvTimeGAN-style 1-D adaptation`，不宣称原版 TimeGAN 复现。
 - [x] Q1.7.2 审计当前 1-D DDPM 的 schedule、denoiser、conditioning、EMA、sampling steps 和 loss；v3 的 50-step linear schedule 终点 `alpha_bar=0.6029516`，与从 `N(0,I)` 开始的 reverse sampling 存在硬性分布错配，已在 DDPM/full-fold/seed0/class0 epoch 110 安全中止，不得续跑或进论文。
 - [x] Q1.7.3 核对 TimeGAN 与 DDPM 原论文和作者代码；TimeGAN 冻结到 `8f6181cb...8e07` (Apache-2.0)，DDPM 冻结到 `1e0dceb3...c543`（repo 根无 license，因此只依论文公式独立实现、不复制源码）；差异表见 `analysis/trained_baseline_fidelity_audit_2026-07-20.md`。
-- [x] Q1.7.3a 新建 v4 源码/结果根：DDPM 已改为 canonical 1000-step linear schedule 与 posterior reverse transition，schedule/posterior/resume 共 7 个单测通过，runner 拒绝 formal 短 schedule；`smoke_v6_ddpm_posterior` 完成真实 1000-step reverse 全链路，strict audit 为 1 pool/1 downstream/3 complete checkpoints/3 finite dynamics/0 failures/source hash 全部 PASS，不覆盖 v3。
+- [x] Q1.7.3a 新建 v4 源码/结果根：DDPM 已改为 canonical 1000-step linear schedule、epsilon reverse mean、官方 `fixedlarge` variance、Adam/5000-step warmup/clip=1/EMA=0.9999 与 EMA 采样，schedule/posterior/EMA/resume 共 9 个单测通过，runner 拒绝 formal 短 schedule；`smoke_v8_ddpm_official_defaults` 完成真实 1000-step reverse 全链路，strict audit 为 1 pool/1 downstream/3 complete checkpoints/3 finite dynamics/0 failures/source hash 全部 PASS，不覆盖 v3。
 - [ ] Q1.7.4 冻结 TimeGAN/conditional GAN 和 1-D DDPM 的 literature-supported defaults；超参搜索范围在 inner train/val 预注册。
+- [x] Q1.7.4a DDPM 可跨模态的原作者默认值已冻结：1000-step linear `1e-4..2e-2`、epsilon-MSE、`fixedlarge`、Adam `2e-4`、5000-step warmup、clip=1、EMA=0.9999；1-D denoiser 容量、batch 和训练总更新数仍是模态/算力适配，未冻结前不启动 formal cell。
 - [ ] Q1.7.5 每个 generator 分别支持 full outer-train 与 few-shot-only，训练边界进入 key，禁止 pool 复用混淆。
 - [ ] Q1.7.6 smoke 检查 loss 有限、sample shape/scale、class support、checkpoint resume、pool hash 和失败 ledger。
 - [ ] Q1.7.7 先完成一个全 epoch/full class cell；保存逐 epoch dynamics，用 `view_image` 检查收敛/崩塌/异常震荡。
