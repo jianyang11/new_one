@@ -34,3 +34,37 @@ PyTorch 2.12.1 reports `mps_available=false`; formal execution is therefore CPU-
 ## Claim boundary
 
 Neither smoke output nor an incomplete formal root is evidence. TimeGAN/DDPM may enter the paper only after all expected rows, pools, costs, dynamics, failures, hashes, physical metrics, and paired downstream statistics pass the completeness freeze.
+
+## Formal progress audit
+
+The first complete formal generator cell is TimeGAN/full-fold/seed 0. All three
+class checkpoints are `stage=complete`; each contains 320 epoch records, giving
+960 finite dynamics rows. Class-level fit wall times are 1702.665, 1593.773,
+and 1930.596 seconds (5227.035 seconds total). Checkpointed epoch-compute time
+totals 5220.582 seconds; the 6.452-second difference is fit-call overhead such
+as checkpoint/progress IO. The cost table therefore uses
+`training_cost.wall_seconds`; the legacy downstream column
+`generator_train_seconds` is interpreted only as epoch-compute time.
+
+The sampled pool has shape `(60, 3, 2048)`, finite values, 20 windows per
+class, and SHA-256
+`7509785ea9fa62e1ac710ea82f9e5ecfe411aa0e2bcaaa165abf54ba1adb767a`.
+The n=5/10/25 downstream rows reference that same path and hash, proving the
+registered full-fold reuse policy for this seed. The three single-seed
+downstream values are not aggregated or promoted to manuscript evidence.
+
+Raw TimeGAN dynamics are not uniformly benign: class 0 and class 2 show
+discriminator loss approaching zero while generator loss rises later in joint
+training, whereas class 1 does not show the same trajectory. This is preserved
+as a descriptive instability signal; no rescue tuning is authorized. TimeGAN
+few-shot seed 0 has also completed all three shot levels. DDPM/full-fold seed 0
+is running; a complete matrix ETA remains pending its measured class-level
+cost.
+
+The TimeGAN few-shot three-class fit wall times are 33.383 seconds at n=5,
+35.973 seconds at n=10, and 74.160 seconds at n=25. Together with the full-fold
+pool, seed 0 therefore has four distinct TimeGAN pools and six downstream rows;
+the three full-fold rows alone share one pool. All 12 TimeGAN class checkpoints
+are complete, all 3,840 relevant dynamics values are finite, and all four pools
+contain exactly 20 finite windows per class. These single-seed outputs remain
+incomplete formal evidence.

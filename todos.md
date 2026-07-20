@@ -143,6 +143,7 @@ Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命
 - [ ] Q1.6.1 在每类 5 candidates、1 pool、1 seed 下贯通 random/rule/estimator/optimizer/LLM replay；只验证接口。
 - [x] Q1.6.1a 已仅对 train-stat estimator 做 healthy class/5-candidate/0-API smoke；2/5 slots 准入仅作接口诊断。`audit_recipe_ablation_run.py` 已逐 recipe+seed 精确重放 primary/expansion、gate 和最终 pool，见 `analysis/q1_empirical_smoke_audit_2026-07-20.json`；尚未把该子项冒充 Q1.6.1 全方法贯通。
 - [ ] Q1.6.2 为 train-stat estimator 明确每个 recipe field 的估计量、约束和 train-only 依据；禁止从 verifier rejected sample 事后修值。
+- [x] Q1.6.2a 完成 recipe-domain 缺口审计：prompt 对部分衰减/抖动/电流字段给出范围，但 target RMS、impact/background/component/random-impulse/current-scale 等关键字段无完整合法边界；禁止用观察到的 LLM recipes 或 admission/downstream 排名反推 TPE bounds，正式 optimizer 因此仍未授权。
 - [ ] Q1.6.3 选择同 recipe space 的 Bayesian/TPE optimizer；目标为 train-only frozen joint score，查询预算与 LLM proposals 相同。
 - [ ] Q1.6.4 单测 optimizer 不访问 downstream classifier/outer-test，且所有 proposal 完整留档。
 - [x] Q1.6.3a 以 `breeze/scripts/audit_q1_nonllm_budget.py` 审计 legacy proposal budget，并写出带输入 manifest SHA-256 的 `analysis/q1_nonllm_budget_audit_2026-07-20.json`：冻结 LLM 为 450 slots/922 saved recipe proposals/286 admitted，random 为 450 one-shot slots/0 admitted，rule 为 700 one-shot slots/204 admitted；确认现有三者只匹配最终 pool 预算、不匹配 proposal budget，见 `analysis/q1_nonllm_search_protocol_audit_2026-07-20.md`。
@@ -166,8 +167,11 @@ Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命
 - [ ] Q1.7.5 每个 generator 分别支持 full outer-train 与 few-shot-only，训练边界进入 key，禁止 pool 复用混淆。
 - [ ] Q1.7.6 smoke 检查 loss 有限、sample shape/scale、class support、checkpoint resume、pool hash 和失败 ledger。
 - [ ] Q1.7.7 先完成一个全 epoch/full class cell；保存逐 epoch dynamics，用 `view_image` 检查收敛/崩塌/异常震荡。
+- [x] Q1.7.7a `formal_pu_v3` 已完成 TimeGAN/full-fold/seed 0 的三类全 epoch 训练：3 checkpoints 均为 `stage=complete`、每类 320 dynamics rows、总计 960 rows 且相关 loss 全部 finite；同一 60-window pool（每类 20，SHA-256 `7509785e...67a`）被 n=5/10/25 三行复用。class 0 与 class 2 出现 discriminator loss 向近零下降且 generator loss 后段升高，保留为原始不稳定性证据，不调参救援；尚待正式 dynamics 图目视 QA，故不勾选 Q1.7.7 总项。
 - [ ] Q1.7.8 根据实测 cell wall time/bytes 更新全矩阵预算；只调整并行/算力，不减少 formal epoch 或数据。
+- [x] Q1.7.8a TimeGAN/full-fold/seed 0 三类 fit wall time 为 1702.665/1593.773/1930.596 s（总 5227.035 s，约 87.1 min），对应 epoch-compute 为 5220.582 s；两者差 6.452 s 为 checkpoint/progress/调用开销。成本表只使用 `training_cost.wall_seconds`，downstream 的历史字段 `generator_train_seconds` 明示为 epoch-compute，不混称 wall time。TimeGAN few-shot seed 0 的三类合计 wall time 为 n=5: 33.383 s、n=10: 35.973 s、n=25: 74.160 s；12 checkpoints/3840 dynamics/4 pools/6 downstream rows 均通过唯一性、finite、class support、hash 与 full-fold reuse 审计。DDPM/full-fold seed 0 正在跑，完整 ETA 等 DDPM cell 实测后冻结。
 - [ ] Q1.7.9 新 `formal_pu_v3` 从空目录开始；任何重复 key、配置漂移、nonfinite 或 incomplete seed 使 merge 失败。
+- [x] Q1.7.9a 新 root 的 PU 四数组 hash、runner/model source hash、Python/Torch/NumPy/device、配置和 split manifest 已落盘；首次 TimeGAN full-fold 审计为 3 downstream/3 cost/960 dynamics/0 failures，pool/hash/class support/finite/checkpoint 状态全部通过。全矩阵未完成，Q1.7.9 总项保持未勾选。
 - [ ] Q1.7.10 对 trained pools 做与 BREEZE 相同的物理、two-sample、memorization、下游和成本评价，不只报 classifier accuracy。
 - [ ] Q1.7.11 报告模型参数量、训练样本、训练/采样时间、失败 seed、checkpoint 大小和峰值内存。
 - [ ] Q1.7.12 若加入 DDPM-LFR/ReF-DDPM，必须达到官方/论文忠实性 gate；否则只作为 Related Work，不用弱仿制数值。

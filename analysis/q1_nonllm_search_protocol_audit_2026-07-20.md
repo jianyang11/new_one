@@ -114,3 +114,23 @@ fail-closed handling. On the five-candidate empirical smoke, the two admitted
 candidates score exactly zero and the three rejected candidates score strictly
 above zero. This freezes the feedback objective but **not** the TPE recipe
 domain or proposal budget.
+
+## Recipe-domain blocker
+
+The current prompt schema is not yet a complete numerical search domain. It
+fixes the class kinematics and supplies explicit ranges for impact decay,
+resonance below Nyquist, jitter, amplitude variation, modulation depth, current
+kurtosis/crest/THD/sideband depth, and random-impulse decay. In contrast, it
+does not define auditable bounds for target RMS, impact amplitude, background
+noise RMS, sinusoid count/amplitudes, random-impulse rate/amplitude/resonance,
+current RMS, or current noise. The legacy prose gives typical values for some
+of these fields, but typical hints are not legal bounds.
+
+Consequently, a TPE implementation cannot yet be called a same-space control.
+Selecting bounds from the observed LLM candidates would leak the method being
+tested into its comparator; selecting them after seeing admission/downstream
+rankings would be tuning. The next valid step is a field-by-field train-only
+domain specification based on renderer validity, declared kinematics, and
+source-balanced training distributions, followed by an archived-LLM
+compatibility audit. Until that specification is frozen, only objective and
+interface tests are authorized.
