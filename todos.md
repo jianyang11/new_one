@@ -53,6 +53,7 @@ Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命
 - [x] Q1.0.17 已建立 `analysis/q1_claim_evidence_ledger.md`：Q1-C1--C8 逐条冻结主张、理论/物理硬约束、经验未知量、独立实验单位、最小支持证据、最强反例、否证阈值和允许的原理性重构；明确将现有单 pool 证据与未完成的独立 pool 主张分开，并将广义跨工况主张标为 `FALSIFIED_CURRENT_FORM`。
 - [x] Q1.0.18 已建立 `specs/q1/parameter_provenance.yaml`（YAML 1.2 的无依赖 JSON 子集）：每项记录 value/status/basis/freeze gate/sensitivity/prohibition；coverage、confidence、pool/seed 数、SESOI、proposal/synthetic budget、LLM 采样参数、强生成基线参数在证据完成前保持 `null + BLOCKED`，不把历史 0.90/20/0.8/0.9/900 追认为 Q1 default；3 个机器校验测试通过。
 - [ ] Q1.0.19 每个 formal root 写入五步审查快照：需求提出者与主张、删除的冗余 cell、简化后的可识别设计、实测后选择的并行度、自动化前置条件；不得删除负结果和唯一复现资产。
+- [x] Q1.0.20 已审计并集成 PR #3 (`76aaa4d`) 的 simulation-driven related work、training-free 定义、greedy diversity 顺序依赖、CWRU split 边界和 release 说明；将 DOI `10.1109/TII.2021.3103412` 的错误作者名 `Chao Liu` 修正为 `Chenyu Liu`；22 页 PDF 引用解析和 Page 3--4 目视检查通过，审计记录为 `analysis/pr3_audit_2026-07-20.md`。
 
 ### Q1.1 G0：50 GB 存储预算与可恢复性
 
