@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "run_root": "breeze/runs/recipe_ablation_empirical_v2_q1_empirical_smoke_2026-07-20",
+  "source": "empirical",
+  "condition": "N09_M07_F10",
+  "data_access": "load_file_split('train') only",
+  "verifier": "breeze/runs/verifier_v2_N09_M07_F10_c90_soft_w1.json",
+  "verifier_sha256": "49c8e6d1cce05aca99abd926583424df7f0032670bbf1f0b6e075f1feb9d5bf7",
+  "slots": 5,
+  "saved_recipe_proposals": 5,
+  "admitted_slots": 2,
+  "feasible_expansions": 7,
+  "items_before_diversity": 9,
+  "items_after_diversity": 9,
+  "class_counts_after_diversity": {
+    "healthy": 9,
+    "OR": 0,
+    "IR": 0
+  },
+  "all_primary_waveforms_exactly_reproduced": true,
+  "all_gate_decisions_replayed": true,
+  "all_expansions_exactly_reproduced": true,
+  "pool_exactly_rebuilt": true,
+  "run_manifest_sha256": "f8bf03f3f4e9b3f0e70917bce81b550f390d578d364d260a2a048d6dc38f59c9",
+  "run_file_count": 23,
+  "run_bytes": 568882
+}

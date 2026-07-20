@@ -1,13 +1,13 @@
 """Generate random/rule recipe ablation pools under the v2 verifier.
 
 This script tests whether the LLM recipe source contributes beyond the
-deterministic renderer and verifier. It creates two non-LLM recipe sources:
+deterministic renderer and verifier. It creates three non-LLM recipe sources:
 
 - random recipe + renderer + v2 verifier;
 - rule recipe + renderer + v2 verifier.
 - empirical recipe + renderer + v2 verifier.
 
-Both use the same slot budget, renderer equations, train-only v2 verifier, and
+All use the same slot budget, renderer equations, train-only v2 verifier, and
 diversity gate as the LLM v2 pool. Results are checkpoint-resumable because each
 slot writes its own JSON and candidate windows before the pool is assembled.
 """
@@ -18,6 +18,7 @@ import argparse
 import csv
 import hashlib
 import json
+import re
 import sys
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -752,11 +753,20 @@ def load_or_calibrate_v2(cond: str) -> BreezeVerifierV2:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--source", choices=["random", "rule", "both"], default="both")
+    parser.add_argument(
+        "--source",
+        choices=["random", "rule", "empirical", "both", "all"],
+        default="both",
+    )
     parser.add_argument("--cond", default=MAIN_COND)
     parser.add_argument("--n", type=int, default=150)
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument(
+        "--tag",
+        default=None,
+        help="Explicit output suffix; use a new tag for every protocol version.",
+    )
     parser.add_argument(
         "--classes",
         nargs="+",
@@ -767,8 +777,15 @@ def main() -> None:
     args = parser.parse_args()
 
     n_slots = 5 if args.smoke else args.n
-    tag = "smoke" if args.smoke else "full"
-    sources = ["random", "rule"] if args.source == "both" else [args.source]
+    tag = args.tag or ("smoke" if args.smoke else "full")
+    if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", tag) is None:
+        raise ValueError(f"unsafe tag: {tag!r}")
+    if args.source == "both":
+        sources = ["random", "rule"]
+    elif args.source == "all":
+        sources = ["random", "rule", "empirical"]
+    else:
+        sources = [args.source]
     Xtr, ytr, _ = load_file_split("train", args.cond)
     Xtr = Xtr.astype(np.float32)
     profiles = build_profiles(Xtr, ytr)

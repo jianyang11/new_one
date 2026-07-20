@@ -141,9 +141,13 @@ Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命
 ### Q1.6 Stage-A pilot、参数依据与 preregistration
 
 - [ ] Q1.6.1 在每类 5 candidates、1 pool、1 seed 下贯通 random/rule/estimator/optimizer/LLM replay；只验证接口。
+- [x] Q1.6.1a 已仅对 train-stat estimator 做 healthy class/5-candidate/0-API smoke；2/5 slots 准入仅作接口诊断。`audit_recipe_ablation_run.py` 已逐 recipe+seed 精确重放 primary/expansion、gate 和最终 pool，见 `analysis/q1_empirical_smoke_audit_2026-07-20.json`；尚未把该子项冒充 Q1.6.1 全方法贯通。
 - [ ] Q1.6.2 为 train-stat estimator 明确每个 recipe field 的估计量、约束和 train-only 依据；禁止从 verifier rejected sample 事后修值。
 - [ ] Q1.6.3 选择同 recipe space 的 Bayesian/TPE optimizer；目标为 train-only frozen joint score，查询预算与 LLM proposals 相同。
 - [ ] Q1.6.4 单测 optimizer 不访问 downstream classifier/outer-test，且所有 proposal 完整留档。
+- [x] Q1.6.3a 以 `breeze/scripts/audit_q1_nonllm_budget.py` 审计 legacy proposal budget，并写出带输入 manifest SHA-256 的 `analysis/q1_nonllm_budget_audit_2026-07-20.json`：冻结 LLM 为 450 slots/922 saved recipe proposals/286 admitted，random 为 450 one-shot slots/0 admitted，rule 为 700 one-shot slots/204 admitted；确认现有三者只匹配最终 pool 预算、不匹配 proposal budget，见 `analysis/q1_nonllm_search_protocol_audit_2026-07-20.md`。
+- [x] Q1.6.3b 审计非 LLM 实现现状：已有未暴露、未验证的 train-only `empirical_recipe`，但无正式 empirical pool、无 Bayesian/TPE、无通用 rule-feedback controller；在共享 recipe domain、verifier-only objective 和 evaluation ledger 冻结前不得启动正式比较。
+- [x] Q1.6.3c 实现无手调跨 gate 权重的 train-only `verifier_nonconformity`：各约束按自身 calibration threshold/interval 归一化后取 L-infinity，zero iff admitted，未知失败 gate fail closed；5 个单测通过，empirical smoke 的 2 个 admitted 得分为 0、3 个 rejected 均 >0。尚未选择 TPE recipe domain/budget。
 - [ ] Q1.6.5 回放现有 archived LLM recipes，在同 candidates 上比较 legacy gates 与 BREEZE-RC；renderer seed/hash 不变。
 - [ ] Q1.6.6 pilot 使用 2 independent development pools、每类 20 accepted、2 classifier seeds；估计 acceptance、runtime、pool variance，不作正式 p 值。
 - [ ] Q1.6.7 从 pilot 估计 Monte Carlo noise、real-only repeatability 和可检测效应；提出 SESOI 依据并写 reviewer-style 风险审查。

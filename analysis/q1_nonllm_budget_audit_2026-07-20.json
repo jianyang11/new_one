@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "scope": "saved recipe proposals; renderer expansion evaluations are excluded and must be reported separately",
+  "llm": {
+    "root": "breeze/runs/rescreen_v2_full/records",
+    "record_count": 450,
+    "record_manifest_sha256": "5dbfd8f5026726decc40ff0ed8764616f298b685cf62a716e9c46e9baefdca45",
+    "saved_recipe_proposals": 922,
+    "admitted_slots": 286,
+    "cumulative_admitted_k0_to_k3": [
+      205,
+      241,
+      268,
+      286
+    ],
+    "by_class": {
+      "healthy": {
+        "slots": 150,
+        "saved_recipe_proposals": 301,
+        "admitted_slots": 90
+      },
+      "OR": {
+        "slots": 150,
+        "saved_recipe_proposals": 238,
+        "admitted_slots": 90
+      },
+      "IR": {
+        "slots": 150,
+        "saved_recipe_proposals": 383,
+        "admitted_slots": 106
+      }
+    }
+  },
+  "random": {
+    "root": "breeze/runs/recipe_ablation_random_v2_full",
+    "record_count": 450,
+    "record_manifest_sha256": "32ab2167708c578c667c970d538abcabb0e3ec36415ffd3c61eb0dce1046cb35",
+    "saved_recipe_proposals": 450,
+    "admitted_slots": 0,
+    "by_class": {
+      "healthy": {
+        "slots": 150,
+        "admitted_slots": 0
+      },
+      "OR": {
+        "slots": 150,
+        "admitted_slots": 0
+      },
+      "IR": {
+        "slots": 150,
+        "admitted_slots": 0
+      }
+    }
+  },
+  "rule": {
+    "root": "breeze/runs/recipe_ablation_rule_v2_full",
+    "record_count": 700,
+    "record_manifest_sha256": "16bfee9435f265c61233ef2f67432b1f3e0fa337a92fdcb213737661f7c9f790",
+    "saved_recipe_proposals": 700,
+    "admitted_slots": 204,
+    "by_class": {
+      "healthy": {
+        "slots": 150,
+        "admitted_slots": 58
+      },
+      "OR": {
+        "slots": 150,
+        "admitted_slots": 87
+      },
+      "IR": {
+        "slots": 400,
+        "admitted_slots": 59
+      }
+    }
+  }
+}
