@@ -2429,7 +2429,8 @@ repair enters Layer 3; a certificate cleanly distinguishes `pass`, `fail`, and
 - [x] Do not start the 40-seed TimeGAN/DDPM formal grid: its compute cost is
   disproportionate to the Q2 closeout value and it remains non-blocking future
   work under the controlling manuscript scope.
-- [ ] Re-run the complete focused test suite, inspect the E1-only diff, commit
-  only source/tests/audit/todos, push both remotes, and verify remote heads.
+- [x] Re-run the complete focused test suite (14 passed), inspect the E1-only
+  diff, commit only source/tests/audit/todos as `fb53afe`, push both
+  `origin/main` and `publication/main`, and verify both pushes succeeded.
 - [ ] Return to manuscript hard-error and submission-mechanics verification;
   ensure no smoke, partial, or projected baseline value appears in a paper claim.
