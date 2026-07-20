@@ -3,16 +3,20 @@
 The implementations are intentionally independent of BREEZE's verifier and
 recipe machinery.  They learn only from the outer-training windows provided by
 the caller, train one unconditional model per class, and produce complete
-three-channel windows.  TimeGAN follows its embedding/recovery, supervisor,
-and adversarial stages; its embedding/recovery are convolutional so a 2048
-sample vibration/current window becomes a 128-step latent sequence. DDPM uses
+three-channel windows. TimeGAN follows the author's five recurrent networks,
+three-stage objective, and official defaults; a lossless chronological block
+adapter maps each 2048-by-3 window to a 128-by-48 sequence. DDPM uses
 the canonical 1,000-step linear forward schedule, the epsilon-prediction
-objective, and posterior ancestral reverse sampling with a 1-D residual
-denoiser.
+objective, posterior ancestral reverse sampling, and an unconditional
+DiffWave-style 1-D gated residual/skip denoiser. The denoiser dimensions follow
+the LMNT DiffWave defaults (30 layers, 64 residual channels, dilation cycle 10),
+while the 200-epoch vibration-signal training budget follows the 2048-sample
+bearing experiment of Yi et al. (2023). This is an explicitly documented 1-D
+adaptation, not a claim of reproducing either image DDPM or TSDM verbatim.
 
-Every training stage writes an atomic checkpoint.  Because each epoch and
-batch derives its own seed, a resumed run is equivalent to an uninterrupted
-run at a stage boundary.
+Every training stage writes atomic checkpoints. Because each iteration/epoch
+and batch derives its own seed, a resumed run is equivalent to an uninterrupted
+run at a checkpoint boundary.
 """
 
 from __future__ import annotations
@@ -32,25 +36,30 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-DeviceName = Literal["cpu"]
+DeviceName = Literal["cpu", "mps"]
 ProgressCallback = Callable[[dict[str, float | int | str]], None]
 
 
 @dataclass(frozen=True)
 class TimeGANConfig:
-    latent_channels: int = 32
-    batch_size: int = 16
-    embedding_epochs: int = 80
-    supervisor_epochs: int = 80
-    joint_epochs: int = 160
+    hidden_dim: int = 24
+    num_layers: int = 3
+    batch_size: int = 128
+    iterations: int = 50_000
+    block_size: int = 16
     learning_rate: float = 1e-3
+    gamma: float = 1.0
+    discriminator_threshold: float = 0.15
+    checkpoint_interval: int = 100
 
 
 @dataclass(frozen=True)
 class DDPMConfig:
-    hidden_channels: int = 32
+    hidden_channels: int = 64
+    residual_layers: int = 30
+    dilation_cycle_length: int = 10
     batch_size: int = 16
-    epochs: int = 240
+    epochs: int = 200
     diffusion_steps: int = 1000
     learning_rate: float = 2e-4
     ema_decay: float = 0.9999
@@ -83,123 +92,166 @@ def _batch_indices(n: int, batch_size: int, seed: int) -> list[torch.Tensor]:
     return [permutation[start : start + batch_size] for start in range(0, n, batch_size)]
 
 
-class ConvEmbedder(nn.Module):
-    """Map a 2048-sample window to a 128-step latent sequence."""
-
-    def __init__(self, in_channels: int, latent_channels: int):
+class TimeGANSequenceNetwork(nn.Module):
+    def __init__(
+        self,
+        input_dim: int,
+        hidden_dim: int,
+        output_dim: int,
+        num_layers: int,
+        sigmoid_output: bool,
+    ):
         super().__init__()
-        self.net = nn.Sequential(
-            nn.Conv1d(in_channels, 32, kernel_size=8, stride=4, padding=2),
-            nn.GroupNorm(4, 32),
-            nn.SiLU(),
-            nn.Conv1d(32, latent_channels, kernel_size=8, stride=4, padding=2),
-            nn.GroupNorm(4, latent_channels),
-            nn.SiLU(),
+        self.recurrent = nn.GRU(
+            input_dim,
+            hidden_dim,
+            num_layers=num_layers,
+            batch_first=True,
         )
+        self.projection = nn.Linear(hidden_dim, output_dim)
+        self.sigmoid_output = sigmoid_output
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.net(x)
+    def forward(self, sequence: torch.Tensor) -> torch.Tensor:
+        output, _ = self.recurrent(sequence)
+        projected = self.projection(output)
+        return torch.sigmoid(projected) if self.sigmoid_output else projected
 
 
-class ConvRecovery(nn.Module):
-    def __init__(self, latent_channels: int, out_channels: int):
+class TimeGAN(nn.Module):
+    """PyTorch realization of the five recurrent networks in official TimeGAN."""
+
+    def __init__(self, feature_dim: int, hidden_dim: int, num_layers: int):
         super().__init__()
-        self.net = nn.Sequential(
-            nn.ConvTranspose1d(latent_channels, 32, kernel_size=8, stride=4, padding=2),
-            nn.GroupNorm(4, 32),
-            nn.SiLU(),
-            nn.ConvTranspose1d(32, out_channels, kernel_size=8, stride=4, padding=2),
+        if num_layers < 2:
+            raise ValueError("TimeGAN requires at least two recurrent layers")
+        self.feature_dim = feature_dim
+        self.hidden_dim = hidden_dim
+        self.embedder = TimeGANSequenceNetwork(
+            feature_dim, hidden_dim, hidden_dim, num_layers, True
         )
-
-    def forward(self, h: torch.Tensor) -> torch.Tensor:
-        return self.net(h)
-
-
-class TemporalGRU(nn.Module):
-    def __init__(self, latent_channels: int):
-        super().__init__()
-        self.gru = nn.GRU(latent_channels, latent_channels, batch_first=True)
-        self.proj = nn.Linear(latent_channels, latent_channels)
-
-    def forward(self, h: torch.Tensor) -> torch.Tensor:
-        # convolutional tensors are (batch, channels, steps); GRU uses steps first.
-        seq = h.transpose(1, 2)
-        out, _ = self.gru(seq)
-        return self.proj(out).transpose(1, 2)
-
-
-class TemporalDiscriminator(nn.Module):
-    def __init__(self, latent_channels: int):
-        super().__init__()
-        self.gru = nn.GRU(latent_channels, latent_channels, batch_first=True)
-        self.head = nn.Linear(latent_channels, 1)
-
-    def forward(self, h: torch.Tensor) -> torch.Tensor:
-        seq = h.transpose(1, 2)
-        out, _ = self.gru(seq)
-        return self.head(out).mean(dim=1)
-
-
-class ConvTimeGAN(nn.Module):
-    def __init__(self, channels: int, latent_channels: int):
-        super().__init__()
-        self.embedder = ConvEmbedder(channels, latent_channels)
-        self.recovery = ConvRecovery(latent_channels, channels)
-        self.generator = TemporalGRU(latent_channels)
-        self.supervisor = TemporalGRU(latent_channels)
-        self.discriminator = TemporalDiscriminator(latent_channels)
-        self.channels = channels
-        self.latent_channels = latent_channels
-
-    def reconstruct(self, x: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
-        h = self.embedder(x)
-        return self.recovery(h), h
-
-    def synthesize_latent(self, noise: torch.Tensor) -> torch.Tensor:
-        return self.supervisor(self.generator(noise))
+        self.recovery = TimeGANSequenceNetwork(
+            hidden_dim, hidden_dim, feature_dim, num_layers, True
+        )
+        self.generator = TimeGANSequenceNetwork(
+            feature_dim, hidden_dim, hidden_dim, num_layers, True
+        )
+        self.supervisor = TimeGANSequenceNetwork(
+            hidden_dim, hidden_dim, hidden_dim, num_layers - 1, True
+        )
+        self.discriminator = TimeGANSequenceNetwork(
+            hidden_dim, hidden_dim, 1, num_layers, False
+        )
 
 
 class TimeGANTrainer:
-    def __init__(self, channels: int, length: int, config: TimeGANConfig, seed: int):
+    """Official-objective TimeGAN with a lossless block-sequence PU adapter."""
+
+    def __init__(
+        self,
+        channels: int,
+        length: int,
+        config: TimeGANConfig,
+        seed: int,
+        device_name: DeviceName = "cpu",
+    ):
         if length != 2048:
             raise ValueError(f"TimeGAN baseline is registered for 2048-sample PU windows, got {length}")
+        if length % config.block_size:
+            raise ValueError("TimeGAN block_size must divide the window length exactly")
+        if config.iterations <= 0 or config.checkpoint_interval <= 0:
+            raise ValueError("TimeGAN iterations and checkpoint_interval must be positive")
+        if device_name == "mps" and not torch.backends.mps.is_available():
+            raise RuntimeError("MPS was requested but is unavailable")
         self.config = config
         self.seed = seed
-        self.device = torch.device("cpu")
+        self.channels = channels
+        self.length = length
+        self.sequence_length = length // config.block_size
+        self.feature_dim = channels * config.block_size
+        self.device = torch.device(device_name)
         torch.manual_seed(seed)
-        self.model = ConvTimeGAN(channels, config.latent_channels).to(self.device)
-        self.opt_embed = torch.optim.Adam(
-            list(self.model.embedder.parameters()) + list(self.model.recovery.parameters()),
-            lr=config.learning_rate,
+        self.model = TimeGAN(self.feature_dim, config.hidden_dim, config.num_layers).to(self.device)
+        embed_parameters = list(self.model.embedder.parameters()) + list(self.model.recovery.parameters())
+        generator_parameters = list(self.model.generator.parameters()) + list(self.model.supervisor.parameters())
+        self.opt_embed_pretrain = torch.optim.Adam(embed_parameters, lr=config.learning_rate)
+        self.opt_embed_joint = torch.optim.Adam(embed_parameters, lr=config.learning_rate)
+        self.opt_supervisor = torch.optim.Adam(generator_parameters, lr=config.learning_rate)
+        self.opt_generator = torch.optim.Adam(generator_parameters, lr=config.learning_rate)
+        self.opt_discriminator = torch.optim.Adam(
+            self.model.discriminator.parameters(), lr=config.learning_rate
         )
-        self.opt_supervisor = torch.optim.Adam(self.model.supervisor.parameters(), lr=config.learning_rate)
-        self.opt_generator = torch.optim.Adam(
-            list(self.model.generator.parameters()) + list(self.model.supervisor.parameters()),
-            lr=config.learning_rate,
-        )
-        self.opt_discriminator = torch.optim.Adam(self.model.discriminator.parameters(), lr=config.learning_rate)
-        self.mean: torch.Tensor | None = None
-        self.std: torch.Tensor | None = None
+        self.minimum: torch.Tensor | None = None
+        self.value_range: torch.Tensor | None = None
         self.history: list[dict[str, float | int | str]] = []
 
-    def _checkpoint(self, path: Path, stage: str, completed_epoch: int, elapsed_seconds: float) -> None:
-        if self.mean is None or self.std is None:
+    def _to_sequence(self, windows: torch.Tensor) -> torch.Tensor:
+        batch = windows.shape[0]
+        return (
+            windows.transpose(1, 2)
+            .contiguous()
+            .reshape(batch, self.sequence_length, self.feature_dim)
+        )
+
+    def _to_windows(self, sequence: torch.Tensor) -> torch.Tensor:
+        batch = sequence.shape[0]
+        return (
+            sequence.reshape(
+                batch,
+                self.sequence_length,
+                self.config.block_size,
+                self.channels,
+            )
+            .reshape(batch, self.length, self.channels)
+            .transpose(1, 2)
+            .contiguous()
+        )
+
+    def _batch(self, sequence: torch.Tensor, seed: int) -> torch.Tensor:
+        generator = torch.Generator().manual_seed(seed)
+        indexes = torch.randperm(len(sequence), generator=generator)[: self.config.batch_size]
+        return sequence[indexes.to(self.device)]
+
+    def _uniform_noise(self, batch_size: int, seed: int) -> torch.Tensor:
+        generator = torch.Generator(device=self.device).manual_seed(seed)
+        return torch.rand(
+            (batch_size, self.sequence_length, self.feature_dim),
+            generator=generator,
+            device=self.device,
+        )
+
+    def _zero_all_gradients(self) -> None:
+        for parameter in self.model.parameters():
+            parameter.grad = None
+
+    @staticmethod
+    def _supervised_loss(real_latent: torch.Tensor, predicted_latent: torch.Tensor) -> torch.Tensor:
+        return F.mse_loss(real_latent[:, 1:, :], predicted_latent[:, :-1, :])
+
+    def _checkpoint(
+        self,
+        path: Path,
+        stage: str,
+        completed_iteration: int,
+        elapsed_seconds: float,
+    ) -> None:
+        if self.minimum is None or self.value_range is None:
             raise RuntimeError("normalization state is unavailable")
         _atomic_torch_save(
             {
-                "algorithm": "conv_timegan",
+                "algorithm": "timegan_gru_block16_v5",
                 "config": asdict(self.config),
                 "seed": self.seed,
                 "stage": stage,
-                "completed_epoch": completed_epoch,
+                "completed_iteration": completed_iteration,
                 "elapsed_seconds": elapsed_seconds,
                 "model": self.model.state_dict(),
-                "opt_embed": self.opt_embed.state_dict(),
+                "opt_embed_pretrain": self.opt_embed_pretrain.state_dict(),
+                "opt_embed_joint": self.opt_embed_joint.state_dict(),
                 "opt_supervisor": self.opt_supervisor.state_dict(),
                 "opt_generator": self.opt_generator.state_dict(),
                 "opt_discriminator": self.opt_discriminator.state_dict(),
-                "mean": self.mean.cpu(),
-                "std": self.std.cpu(),
+                "minimum": self.minimum.cpu(),
+                "value_range": self.value_range.cpu(),
                 "history": self.history,
             },
             path,
@@ -207,21 +259,51 @@ class TimeGANTrainer:
 
     def _restore(self, path: Path) -> tuple[str, int, float]:
         state = torch.load(path, map_location=self.device, weights_only=False)
-        if state.get("algorithm") != "conv_timegan" or state.get("config") != asdict(self.config):
+        if state.get("algorithm") != "timegan_gru_block16_v5" or state.get("config") != asdict(self.config):
             raise RuntimeError(f"checkpoint configuration mismatch: {path}")
         self.model.load_state_dict(state["model"])
-        self.opt_embed.load_state_dict(state["opt_embed"])
+        self.opt_embed_pretrain.load_state_dict(state["opt_embed_pretrain"])
+        self.opt_embed_joint.load_state_dict(state["opt_embed_joint"])
         self.opt_supervisor.load_state_dict(state["opt_supervisor"])
         self.opt_generator.load_state_dict(state["opt_generator"])
         self.opt_discriminator.load_state_dict(state["opt_discriminator"])
-        self.mean = state["mean"].to(self.device)
-        self.std = state["std"].to(self.device)
+        self.minimum = state["minimum"].to(self.device)
+        self.value_range = state["value_range"].to(self.device)
         self.history = list(state.get("history", []))
-        return str(state["stage"]), int(state["completed_epoch"]), float(state["elapsed_seconds"])
+        return (
+            str(state["stage"]),
+            int(state["completed_iteration"]),
+            float(state["elapsed_seconds"]),
+        )
 
     def training_history(self) -> list[dict[str, float | int | str]]:
-        """Return the complete checkpointed epoch-level optimization record."""
         return [dict(row) for row in self.history]
+
+    def _record_checkpoint(
+        self,
+        checkpoint: Path,
+        stage: str,
+        iteration: int,
+        elapsed: float,
+        losses: dict[str, float],
+        progress_callback: ProgressCallback | None,
+    ) -> None:
+        record: dict[str, float | int | str] = {
+            "stage": stage,
+            "epoch": iteration,
+            **losses,
+        }
+        self.history.append(record)
+        self._checkpoint(checkpoint, stage, iteration, elapsed)
+        if progress_callback is not None:
+            progress_callback(
+                {
+                    **record,
+                    "completed": iteration,
+                    "total": self.config.iterations,
+                    "elapsed_seconds": elapsed,
+                }
+            )
 
     def fit(
         self,
@@ -233,139 +315,179 @@ class TimeGANTrainer:
             raise ValueError(f"expected (windows, channels, samples), got {x.shape}")
         if not np.isfinite(x).all():
             raise ValueError("TimeGAN cannot train on non-finite windows")
-        x_tensor = torch.as_tensor(x, dtype=torch.float32, device=self.device)
+        windows = torch.as_tensor(x, dtype=torch.float32, device=self.device)
+        sequence = self._to_sequence(windows)
         stage_order = ("embed", "supervisor", "joint", "complete")
-        stage, completed_epoch, elapsed = ("embed", 0, 0.0)
+        stage, completed_iteration, elapsed = ("embed", 0, 0.0)
         if checkpoint.exists():
-            stage, completed_epoch, elapsed = self._restore(checkpoint)
+            stage, completed_iteration, elapsed = self._restore(checkpoint)
         else:
-            self.mean = x_tensor.mean(dim=(0, 2), keepdim=True)
-            self.std = x_tensor.std(dim=(0, 2), keepdim=True).clamp_min(1e-6)
-        if self.mean is None or self.std is None:
+            self.minimum = sequence.amin(dim=(0, 1), keepdim=True)
+            self.value_range = (
+                sequence.amax(dim=(0, 1), keepdim=True) - self.minimum
+            ).clamp_min(1e-7)
+        if self.minimum is None or self.value_range is None:
             raise RuntimeError("missing normalization state")
-        xn = (x_tensor - self.mean) / self.std
+        normalized = (sequence - self.minimum) / self.value_range
         if stage == "complete":
             return elapsed
+
         start_stage = stage_order.index(stage)
-        epoch_plan = {
-            "embed": self.config.embedding_epochs,
-            "supervisor": self.config.supervisor_epochs,
-            "joint": self.config.joint_epochs,
-        }
         for stage_index in range(start_stage, 3):
             active_stage = stage_order[stage_index]
-            first_epoch = completed_epoch if active_stage == stage else 0
-            for epoch in range(first_epoch, epoch_plan[active_stage]):
+            first_iteration = completed_iteration if active_stage == stage else 0
+            for iteration in range(first_iteration, self.config.iterations):
                 tic = perf_counter()
-                reconstruction_losses: list[float] = []
-                supervisor_losses: list[float] = []
-                discriminator_losses: list[float] = []
-                generator_losses: list[float] = []
-                for batch_index, idx in enumerate(
-                    _batch_indices(len(xn), self.config.batch_size, self.seed + stage_index * 1_000_000 + epoch)
-                ):
-                    batch = xn[idx]
-                    if active_stage == "embed":
-                        rec, _ = self.model.reconstruct(batch)
-                        loss = F.mse_loss(rec, batch)
-                        if not torch.isfinite(loss):
-                            raise FloatingPointError(f"non-finite TimeGAN reconstruction loss at {active_stage} epoch {epoch}")
-                        self.opt_embed.zero_grad(set_to_none=True)
-                        loss.backward()
-                        self.opt_embed.step()
-                        reconstruction_losses.append(float(loss.detach().cpu()))
-                    elif active_stage == "supervisor":
+                batch_seed = self.seed + stage_index * 10_000_000 + iteration * 10
+                losses: dict[str, float]
+                if active_stage == "embed":
+                    batch = self._batch(normalized, batch_seed)
+                    latent = self.model.embedder(batch)
+                    reconstructed = self.model.recovery(latent)
+                    reconstruction = F.mse_loss(reconstructed, batch)
+                    objective = 10.0 * torch.sqrt(reconstruction.clamp_min(1e-12))
+                    self._zero_all_gradients()
+                    objective.backward()
+                    self.opt_embed_pretrain.step()
+                    losses = {"reconstruction_loss": float(reconstruction.detach().cpu())}
+                elif active_stage == "supervisor":
+                    batch = self._batch(normalized, batch_seed)
+                    with torch.no_grad():
+                        latent = self.model.embedder(batch)
+                    predicted = self.model.supervisor(latent)
+                    supervised = self._supervised_loss(latent, predicted)
+                    self._zero_all_gradients()
+                    supervised.backward()
+                    self.opt_supervisor.step()
+                    losses = {"supervisor_loss": float(supervised.detach().cpu())}
+                else:
+                    last_generator = torch.tensor(float("nan"), device=self.device)
+                    last_supervised = torch.tensor(float("nan"), device=self.device)
+                    last_reconstruction = torch.tensor(float("nan"), device=self.device)
+                    for generator_update in range(2):
+                        joint_seed = batch_seed + generator_update
+                        batch = self._batch(normalized, joint_seed)
+                        noise = self._uniform_noise(len(batch), joint_seed + 1_000_000)
                         with torch.no_grad():
-                            h = self.model.embedder(batch)
-                        h_sup = self.model.supervisor(h)
-                        loss = F.mse_loss(h_sup[:, :, :-1], h[:, :, 1:])
-                        if not torch.isfinite(loss):
-                            raise FloatingPointError(f"non-finite TimeGAN supervisor loss at {active_stage} epoch {epoch}")
-                        self.opt_supervisor.zero_grad(set_to_none=True)
-                        loss.backward()
-                        self.opt_supervisor.step()
-                        supervisor_losses.append(float(loss.detach().cpu()))
-                    else:
-                        with torch.no_grad():
-                            h_real = self.model.embedder(batch)
-                        noise = _seeded_randn(
-                            tuple(h_real.shape),
-                            self.seed + 2_000_000 + epoch * 10_000 + batch_index,
-                            self.device,
+                            real_latent = self.model.embedder(batch)
+                        raw_fake = self.model.generator(noise)
+                        fake_latent = self.model.supervisor(raw_fake)
+                        supervised_fake = self.model.supervisor(real_latent)
+                        generated = self.model.recovery(fake_latent)
+                        fake_logits = self.model.discriminator(fake_latent)
+                        raw_fake_logits = self.model.discriminator(raw_fake)
+                        adversarial = F.binary_cross_entropy_with_logits(
+                            fake_logits, torch.ones_like(fake_logits)
                         )
-                        h_fake = self.model.synthesize_latent(noise)
-                        d_real = self.model.discriminator(h_real.detach())
-                        d_fake = self.model.discriminator(h_fake.detach())
-                        d_loss = F.binary_cross_entropy_with_logits(d_real, torch.ones_like(d_real))
-                        d_loss = d_loss + F.binary_cross_entropy_with_logits(d_fake, torch.zeros_like(d_fake))
-                        if not torch.isfinite(d_loss):
-                            raise FloatingPointError(f"non-finite TimeGAN discriminator loss at {active_stage} epoch {epoch}")
-                        self.opt_discriminator.zero_grad(set_to_none=True)
-                        d_loss.backward()
-                        self.opt_discriminator.step()
-
-                        h_real = self.model.embedder(batch)
-                        h_sup = self.model.supervisor(h_real)
-                        d_fake_for_g = self.model.discriminator(h_fake)
-                        adversarial = F.binary_cross_entropy_with_logits(d_fake_for_g, torch.ones_like(d_fake_for_g))
-                        supervised = F.mse_loss(h_sup[:, :, :-1], h_real[:, :, 1:])
-                        generated = self.model.recovery(h_fake)
-                        moment = (generated.mean(dim=(0, 2)) - batch.mean(dim=(0, 2))).abs().mean()
-                        moment = moment + (generated.std(dim=(0, 2)) - batch.std(dim=(0, 2))).abs().mean()
-                        g_loss = adversarial + 100.0 * supervised + 10.0 * moment
-                        if not torch.isfinite(g_loss):
-                            raise FloatingPointError(f"non-finite TimeGAN generator loss at {active_stage} epoch {epoch}")
-                        self.opt_generator.zero_grad(set_to_none=True)
-                        g_loss.backward()
+                        adversarial_raw = F.binary_cross_entropy_with_logits(
+                            raw_fake_logits, torch.ones_like(raw_fake_logits)
+                        )
+                        supervised = self._supervised_loss(real_latent, supervised_fake)
+                        generated_variance, generated_mean = torch.var_mean(
+                            generated, dim=0, unbiased=False
+                        )
+                        real_variance, real_mean = torch.var_mean(batch, dim=0, unbiased=False)
+                        moment = torch.mean(
+                            torch.abs(
+                                torch.sqrt(generated_variance + 1e-6)
+                                - torch.sqrt(real_variance + 1e-6)
+                            )
+                        ) + torch.mean(torch.abs(generated_mean - real_mean))
+                        generator_loss = (
+                            adversarial
+                            + self.config.gamma * adversarial_raw
+                            + 100.0 * torch.sqrt(supervised.clamp_min(1e-12))
+                            + 100.0 * moment
+                        )
+                        self._zero_all_gradients()
+                        generator_loss.backward()
                         self.opt_generator.step()
 
-                        rec, _ = self.model.reconstruct(batch)
-                        embed_loss = F.mse_loss(rec, batch) + 0.1 * supervised.detach()
-                        if not torch.isfinite(embed_loss):
-                            raise FloatingPointError(f"non-finite TimeGAN reconstruction loss at {active_stage} epoch {epoch}")
-                        self.opt_embed.zero_grad(set_to_none=True)
+                        embed_latent = self.model.embedder(batch)
+                        reconstructed = self.model.recovery(embed_latent)
+                        predicted_latent = self.model.supervisor(embed_latent)
+                        reconstruction = F.mse_loss(reconstructed, batch)
+                        embed_supervised = self._supervised_loss(embed_latent, predicted_latent)
+                        embed_loss = (
+                            10.0 * torch.sqrt(reconstruction.clamp_min(1e-12))
+                            + 0.1 * embed_supervised
+                        )
+                        self._zero_all_gradients()
                         embed_loss.backward()
-                        self.opt_embed.step()
-                        reconstruction_losses.append(float(embed_loss.detach().cpu()))
-                        supervisor_losses.append(float(supervised.detach().cpu()))
-                        discriminator_losses.append(float(d_loss.detach().cpu()))
-                        generator_losses.append(float(g_loss.detach().cpu()))
-                elapsed += perf_counter() - tic
-                record: dict[str, float | int | str] = {"stage": active_stage, "epoch": epoch + 1}
-                if reconstruction_losses:
-                    record["reconstruction_loss"] = float(np.mean(reconstruction_losses))
-                if supervisor_losses:
-                    record["supervisor_loss"] = float(np.mean(supervisor_losses))
-                if discriminator_losses:
-                    record["discriminator_loss"] = float(np.mean(discriminator_losses))
-                if generator_losses:
-                    record["generator_loss"] = float(np.mean(generator_losses))
-                self.history.append(record)
-                self._checkpoint(checkpoint, active_stage, epoch + 1, elapsed)
-                if progress_callback is not None:
-                    progress_callback(
-                        {
-                            **record,
-                            "completed": epoch + 1,
-                            "total": epoch_plan[active_stage],
-                            "elapsed_seconds": elapsed,
-                        }
+                        self.opt_embed_joint.step()
+                        last_generator = generator_loss.detach()
+                        last_supervised = supervised.detach()
+                        last_reconstruction = reconstruction.detach()
+
+                    discriminator_batch = self._batch(normalized, batch_seed + 2)
+                    discriminator_noise = self._uniform_noise(
+                        len(discriminator_batch), batch_seed + 1_000_002
                     )
-            completed_epoch = 0
+                    with torch.no_grad():
+                        real_latent = self.model.embedder(discriminator_batch)
+                        raw_fake = self.model.generator(discriminator_noise)
+                        fake_latent = self.model.supervisor(raw_fake)
+                    real_logits = self.model.discriminator(real_latent)
+                    fake_logits = self.model.discriminator(fake_latent)
+                    raw_fake_logits = self.model.discriminator(raw_fake)
+                    discriminator_loss = (
+                        F.binary_cross_entropy_with_logits(
+                            real_logits, torch.ones_like(real_logits)
+                        )
+                        + F.binary_cross_entropy_with_logits(
+                            fake_logits, torch.zeros_like(fake_logits)
+                        )
+                        + self.config.gamma
+                        * F.binary_cross_entropy_with_logits(
+                            raw_fake_logits, torch.zeros_like(raw_fake_logits)
+                        )
+                    )
+                    if float(discriminator_loss.detach().cpu()) > self.config.discriminator_threshold:
+                        self._zero_all_gradients()
+                        discriminator_loss.backward()
+                        self.opt_discriminator.step()
+                    losses = {
+                        "reconstruction_loss": float(last_reconstruction.cpu()),
+                        "supervisor_loss": float(last_supervised.cpu()),
+                        "discriminator_loss": float(discriminator_loss.detach().cpu()),
+                        "generator_loss": float(last_generator.cpu()),
+                    }
+
+                if not all(math.isfinite(value) for value in losses.values()):
+                    raise FloatingPointError(
+                        f"non-finite TimeGAN loss at {active_stage} iteration {iteration + 1}"
+                    )
+                elapsed += perf_counter() - tic
+                completed = iteration + 1
+                if (
+                    completed % self.config.checkpoint_interval == 0
+                    or completed == self.config.iterations
+                ):
+                    self._record_checkpoint(
+                        checkpoint,
+                        active_stage,
+                        completed,
+                        elapsed,
+                        losses,
+                        progress_callback,
+                    )
+            completed_iteration = 0
             stage = active_stage
-        self._checkpoint(checkpoint, "complete", 0, elapsed)
+        self._checkpoint(checkpoint, "complete", self.config.iterations, elapsed)
         return elapsed
 
     def sample(self, n: int, sample_seed: int) -> np.ndarray:
         if n <= 0:
             raise ValueError("n must be positive")
-        if self.mean is None or self.std is None:
+        if self.minimum is None or self.value_range is None:
             raise RuntimeError("fit or checkpoint restore is required before sample")
         self.model.eval()
         with torch.no_grad():
-            noise = _seeded_randn((n, self.config.latent_channels, 128), sample_seed, self.device)
-            generated = self.model.recovery(self.model.synthesize_latent(noise))
-            return (generated * self.std + self.mean).cpu().numpy().astype(np.float32)
+            noise = self._uniform_noise(n, sample_seed)
+            generated_latent = self.model.supervisor(self.model.generator(noise))
+            generated = self.model.recovery(generated_latent)
+            sequence = generated * self.value_range + self.minimum
+            return self._to_windows(sequence).cpu().numpy().astype(np.float32)
 
 
 def _sinusoidal_embedding(t: torch.Tensor, width: int) -> torch.Tensor:
@@ -377,40 +499,87 @@ def _sinusoidal_embedding(t: torch.Tensor, width: int) -> torch.Tensor:
     return embedding if width % 2 == 0 else F.pad(embedding, (0, 1))
 
 
-class DiffusionResidualBlock(nn.Module):
+def _diffwave_conv1d(*args, **kwargs) -> nn.Conv1d:
+    layer = nn.Conv1d(*args, **kwargs)
+    nn.init.kaiming_normal_(layer.weight)
+    return layer
+
+
+class DiffWaveResidualBlock1D(nn.Module):
+    """Unconditional DiffWave gated residual block for multichannel signals."""
+
     def __init__(self, width: int, dilation: int, time_width: int):
         super().__init__()
-        self.norm = nn.GroupNorm(4, width)
-        self.conv = nn.Conv1d(width, width, kernel_size=3, padding=dilation, dilation=dilation)
-        self.time = nn.Sequential(nn.SiLU(), nn.Linear(time_width, width))
-        self.out = nn.Conv1d(width, width, kernel_size=3, padding=1)
+        self.dilated_conv = _diffwave_conv1d(
+            width,
+            2 * width,
+            kernel_size=3,
+            padding=dilation,
+            dilation=dilation,
+        )
+        self.diffusion_projection = nn.Linear(time_width, width)
+        self.output_projection = _diffwave_conv1d(width, 2 * width, kernel_size=1)
 
-    def forward(self, x: torch.Tensor, time_embedding: torch.Tensor) -> torch.Tensor:
-        h = self.conv(F.silu(self.norm(x))) + self.time(time_embedding).unsqueeze(-1)
-        return x + self.out(F.silu(h))
+    def forward(
+        self,
+        x: torch.Tensor,
+        time_embedding: torch.Tensor,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        projected_time = self.diffusion_projection(time_embedding).unsqueeze(-1)
+        gate, value = torch.chunk(self.dilated_conv(x + projected_time), 2, dim=1)
+        activated = torch.sigmoid(gate) * torch.tanh(value)
+        residual, skip = torch.chunk(self.output_projection(activated), 2, dim=1)
+        return (x + residual) / math.sqrt(2.0), skip
 
 
 class DDPMDenoiser1D(nn.Module):
-    def __init__(self, channels: int, width: int):
+    """DiffWave-style unconditional epsilon predictor for 3-channel PU windows."""
+
+    def __init__(
+        self,
+        channels: int,
+        width: int,
+        residual_layers: int,
+        dilation_cycle_length: int,
+    ):
         super().__init__()
-        self.time_width = width * 2
+        if residual_layers <= 0:
+            raise ValueError("residual_layers must be positive")
+        if dilation_cycle_length <= 0:
+            raise ValueError("dilation_cycle_length must be positive")
+        self.time_width = 512
         self.time_mlp = nn.Sequential(
-            nn.Linear(self.time_width, self.time_width),
+            nn.Linear(128, self.time_width),
             nn.SiLU(),
             nn.Linear(self.time_width, self.time_width),
+            nn.SiLU(),
         )
-        self.input = nn.Conv1d(channels, width, kernel_size=3, padding=1)
+        self.input = _diffwave_conv1d(channels, width, kernel_size=1)
         self.blocks = nn.ModuleList(
-            [DiffusionResidualBlock(width, dilation, self.time_width) for dilation in (1, 2, 4, 8, 16, 8, 4, 2)]
+            [
+                DiffWaveResidualBlock1D(
+                    width,
+                    dilation=2 ** (index % dilation_cycle_length),
+                    time_width=self.time_width,
+                )
+                for index in range(residual_layers)
+            ]
         )
-        self.output = nn.Sequential(nn.GroupNorm(4, width), nn.SiLU(), nn.Conv1d(width, channels, kernel_size=3, padding=1))
+        self.skip_projection = _diffwave_conv1d(width, width, kernel_size=1)
+        self.output_projection = _diffwave_conv1d(width, channels, kernel_size=1)
+        nn.init.zeros_(self.output_projection.weight)
 
     def forward(self, x: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
-        te = self.time_mlp(_sinusoidal_embedding(t, self.time_width))
-        h = self.input(x)
+        te = self.time_mlp(_sinusoidal_embedding(t, 128))
+        h = F.relu(self.input(x))
+        skip_sum: torch.Tensor | None = None
         for block in self.blocks:
-            h = block(h, te)
-        return self.output(h)
+            h, skip = block(h, te)
+            skip_sum = skip if skip_sum is None else skip_sum + skip
+        if skip_sum is None:
+            raise RuntimeError("DDPM denoiser has no residual blocks")
+        h = skip_sum / math.sqrt(len(self.blocks))
+        return self.output_projection(F.relu(self.skip_projection(h)))
 
 
 def linear_beta_schedule(diffusion_steps: int, device: torch.device) -> torch.Tensor:
@@ -421,7 +590,14 @@ def linear_beta_schedule(diffusion_steps: int, device: torch.device) -> torch.Te
 
 
 class DDPMTrainer:
-    def __init__(self, channels: int, length: int, config: DDPMConfig, seed: int):
+    def __init__(
+        self,
+        channels: int,
+        length: int,
+        config: DDPMConfig,
+        seed: int,
+        device_name: DeviceName = "cpu",
+    ):
         if length != 2048:
             raise ValueError(f"DDPM baseline is registered for 2048-sample PU windows, got {length}")
         if not 0.0 <= config.ema_decay < 1.0:
@@ -432,9 +608,16 @@ class DDPMTrainer:
             raise ValueError("gradient_clip_norm must be positive")
         self.config = config
         self.seed = seed
-        self.device = torch.device("cpu")
+        if device_name == "mps" and not torch.backends.mps.is_available():
+            raise RuntimeError("MPS was requested but is unavailable")
+        self.device = torch.device(device_name)
         torch.manual_seed(seed)
-        self.model = DDPMDenoiser1D(channels, config.hidden_channels).to(self.device)
+        self.model = DDPMDenoiser1D(
+            channels,
+            config.hidden_channels,
+            config.residual_layers,
+            config.dilation_cycle_length,
+        ).to(self.device)
         self.ema_model = deepcopy(self.model).to(self.device).eval()
         self.ema_model.requires_grad_(False)
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=config.learning_rate)
@@ -480,7 +663,7 @@ class DDPMTrainer:
             raise RuntimeError("normalization state is unavailable")
         _atomic_torch_save(
             {
-                "algorithm": "ddpm_1d_v4",
+                "algorithm": "ddpm_diffwave_1d_v5",
                 "config": asdict(self.config),
                 "seed": self.seed,
                 "completed_epoch": completed_epoch,
@@ -498,7 +681,7 @@ class DDPMTrainer:
 
     def _restore(self, path: Path) -> tuple[int, float]:
         state = torch.load(path, map_location=self.device, weights_only=False)
-        if state.get("algorithm") != "ddpm_1d_v4" or state.get("config") != asdict(self.config):
+        if state.get("algorithm") != "ddpm_diffwave_1d_v5" or state.get("config") != asdict(self.config):
             raise RuntimeError(f"checkpoint configuration mismatch: {path}")
         self.model.load_state_dict(state["model"])
         self.ema_model.load_state_dict(state["ema_model"])
@@ -537,7 +720,7 @@ class DDPMTrainer:
             tic = perf_counter()
             noise_losses: list[float] = []
             for batch_index, idx in enumerate(_batch_indices(len(xn), self.config.batch_size, self.seed + epoch)):
-                batch = xn[idx]
+                batch = xn[idx.to(self.device)]
                 generator = torch.Generator(device=self.device).manual_seed(self.seed + epoch * 10_000 + batch_index)
                 t = torch.randint(0, self.config.diffusion_steps, (len(batch),), generator=generator, device=self.device)
                 noise = torch.randn(tuple(batch.shape), generator=generator, device=self.device)
@@ -610,9 +793,10 @@ def make_trainer(
     seed: int,
     timegan_config: TimeGANConfig,
     ddpm_config: DDPMConfig,
+    device_name: DeviceName = "cpu",
 ) -> TimeGANTrainer | DDPMTrainer:
     if method == "timegan":
-        return TimeGANTrainer(channels, length, timegan_config, seed)
+        return TimeGANTrainer(channels, length, timegan_config, seed, device_name=device_name)
     if method == "ddpm":
-        return DDPMTrainer(channels, length, ddpm_config, seed)
+        return DDPMTrainer(channels, length, ddpm_config, seed, device_name=device_name)
     raise ValueError(f"unknown trained baseline: {method}")

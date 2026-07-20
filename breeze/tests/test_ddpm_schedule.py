@@ -36,7 +36,13 @@ def test_posterior_coefficients_reconstruct_closed_form_mean() -> None:
     trainer = MODULE.DDPMTrainer(
         channels=3,
         length=2048,
-        config=MODULE.DDPMConfig(hidden_channels=8, epochs=1, diffusion_steps=4),
+        config=MODULE.DDPMConfig(
+            hidden_channels=8,
+            residual_layers=2,
+            dilation_cycle_length=2,
+            epochs=1,
+            diffusion_steps=4,
+        ),
         seed=7,
     )
     step = 2
@@ -70,6 +76,8 @@ def test_posterior_coefficients_reconstruct_closed_form_mean() -> None:
 def test_ema_uses_registered_decay_and_is_checkpointed(tmp_path: Path) -> None:
     config = MODULE.DDPMConfig(
         hidden_channels=8,
+        residual_layers=2,
+        dilation_cycle_length=2,
         batch_size=4,
         epochs=1,
         diffusion_steps=4,
@@ -86,7 +94,7 @@ def test_ema_uses_registered_decay_and_is_checkpointed(tmp_path: Path) -> None:
         for initial, updated in zip(before, trainer.ema_model.parameters())
     )
     state = torch.load(checkpoint, map_location="cpu", weights_only=False)
-    assert state["algorithm"] == "ddpm_1d_v4"
+    assert state["algorithm"] == "ddpm_diffwave_1d_v5"
     assert state["config"]["ema_decay"] == pytest.approx(0.9999)
     assert set(state["ema_model"]) == set(trainer.ema_model.state_dict())
     assert state["optimizer_step"] == 1
@@ -101,6 +109,8 @@ def test_fixed_small_variance_remains_explicitly_available() -> None:
         length=2048,
         config=MODULE.DDPMConfig(
             hidden_channels=8,
+            residual_layers=2,
+            dilation_cycle_length=2,
             epochs=1,
             diffusion_steps=4,
             reverse_variance="fixed_small",
@@ -108,3 +118,29 @@ def test_fixed_small_variance_remains_explicitly_available() -> None:
         seed=7,
     )
     torch.testing.assert_close(trainer.reverse_variance, trainer.posterior_variance)
+
+
+def test_registered_diffwave_style_architecture() -> None:
+    config = MODULE.DDPMConfig()
+    trainer = MODULE.DDPMTrainer(channels=3, length=2048, config=config, seed=7)
+
+    assert config.hidden_channels == 64
+    assert config.residual_layers == 30
+    assert config.dilation_cycle_length == 10
+    assert config.batch_size == 16
+    assert config.epochs == 200
+    assert len(trainer.model.blocks) == 30
+    assert [block.dilated_conv.dilation[0] for block in trainer.model.blocks[:11]] == [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128,
+        256,
+        512,
+        1,
+    ]
+    assert torch.count_nonzero(trainer.model.output_projection.weight) == 0

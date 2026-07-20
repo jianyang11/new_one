@@ -60,6 +60,46 @@ The completed seed-0 branch remains incomplete evidence: all 12 class fits are
 checkpoint-complete and all recorded losses are finite, but class 0 and class
 2 show discriminator-collapse-like trajectories. No rescue tuning is allowed.
 
+### Corrected recurrent TimeGAN v5
+
+The corrected implementation follows the author's five recurrent networks and
+official defaults: GRU, hidden width 24, three layers (two in the supervisor),
+50,000 iterations per training stage, batch size 128, learning rate `1e-3`,
+`gamma=1`, and the discriminator update threshold `D_loss>0.15`. It implements
+both latent adversarial paths, next-step supervised loss, the published
+`100*sqrt(L_S)` and `100*L_V` terms, two generator/embedder updates per joint
+iteration, and featurewise MinMax normalization.
+
+To preserve the full 2048-by-3 PU window without the v3 noncausal convolution,
+each consecutive 16-sample, three-channel block is reshaped losslessly into one
+48-dimensional step. The resulting 128-by-48 sequence is exactly invertible;
+no filtering, interpolation, or learned compression is introduced. The method
+is accurately named **TimeGAN with a lossless block-sequence 1-D adapter**,
+because the PyTorch framework and PU representation are adaptations even though
+the network roles and objective follow the author code.
+
+`smoke_v10_timegan_faithful_mps` passed its version-specific end-to-end audit.
+After both implementations were finalized, the combined
+`smoke_v11_faithful_combined_mps` superseded the separate v9/v10 checks and
+passed against the final common source hash: six complete checkpoints, twelve
+finite dynamics rows, two six-window pools, two downstream rows, zero failures,
+and exact source hashes. This one-iteration/one-epoch smoke is prohibited from
+scientific claims.
+
+### Cost gate
+
+The non-reportable `cost_probe_timegan_100iter_fullfold_mps` used the actual
+full-fold class-0 data and batch size 128. Its atomically complete checkpoint
+measured 297.438848 seconds for 100 iterations in each stage: 22.141455 seconds
+for embedding, 10.015043 seconds for supervisor, and 265.282350 seconds for
+joint training. Linear projection of the frozen 50,000-iteration default is
+148,719 seconds (41.31 hours) per class model, excluding checkpoint overhead.
+The registered grid contains 480 class models, implying roughly 826 serial
+days on the available Apple MPS device. Even a one-fixed-pool-per-regime design
+requires 12 class models per method, or about 20.7 serial days for TimeGAN
+alone. Therefore the 40-seed formal grid was not started. A partial class-1
+cost-probe checkpoint is retained but must not enter any result or claim.
+
 ## DDPM audit and invalidation
 
 Primary reference: Ho, Jain, and Abbeel, *Denoising Diffusion Probabilistic
@@ -94,7 +134,34 @@ result. Consequently:
 - the partial checkpoint and append-only log are preserved for audit only;
 - resuming this configuration or reporting its numbers is prohibited.
 
-## Corrected v4 protocol requirements
+## Corrected DDPM--DiffWave-style v5 protocol
+
+The modality-specific denoiser and training budget were frozen from two
+primary waveform/vibration sources before a formal run was started:
+
+- LMNT's Apache-2.0 DiffWave implementation, frozen at commit
+  `0594106093b8d8c444de8bd8cd26482f653c569f`, supplies the unconditional
+  waveform denoiser defaults: 30 gated residual/skip layers, 64 residual
+  channels, dilation cycle 10, batch size 16, and learning rate `2e-4`.
+- Yi et al.'s vibration DDPM study uses length-2048 bearing windows and reports
+  200 epochs (batch size 10 and 3,000 diffusion steps). The local protocol uses
+  its 200-epoch modality-specific budget, but retains batch 16 from the chosen
+  DiffWave architecture and the canonical 1,000-step DDPM chain already frozen
+  above. These choices are declared rather than presented as an exact TSDM
+  reproduction.
+
+The accurate method name is therefore **DDPM--DiffWave-style 1-D adaptation**.
+It has 2,308,995 trainable parameters for the three-channel PU input. Apple MPS
+is an execution device only and is recorded in each manifest; seeds remain
+explicit through device-local PyTorch generators.
+
+The fresh `smoke_v9_ddpm_diffwave_mps` root completed a genuine 1,000-step
+reverse chain for all three classes. The final-source combined v11 smoke then
+repeated that chain alongside TimeGAN. Its strict audit reports terminal alpha
+product `4.0358303522e-5`, exact source hashes, and no failures. Both are wiring
+checks and are prohibited from all scientific claims.
+
+## Formal protocol requirements
 
 1. Use a new root (`formal_pu_v4` or a more specific new name); v3 remains
    immutable development evidence.
@@ -106,8 +173,8 @@ result. Consequently:
    standardized vibration signals.
 4. Use the authors' Adam defaults that transfer across modalities: learning
    rate `2e-4`, 5,000-step warmup, gradient clipping at 1.0, EMA decay 0.9999,
-   and EMA weights for sampling. Batch size and 1-D model capacity remain
-   modality/hardware adaptations and require separate provenance.
+   and EMA weights for sampling. The separately sourced 1-D denoiser, batch,
+   and epoch settings above are frozen before formal execution.
 5. If accelerated inference is later desired, specify and cite a distinct
    sampler (for example, DDIM) before running it. Do not silently rescale the
    50-step beta schedule.
@@ -117,8 +184,8 @@ result. Consequently:
    storage. Changing the number of training epochs or model capacity requires
    a separate evidence-based preregistration; it cannot be done to rescue cost
    or performance.
-8. Until a fidelity gate is passed, describe the model as a “DDPM-style 1-D
-   adaptation,” not as an exact reproduction of an image-domain U-Net DDPM.
+8. Describe the model as a “DDPM--DiffWave-style 1-D adaptation,” not as an
+   exact reproduction of an image-domain U-Net DDPM or TSDM.
 
 ## Source links
 
@@ -126,3 +193,6 @@ result. Consequently:
 - TimeGAN author's repository: <https://github.com/jsyoon0823/TimeGAN/tree/8f6181cb9b9d2fa0c930cd902411d9ac8a308e07>
 - DDPM paper: <https://proceedings.neurips.cc/paper/2020/hash/4c5bcfec8584af0d967f1ab10179ca4b-Abstract.html>
 - DDPM authors' repository: <https://github.com/hojonathanho/diffusion/tree/1e0dceb3b3495bbe19116a5e1b3596cd0706c543>
+- DiffWave paper: <https://openreview.net/forum?id=a-xFK8Ymz5J>
+- DiffWave author's repository: <https://github.com/lmnt-com/diffwave/tree/0594106093b8d8c444de8bd8cd26482f653c569f>
+- Yi et al., vibration TSDM: <https://arxiv.org/abs/2312.07981>

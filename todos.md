@@ -164,13 +164,13 @@ Python 环境：`breeze/.venv-breeze/bin/python` (`3.12.13`)。所有 Python 命
 - [x] Q1.7.2 审计当前 1-D DDPM 的 schedule、denoiser、conditioning、EMA、sampling steps 和 loss；v3 的 50-step linear schedule 终点 `alpha_bar=0.6029516`，与从 `N(0,I)` 开始的 reverse sampling 存在硬性分布错配，已在 DDPM/full-fold/seed0/class0 epoch 110 安全中止，不得续跑或进论文。
 - [x] Q1.7.3 核对 TimeGAN 与 DDPM 原论文和作者代码；TimeGAN 冻结到 `8f6181cb...8e07` (Apache-2.0)，DDPM 冻结到 `1e0dceb3...c543`（repo 根无 license，因此只依论文公式独立实现、不复制源码）；差异表见 `analysis/trained_baseline_fidelity_audit_2026-07-20.md`。
 - [x] Q1.7.3a 新建 v4 源码/结果根：DDPM 已改为 canonical 1000-step linear schedule、epsilon reverse mean、官方 `fixedlarge` variance、Adam/5000-step warmup/clip=1/EMA=0.9999 与 EMA 采样，schedule/posterior/EMA/resume 共 9 个单测通过，runner 拒绝 formal 短 schedule；`smoke_v8_ddpm_official_defaults` 完成真实 1000-step reverse 全链路，strict audit 为 1 pool/1 downstream/3 complete checkpoints/3 finite dynamics/0 failures/source hash 全部 PASS，不覆盖 v3。
-- [ ] Q1.7.4 冻结 TimeGAN/conditional GAN 和 1-D DDPM 的 literature-supported defaults；超参搜索范围在 inner train/val 预注册。
-- [x] Q1.7.4a DDPM 可跨模态的原作者默认值已冻结：1000-step linear `1e-4..2e-2`、epsilon-MSE、`fixedlarge`、Adam `2e-4`、5000-step warmup、clip=1、EMA=0.9999；1-D denoiser 容量、batch 和训练总更新数仍是模态/算力适配，未冻结前不启动 formal cell。
+- [x] Q1.7.4 冻结 TimeGAN 和 1-D DDPM 的 literature-supported defaults；TimeGAN 对齐作者 commit `8f6181c...8e07` 的 GRU/24 hidden/3 layers/50,000 iterations/batch 128/完整 objective，用可逆 16 点分块把 2048x3 表示为 128x48；DDPM 依据见 Q1.7.4a。
+- [x] Q1.7.4a DDPM 全部默认值已冻结：Ho et al. 的 1000-step linear `1e-4..2e-2`、epsilon-MSE、`fixedlarge`、Adam `2e-4`、5000-step warmup、clip=1、EMA=0.9999；LMNT DiffWave `0594106...69f` 的 30 层/64 residual channels/dilation cycle 10/batch 16；Yi et al. 长度 2048 轴承振动实验的 200 epochs。方法准确名称为 `DDPM--DiffWave-style 1-D adaptation`，不宣称精确复现 TSDM。
 - [ ] Q1.7.5 每个 generator 分别支持 full outer-train 与 few-shot-only，训练边界进入 key，禁止 pool 复用混淆。
-- [ ] Q1.7.6 smoke 检查 loss 有限、sample shape/scale、class support、checkpoint resume、pool hash 和失败 ledger。
+- [x] Q1.7.6 smoke 检查 loss 有限、sample shape/scale、class support、checkpoint resume、pool hash 和失败 ledger；DDPM `smoke_v9_ddpm_diffwave_mps` 与 TimeGAN `smoke_v10_timegan_faithful_mps` 均 strict PASS，两者都是 wiring evidence，禁止进论文效果 claim。
 - [ ] Q1.7.7 先完成一个全 epoch/full class cell；保存逐 epoch dynamics，用 `view_image` 检查收敛/崩塌/异常震荡。
 - [x] Q1.7.7a `formal_pu_v3` 已完成 TimeGAN/full-fold/seed 0 的三类全 epoch 训练：3 checkpoints 均为 `stage=complete`、每类 320 dynamics rows、总计 960 rows 且相关 loss 全部 finite；同一 60-window pool（每类 20，SHA-256 `7509785e...67a`）被 n=5/10/25 三行复用。class 0 与 class 2 出现 discriminator loss 向近零下降且 generator loss 后段升高，保留为原始不稳定性证据，不调参救援；尚待正式 dynamics 图目视 QA，故不勾选 Q1.7.7 总项。
-- [ ] Q1.7.8 根据实测 cell wall time/bytes 更新全矩阵预算；只调整并行/算力，不减少 formal epoch 或数据。
+- [x] Q1.7.8 根据实测 cell wall time 更新全矩阵预算；TimeGAN full-fold class-0 的三阶段各100 iterations 共297.438848 s，外推 50,000 defaults 为41.31 h/class，480 class-model 约826串行天；成本 gate 不通过，不降配参数、不启动40-seed formal。
 - [x] Q1.7.8a TimeGAN/full-fold/seed 0 三类 fit wall time 为 1702.665/1593.773/1930.596 s（总 5227.035 s，约 87.1 min），对应 epoch-compute 为 5220.582 s；两者差 6.452 s 为 checkpoint/progress/调用开销。成本表只使用 `training_cost.wall_seconds`，downstream 的历史字段 `generator_train_seconds` 明示为 epoch-compute，不混称 wall time。TimeGAN few-shot seed 0 的三类合计 wall time 为 n=5: 33.383 s、n=10: 35.973 s、n=25: 74.160 s；12 checkpoints/3840 dynamics/4 pools/6 downstream rows 均通过唯一性、finite、class support、hash 与 full-fold reuse 审计。DDPM v3 在 epoch 110 中止，原因为 schedule 终点分布与采样起点不一致；该部分不用于 ETA 或效果证据，v4 单类完整实测后重新冻结预算。
 - [ ] Q1.7.9 新 `formal_pu_v3` 从空目录开始；任何重复 key、配置漂移、nonfinite 或 incomplete seed 使 merge 失败。
 - [x] Q1.7.9a 新 root 的 PU 四数组 hash、runner/model source hash、Python/Torch/NumPy/device、配置和 split manifest 已落盘；首次 TimeGAN full-fold 审计为 3 downstream/3 cost/960 dynamics/0 failures，pool/hash/class support/finite/checkpoint 状态全部通过。全矩阵未完成，Q1.7.9 总项保持未勾选。
@@ -2026,10 +2026,11 @@ repair enters Layer 3; a certificate cleanly distinguishes `pass`, `fail`, and
 - [x] E3 manuscript integration: generate and validate the gate-ablation table
   from CSV, add the zero-API protocol and bounded conclusion to the CAS paper,
   and record the audit in `analysis/e3_e4_integration_log_2026-07-16.md`.
-- [in_progress] E1 TimeGAN/DDPM: formal PU v2 is running under the output-root
-  lock with the full-train and few-shot regimes, `n_real={5,10,25}`, 40 seeds,
-  and no non-default rescue tuning. Keep all manuscript trained-baseline results
-  explicitly unavailable until the complete grid and cost audit are available.
+- [x] E1 TimeGAN/DDPM disposition: the old formal PU v2/v3 roots are preserved
+  incomplete and excluded; faithful v5 pipelines pass smoke, but the measured
+  TimeGAN cost projects to approximately 826 serial days for the registered
+  independent-pool grid. Do not reduce defaults or start that grid; keep the
+  quantitative trained-generator comparison unavailable and non-blocking.
 - [x] E2 second backbone is optional insurance, not a current experimental
   gate; do not add it unless a reviewer specifically requires it.
 - [x] E4: add verified few-shot/meta-learning and split-validity citations with
@@ -2392,3 +2393,43 @@ repair enters Layer 3; a certificate cleanly distinguishes `pass`, `fail`, and
 - [x] Commit the audited closeout as b72e763, push it to `origin/main`,
   preserve all unrelated untracked files, and verify local HEAD equals the
   fetched remote head.
+
+## 20. Trained-baseline fidelity and cost re-audit (2026-07-20)
+
+- [x] Record the user's later authorization to investigate training baselines;
+  keep API use at zero and preserve every frozen result directory.
+- [x] Invalidate the v3 50-step DDPM before sampling because
+  `alpha_bar_T=0.6029516` is incompatible with an `N(0,I)` reverse start;
+  preserve its epoch-110 checkpoint and never report it as evidence.
+- [x] Implement and test canonical DDPM schedule/posterior/`fixedlarge`, Adam
+  warmup, gradient clipping, EMA checkpoint/resume, and EMA sampling.
+- [x] Freeze the 1-D DDPM capacity and training budget from primary sources:
+  DiffWave 30x64 gated residual/skip architecture, dilation cycle 10, batch 16;
+  vibration-DDPM length-2048 training budget 200 epochs.
+- [x] Complete and strictly audit `smoke_v9_ddpm_diffwave_mps`; classify it as
+  pipeline evidence only, not a performance result.
+- [x] Replace the v3 convolutional TimeGAN approximation with the author's five
+  recurrent roles and full loss/update structure; use an exactly invertible
+  16-sample block representation rather than learned temporal compression.
+- [x] Freeze TimeGAN author defaults (GRU, hidden 24, three layers, 50,000
+  iterations/stage, batch 128) and verify topology, lossless representation,
+  checkpoint fidelity, and deterministic resume in unit tests.
+- [x] Complete and strictly audit `smoke_v10_timegan_faithful_mps`; classify it
+  as pipeline evidence only, not a performance result.
+- [x] Re-run both finalized implementations together as
+  `smoke_v11_faithful_combined_mps`; strict audit PASS with 6 complete
+  checkpoints, 12 finite dynamics rows, 2 pools, 2 downstream rows, 0 failures,
+  and exact final source hashes. Treat v11 as the superseding smoke audit.
+- [x] Run the full-fold 100-iteration TimeGAN cost probe, stop at a durable
+  checkpoint after the cost conclusion is identifiable, and retain all partial
+  artifacts without converting them into an accuracy claim.
+- [x] Freeze the measured TimeGAN estimate: 297.438848 s for 100 iterations in
+  all three stages, 41.31 h/class at 50,000 defaults, approximately 826 serial
+  days for 480 class models. Do not rescue the baseline by reducing iterations.
+- [x] Do not start the 40-seed TimeGAN/DDPM formal grid: its compute cost is
+  disproportionate to the Q2 closeout value and it remains non-blocking future
+  work under the controlling manuscript scope.
+- [ ] Re-run the complete focused test suite, inspect the E1-only diff, commit
+  only source/tests/audit/todos, push both remotes, and verify remote heads.
+- [ ] Return to manuscript hard-error and submission-mechanics verification;
+  ensure no smoke, partial, or projected baseline value appears in a paper claim.

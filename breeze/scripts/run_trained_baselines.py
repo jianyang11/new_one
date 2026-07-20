@@ -49,16 +49,17 @@ class StopRequested(RuntimeError):
 
 
 class ProgressWriter:
-    def __init__(self, root: Path):
+    def __init__(self, root: Path, device_name: str):
         self.jsonl = root / "heartbeat.jsonl"
         self.log = root / "runner.log"
+        self.device_name = device_name
 
     def write(self, event: dict) -> None:
         payload = {
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
             "pid": os.getpid(),
             "host": socket.gethostname(),
-            "device": "cpu",
+            "device": self.device_name,
             **event,
         }
         line = json.dumps(payload, sort_keys=True, separators=(",", ":"))
@@ -236,11 +237,10 @@ def main() -> None:
     parser.add_argument("--n-real", type=int, nargs="+", default=[5, 10, 25])
     parser.add_argument("--n-syn", type=int, default=20)
     parser.add_argument("--downstream-epochs", type=int, default=60)
-    parser.add_argument("--timegan-embedding-epochs", type=int, default=80)
-    parser.add_argument("--timegan-supervisor-epochs", type=int, default=80)
-    parser.add_argument("--timegan-joint-epochs", type=int, default=160)
-    parser.add_argument("--ddpm-epochs", type=int, default=240)
+    parser.add_argument("--timegan-iterations", type=int, default=50_000)
+    parser.add_argument("--ddpm-epochs", type=int, default=200)
     parser.add_argument("--ddpm-steps", type=int, default=1000)
+    parser.add_argument("--device", choices=["auto", "cpu", "mps"], default="auto")
     parser.add_argument("--max-train-per-class", type=int)
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
@@ -261,6 +261,12 @@ def main() -> None:
         raise SystemExit("execute-methods must be a subset of the formal methods")
     if not set(execute_train_modes).issubset(args.train_modes):
         raise SystemExit("execute-train-modes must be a subset of the formal train modes")
+    if args.device == "auto":
+        device_name = "mps" if torch.backends.mps.is_available() else "cpu"
+    else:
+        device_name = args.device
+    if device_name == "mps" and not torch.backends.mps.is_available():
+        raise SystemExit("--device mps was requested but torch.backends.mps.is_available() is false")
     if not args.smoke and "ddpm" in args.methods and args.ddpm_steps != 1000:
         raise SystemExit(
             "formal DDPM requires the registered 1000-step linear schedule; "
@@ -280,14 +286,12 @@ def main() -> None:
         if args.downstream_epochs != 1:
             raise SystemExit("--smoke requires --downstream-epochs 1")
         if (
-            args.timegan_embedding_epochs != 1
-            or args.timegan_supervisor_epochs != 1
-            or args.timegan_joint_epochs != 1
+            args.timegan_iterations != 1
             or args.ddpm_epochs != 1
             or args.ddpm_steps != 1000
         ):
             raise SystemExit(
-                "--smoke requires one epoch per TimeGAN stage, one DDPM epoch, "
+                "--smoke requires one iteration per TimeGAN stage, one DDPM epoch, "
                 "and the registered 1000-step DDPM schedule"
             )
 
@@ -336,7 +340,7 @@ def main() -> None:
     cost_path = out_root / "training_cost.csv"
     dynamics_path = out_root / "training_dynamics.csv"
     failures_path = out_root / "training_failures.csv"
-    progress = ProgressWriter(out_root)
+    progress = ProgressWriter(out_root, device_name)
     stop_requested = False
 
     def request_stop(_signum, _frame) -> None:
@@ -354,11 +358,7 @@ def main() -> None:
     if n_classes != 3 or set(np.unique(y_test)) != {0, 1, 2}:
         raise RuntimeError("unexpected PU class support in frozen file split")
 
-    timegan_config = TimeGANConfig(
-        embedding_epochs=args.timegan_embedding_epochs,
-        supervisor_epochs=args.timegan_supervisor_epochs,
-        joint_epochs=args.timegan_joint_epochs,
-    )
+    timegan_config = TimeGANConfig(iterations=args.timegan_iterations)
     ddpm_config = DDPMConfig(epochs=args.ddpm_epochs, diffusion_steps=args.ddpm_steps)
     ddpm_beta = linear_beta_schedule(ddpm_config.diffusion_steps, torch.device("cpu"))
     ddpm_terminal_alpha_bar = float(torch.cumprod(1.0 - ddpm_beta, dim=0)[-1])
@@ -371,6 +371,7 @@ def main() -> None:
             seed=0,
             timegan_config=timegan_config,
             ddpm_config=ddpm_config,
+            device_name=device_name,
         )
         parameter_counts[method] = int(sum(parameter.numel() for parameter in probe.model.parameters()))
 
@@ -403,6 +404,7 @@ def main() -> None:
             "torch_threads": torch.get_num_threads(),
             "torch_interop_threads": torch.get_num_interop_threads(),
             "mps_available": torch.backends.mps.is_available(),
+            "generator_device": device_name,
         },
         "model_parameter_counts": parameter_counts,
         "source_scripts": {
@@ -492,6 +494,7 @@ def main() -> None:
                                 seed=10_000_000 * seed + 100_000 * training_n_real + 1_000 * class_id,
                                 timegan_config=timegan_config,
                                 ddpm_config=ddpm_config,
+                                device_name=device_name,
                             )
                             tic = perf_counter()
                             try:
