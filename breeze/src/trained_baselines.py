@@ -5,9 +5,10 @@ recipe machinery.  They learn only from the outer-training windows provided by
 the caller, train one unconditional model per class, and produce complete
 three-channel windows.  TimeGAN follows its embedding/recovery, supervisor,
 and adversarial stages; its embedding/recovery are convolutional so a 2048
-sample vibration/current window becomes a 128-step latent sequence.  DDPM uses
-the standard forward noising objective and ancestral reverse sampling with a
-1D residual denoiser.
+sample vibration/current window becomes a 128-step latent sequence. DDPM uses
+the canonical 1,000-step linear forward schedule, the epsilon-prediction
+objective, and posterior ancestral reverse sampling with a 1-D residual
+denoiser.
 
 Every training stage writes an atomic checkpoint.  Because each epoch and
 batch derives its own seed, a resumed run is equivalent to an uninterrupted
@@ -49,7 +50,7 @@ class DDPMConfig:
     hidden_channels: int = 32
     batch_size: int = 16
     epochs: int = 240
-    diffusion_steps: int = 50
+    diffusion_steps: int = 1000
     learning_rate: float = 2e-4
 
 
@@ -407,6 +408,13 @@ class DDPMDenoiser1D(nn.Module):
         return self.output(h)
 
 
+def linear_beta_schedule(diffusion_steps: int, device: torch.device) -> torch.Tensor:
+    """Return the DDPM linear schedule used by Ho et al. (2020)."""
+    if diffusion_steps < 2:
+        raise ValueError("diffusion_steps must be at least 2")
+    return torch.linspace(1e-4, 2e-2, diffusion_steps, device=device)
+
+
 class DDPMTrainer:
     def __init__(self, channels: int, length: int, config: DDPMConfig, seed: int):
         if length != 2048:
@@ -417,10 +425,24 @@ class DDPMTrainer:
         torch.manual_seed(seed)
         self.model = DDPMDenoiser1D(channels, config.hidden_channels).to(self.device)
         self.optimizer = torch.optim.AdamW(self.model.parameters(), lr=config.learning_rate, weight_decay=1e-4)
-        beta = torch.linspace(1e-4, 2e-2, config.diffusion_steps, device=self.device)
+        beta = linear_beta_schedule(config.diffusion_steps, self.device)
         self.beta = beta
         self.alpha = 1.0 - beta
         self.alpha_bar = torch.cumprod(self.alpha, dim=0)
+        self.alpha_bar_previous = torch.cat(
+            [torch.ones(1, device=self.device), self.alpha_bar[:-1]], dim=0
+        )
+        self.posterior_variance = self.beta * (
+            1.0 - self.alpha_bar_previous
+        ) / (1.0 - self.alpha_bar)
+        self.posterior_mean_coefficient_x0 = (
+            self.beta * torch.sqrt(self.alpha_bar_previous) / (1.0 - self.alpha_bar)
+        )
+        self.posterior_mean_coefficient_xt = (
+            (1.0 - self.alpha_bar_previous)
+            * torch.sqrt(self.alpha)
+            / (1.0 - self.alpha_bar)
+        )
         self.mean: torch.Tensor | None = None
         self.std: torch.Tensor | None = None
         self.history: list[dict[str, float | int | str]] = []
@@ -523,11 +545,18 @@ class DDPMTrainer:
             for step in range(self.config.diffusion_steps - 1, -1, -1):
                 t = torch.full((n,), step, dtype=torch.long, device=self.device)
                 predicted_noise = self.model(x, t)
-                alpha = self.alpha[step]
                 alpha_bar = self.alpha_bar[step]
-                mean = (x - (self.beta[step] / torch.sqrt(1.0 - alpha_bar)) * predicted_noise) / torch.sqrt(alpha)
+                predicted_x0 = (
+                    x - torch.sqrt(1.0 - alpha_bar) * predicted_noise
+                ) / torch.sqrt(alpha_bar)
+                mean = (
+                    self.posterior_mean_coefficient_x0[step] * predicted_x0
+                    + self.posterior_mean_coefficient_xt[step] * x
+                )
                 if step > 0:
-                    x = mean + torch.sqrt(self.beta[step]) * _seeded_randn(tuple(x.shape), sample_seed + step, self.device)
+                    x = mean + torch.sqrt(self.posterior_variance[step]) * _seeded_randn(
+                        tuple(x.shape), sample_seed + step, self.device
+                    )
                 else:
                     x = mean
             return (x * self.std + self.mean).cpu().numpy().astype(np.float32)

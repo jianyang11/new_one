@@ -1,6 +1,7 @@
 # PU trained-baseline v3 preflight
 
-Status: pipeline preflight passed; formal results are not yet available.
+Status: pipeline mechanics passed, but the v3 fidelity audit invalidated its
+DDPM configuration; formal results are not yet available.
 
 ## Authorized scope
 
@@ -57,9 +58,11 @@ Raw TimeGAN dynamics are not uniformly benign: class 0 and class 2 show
 discriminator loss approaching zero while generator loss rises later in joint
 training, whereas class 1 does not show the same trajectory. This is preserved
 as a descriptive instability signal; no rescue tuning is authorized. TimeGAN
-few-shot seed 0 has also completed all three shot levels. DDPM/full-fold seed 0
-is running; a complete matrix ETA remains pending its measured class-level
-cost.
+few-shot seed 0 has also completed all three shot levels. A subsequent
+paper-to-code audit also showed that the symmetric convolutional
+embedder/recovery do not satisfy the causal-ordering condition stated for
+TimeGAN alternatives. The accurate implementation name is therefore
+“ConvTimeGAN-style 1-D adaptation,” not an original-TimeGAN reproduction.
 
 The TimeGAN few-shot three-class fit wall times are 33.383 seconds at n=5,
 35.973 seconds at n=10, and 74.160 seconds at n=25. Together with the full-fold
@@ -68,3 +71,30 @@ the three full-fold rows alone share one pool. All 12 TimeGAN class checkpoints
 are complete, all 3,840 relevant dynamics values are finite, and all four pools
 contain exactly 20 finite windows per class. These single-seed outputs remain
 incomplete formal evidence.
+
+DDPM/full-fold seed 0 was safely stopped at its epoch-110 atomic checkpoint
+after a schedule audit found a hard endpoint mismatch. With 50 linearly spaced
+betas from `1e-4` to `2e-2`, terminal `alpha_bar` is 0.6029516, so the forward
+process retains substantial signal even though reverse sampling starts from a
+standard Gaussian. The checkpoint and logs are preserved, but v3 DDPM must not
+be resumed or reported. A corrected implementation requires a new source hash,
+a new output root, the canonical 1000-step schedule (terminal `alpha_bar`
+0.00004036), and posterior-transition tests. See
+`analysis/trained_baseline_fidelity_audit_2026-07-20.md`.
+
+## Corrected DDPM v4 smoke
+
+The independent v4 implementation uses the canonical 1,000-step linear
+schedule and the closed-form posterior reverse transition. Seven focused
+schedule, posterior, loss-summary, and checkpoint-resume tests pass. The
+formal runner refuses a non-1,000-step DDPM schedule; the same schedule is also
+required in smoke mode so the actual reverse path is exercised.
+
+`smoke_v6_ddpm_posterior` completed a deliberately tiny one-epoch wiring run
+with two samples per class. The strict completeness audit reports one unique
+finite `(6, 3, 2048)` pool, one downstream row, three complete class
+checkpoints/cost rows, three finite dynamics rows, zero failure rows, exact
+source hashes, and terminal `alpha_bar=4.0358303522e-05`. Its performance
+value is smoke-only and prohibited from all manuscript claims. The v4
+algorithmic path is now mechanically valid; model-capacity and training-budget
+provenance remain open before a full scientific cell can start.

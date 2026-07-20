@@ -41,7 +41,7 @@ sys.path.insert(0, str(SRC))
 
 from data import load_file_split  # noqa: E402
 from eval_npz_downstream import evaluate, fit  # noqa: E402
-from trained_baselines import DDPMConfig, TimeGANConfig, make_trainer  # noqa: E402
+from trained_baselines import DDPMConfig, TimeGANConfig, linear_beta_schedule, make_trainer  # noqa: E402
 
 
 class StopRequested(RuntimeError):
@@ -240,7 +240,7 @@ def main() -> None:
     parser.add_argument("--timegan-supervisor-epochs", type=int, default=80)
     parser.add_argument("--timegan-joint-epochs", type=int, default=160)
     parser.add_argument("--ddpm-epochs", type=int, default=240)
-    parser.add_argument("--ddpm-steps", type=int, default=50)
+    parser.add_argument("--ddpm-steps", type=int, default=1000)
     parser.add_argument("--max-train-per-class", type=int)
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
@@ -261,6 +261,11 @@ def main() -> None:
         raise SystemExit("execute-methods must be a subset of the formal methods")
     if not set(execute_train_modes).issubset(args.train_modes):
         raise SystemExit("execute-train-modes must be a subset of the formal train modes")
+    if not args.smoke and "ddpm" in args.methods and args.ddpm_steps != 1000:
+        raise SystemExit(
+            "formal DDPM requires the registered 1000-step linear schedule; "
+            "short schedules are permitted only for wiring smoke tests"
+        )
     if args.smoke:
         if (
             args.seeds != 1
@@ -279,9 +284,12 @@ def main() -> None:
             or args.timegan_supervisor_epochs != 1
             or args.timegan_joint_epochs != 1
             or args.ddpm_epochs != 1
-            or args.ddpm_steps != 8
+            or args.ddpm_steps != 1000
         ):
-            raise SystemExit("--smoke requires one epoch per TimeGAN stage, one DDPM epoch, and eight diffusion steps")
+            raise SystemExit(
+                "--smoke requires one epoch per TimeGAN stage, one DDPM epoch, "
+                "and the registered 1000-step DDPM schedule"
+            )
 
     out_root = Path(args.out_root).resolve()
     expected_downstream_cells = len(args.methods) * len(args.train_modes) * len(args.n_real) * args.seeds
@@ -352,6 +360,8 @@ def main() -> None:
         joint_epochs=args.timegan_joint_epochs,
     )
     ddpm_config = DDPMConfig(epochs=args.ddpm_epochs, diffusion_steps=args.ddpm_steps)
+    ddpm_beta = linear_beta_schedule(ddpm_config.diffusion_steps, torch.device("cpu"))
+    ddpm_terminal_alpha_bar = float(torch.cumprod(1.0 - ddpm_beta, dim=0)[-1])
     parameter_counts = {}
     for method in args.methods:
         probe = make_trainer(
@@ -401,6 +411,14 @@ def main() -> None:
         },
         "timegan_config": asdict(timegan_config),
         "ddpm_config": asdict(ddpm_config),
+        "ddpm_schedule": {
+            "family": "linear",
+            "beta_start": float(ddpm_beta[0]),
+            "beta_end": float(ddpm_beta[-1]),
+            "terminal_alpha_bar": ddpm_terminal_alpha_bar,
+            "reverse_variance": "closed_form_posterior",
+            "sample_start": "standard_normal",
+        },
         "training_dynamics": "raw per-epoch optimization losses, checkpointed and exported without stability thresholds",
         "full_train_pool_policy": "one trained generator and one sampled pool per method/seed, reused across n_real downstream levels",
         "heartbeat": "append-only heartbeat.jsonl and runner.log after every atomically checkpointed epoch",
